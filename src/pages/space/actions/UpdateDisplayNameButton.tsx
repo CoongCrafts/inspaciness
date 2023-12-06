@@ -19,15 +19,18 @@ import { FormEvent, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { useTx } from '@/hooks/useink/useTx';
 import { useSpaceContext } from '@/providers/SpaceProvider';
+import { messages } from '@/utils/messages';
+import { notifyTxStatus } from '@/utils/notifications';
 import { useFormik } from 'formik';
+import { shouldDisableStrict } from 'useink/utils';
 import * as yup from 'yup';
 
 function UpdateDisplayNameButton() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { contract, memberInfo } = useSpaceContext();
-  const updateMemberInfo = useTx(contract, 'updateMemberInfo');
+  const updateMemberInfoTx = useTx(contract, 'updateMemberInfo');
 
-  const formikSetDisplayName = useFormik({
+  const formik = useFormik({
     initialValues: { displayName: '' },
     validationSchema: yup.object().shape({
       displayName: yup
@@ -38,29 +41,32 @@ function UpdateDisplayNameButton() {
         .min(3, 'Display name must be at least 3 characters')
         .max(30, 'Display name must be at most 30 characters'),
     }),
-    onSubmit: ({ displayName }) => {
-      updateDisplayName(displayName);
+    onSubmit: ({ displayName }, formikHelpers) => {
+      updateMemberInfoTx.signAndSend([displayName], {}, (result) => {
+        if (!result) {
+          updateMemberInfoTx.resetState(formikHelpers);
+          return;
+        }
+
+        notifyTxStatus(result);
+
+        if (result.isInBlock) {
+          if (result.dispatchError) {
+            toast.error(messages.txError);
+          } else {
+            toast.success('Display name updated');
+          }
+
+          updateMemberInfoTx.resetState(formikHelpers);
+          onClose();
+        }
+      });
     },
   });
 
-  const updateDisplayName = (displayName?: string) => {
-    updateMemberInfo.signAndSend([displayName], {}, (result) => {
-      if (result?.isInBlock) {
-        if (result.dispatchError) {
-          toast.error(result.dispatchError.toString());
-        } else {
-          toast.success('Display name updated');
-        }
-
-        onClose();
-      }
-    });
-  };
-
   useEffect(() => {
-    formikSetDisplayName.setValues({ displayName: '' });
-    // To avoid `Update` button from being frozen
-    updateMemberInfo.resetState();
+    formik.resetForm();
+    updateMemberInfoTx.resetState();
   }, [isOpen]);
 
   return (
@@ -70,35 +76,34 @@ function UpdateDisplayNameButton() {
       </Text>
       <Modal isOpen={isOpen} onClose={onClose} size={{ base: 'full', md: 'md' }}>
         <ModalOverlay />
-        <ModalContent as='form' onSubmit={(e) => formikSetDisplayName.handleSubmit(e as FormEvent<HTMLFormElement>)}>
+        <ModalContent as='form' onSubmit={(e) => formik.handleSubmit(e as FormEvent<HTMLFormElement>)}>
           <ModalHeader>{memberInfo?.name ? 'Change Display Name' : 'Set Display Name'}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <FormControl isInvalid={!!formikSetDisplayName.errors.displayName}>
+            <FormControl isRequired isInvalid={!!formik.errors.displayName}>
               <FormLabel>Display name</FormLabel>
               <Input
-                value={formikSetDisplayName.values.displayName}
-                onChange={formikSetDisplayName.handleChange}
+                value={formik.values.displayName}
+                onChange={formik.handleChange}
                 placeholder={memberInfo?.name || ''}
                 name='displayName'
               />
-              {!!formikSetDisplayName.errors.displayName ? (
-                <FormErrorMessage>{formikSetDisplayName.errors.displayName}</FormErrorMessage>
+              {!!formik.errors.displayName ? (
+                <FormErrorMessage>{formik.errors.displayName}</FormErrorMessage>
               ) : (
-                <FormHelperText>Leave empty to clear name</FormHelperText>
+                <FormHelperText>Leave empty to clear name.</FormHelperText>
               )}
             </FormControl>
           </ModalBody>
-          <ModalFooter gap='0.5rem'>
+          <ModalFooter gap={2}>
             <Button variant='outline' onClick={onClose}>
               Cancel
             </Button>
             <Button
               type='submit'
               colorScheme='primary'
-              isDisabled={
-                updateMemberInfo.status === 'PendingSignature' || Object.keys(formikSetDisplayName.errors).length !== 0
-              }>
+              isLoading={formik.isSubmitting || shouldDisableStrict(updateMemberInfoTx)}
+              isDisabled={formik.isSubmitting || !formik.isValid}>
               Update
             </Button>
           </ModalFooter>

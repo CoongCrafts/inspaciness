@@ -76,7 +76,7 @@ export const SUPPORTED_NETWORKS: Record<ChainEnvironment, NetworkInfo[]> = {
       symbol: 'ROC',
       decimals: 12,
       chain: RococoContractsTestnet,
-      motherAddress: '5H3mZvSAXMwYpfhBsRgGMnW5LRoQEfhKLz78ZGUACPKmozNb',
+      motherAddress: '5Ek7sr3GSpNmepi2CzmXoKrQ1qFXVZDBDNeYFZfmrTYy4JAx',
     },
   ],
   [ChainEnvironment.Production]: [

@@ -24,8 +24,9 @@ import { useTx } from '@/hooks/useink/useTx';
 import { useSpaceContext } from '@/providers/SpaceProvider';
 import { Plugin } from '@/types';
 import { messages } from '@/utils/messages';
+import { notifyTxStatus } from '@/utils/notifications';
 import { findPlugin } from '@/utils/plugins';
-import { shouldDisable } from 'useink/utils';
+import { shouldDisableStrict } from 'useink/utils';
 
 export default function InstallPluginsButton() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -43,13 +44,21 @@ export default function InstallPluginsButton() {
     }
 
     installPluginsTx.signAndSend([space.address, pluginsToInstall], {}, (result) => {
+      if (!result) {
+        installPluginsTx.resetState();
+        return;
+      }
+
+      notifyTxStatus(result);
+
       if (result?.isInBlock) {
         if (result.dispatchError) {
-          toast.error(result.dispatchError.toString());
+          toast.error(messages.txError);
         } else {
           toast.success(`${pluginsToInstall.length.toString().padStart(2, '0')} plugin(s) installed`);
         }
 
+        installPluginsTx.resetState();
         onClose();
       }
     });
@@ -127,7 +136,9 @@ export default function InstallPluginsButton() {
                 type='submit'
                 onClick={doInstallPlugins}
                 colorScheme='primary'
-                isDisabled={pluginsToInstall.length === 0 || shouldDisable(installPluginsTx)}>
+                isLoading={shouldDisableStrict(installPluginsTx)}
+                loadingText='Installing'
+                isDisabled={pluginsToInstall.length === 0}>
                 Install
               </Button>
             )}

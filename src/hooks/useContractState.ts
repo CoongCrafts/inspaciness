@@ -12,7 +12,7 @@ export default function useContractState<T>(
 ) {
   const [state, setState] = useState<T>();
   const call = useCall<T>(contract, message);
-  const blockNumber = useBlockHeader()?.blockNumber;
+  const blockNumber = useBlockHeader(contract?.chainId)?.blockNumber;
   const { account } = useWallet();
   const actualArgs = useMemo(() => args, args);
 

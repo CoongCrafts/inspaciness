@@ -45,7 +45,7 @@ function MemberCard({ memberRecord }: MemberCardProps) {
             </Badge>
           </Box>
         </Flex>
-        <Flex gap={2} color='darkgray' fontSize='xs'>
+        <Flex gap={2} color='dimgray' fontSize='xs'>
           {info.name && (
             <>
               <Text fontWeight='semibold'>{shortenAddress(memberRecord.accountId)}</Text>

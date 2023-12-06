@@ -27,17 +27,14 @@ import { useCall } from '@/hooks/useink/useCall';
 import { useTx } from '@/hooks/useink/useTx';
 import { useSpaceContext } from '@/providers/SpaceProvider';
 import { MemberStatus } from '@/types';
+import { messages } from '@/utils/messages';
+import { notifyTxStatus } from '@/utils/notifications';
 import { AddIcon } from '@chakra-ui/icons';
 import { useFormik } from 'formik';
-import { pickDecoded } from 'useink/utils';
+import { pickDecoded, shouldDisableStrict } from 'useink/utils';
 import * as yup from 'yup';
 
 const MILLISECS_PER_DAY = 24 * 60 * 60 * 1000;
-
-function toastErrAndReturnNothing(message: string) {
-  toast.error(message);
-  return;
-}
 
 function InviteMemberButton() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -51,42 +48,54 @@ function InviteMemberButton() {
       address: yup.string().test('is_valid_address', 'Invalid address format', (value) => isAddress(value)),
       expire: yup.number().positive('Invalid expire time').integer('Invalid expire time'),
     }),
-    onSubmit: async (values) => {
-      await inviteMember(values.address, values.expire);
+    onSubmit: (values, formikHelpers) => {
+      (async () => {
+        const { address, expire: expireAfter } = values;
+        if (!isAddress(address)) {
+          toast.error('Invalid address format');
+          formikHelpers.setSubmitting(false);
+          return;
+        }
+
+        const result = await memberStatusCall.send([address]);
+        const status = pickDecoded(result);
+        if (!status) {
+          toast.error('Cannot check member status of the address');
+          formikHelpers.setSubmitting(false);
+          return;
+        }
+
+        if (status === MemberStatus.Active) {
+          toast.error('The address is already an active member of the space!');
+          formikHelpers.setSubmitting(false);
+          return;
+        }
+
+        grantMembershipTx.signAndSend([address, expireAfter ? expireAfter * MILLISECS_PER_DAY : null], {}, (result) => {
+          if (!result) {
+            grantMembershipTx.resetState(formikHelpers);
+            return;
+          }
+
+          notifyTxStatus(result);
+
+          if (result?.isInBlock) {
+            if (result.dispatchError) {
+              toast.error(messages.txError);
+            } else {
+              toast.success('Member invited');
+            }
+
+            grantMembershipTx.resetState(formikHelpers);
+            onClose();
+          }
+        });
+      })();
     },
   });
 
-  const inviteMember = async (address: string, expireAfter?: number) => {
-    if (!isAddress(address)) {
-      return toastErrAndReturnNothing('Invalid address format');
-    }
-
-    const result = await memberStatusCall.send([address]);
-    const status = pickDecoded(result);
-    if (!status) {
-      return toastErrAndReturnNothing('Cannot check member status of the address');
-    }
-
-    if (status === MemberStatus.Active) {
-      return toastErrAndReturnNothing('The address is already an active member of the space!');
-    }
-
-    grantMembershipTx.signAndSend([address, expireAfter ? expireAfter * MILLISECS_PER_DAY : null], {}, (result) => {
-      if (result?.isInBlock) {
-        if (result.dispatchError) {
-          toastErrAndReturnNothing(result.dispatchError.toString());
-        } else {
-          toast.success('Member invited');
-        }
-
-        onClose();
-      }
-    });
-  };
-
   useEffect(() => {
     formikInviteMember.resetForm();
-    // To avoid `Invite` button from being frozen
     grantMembershipTx.resetState();
   }, [isOpen]);
 
@@ -169,9 +178,8 @@ function InviteMemberButton() {
             <Button
               type='submit'
               colorScheme='primary'
-              isDisabled={
-                grantMembershipTx.status === 'PendingSignature' || !!Object.keys(formikInviteMember.errors).length
-              }>
+              isLoading={formikInviteMember.isSubmitting || shouldDisableStrict(grantMembershipTx)}
+              isDisabled={formikInviteMember.isSubmitting || !formikInviteMember.isValid}>
               Invite
             </Button>
           </ModalFooter>
