@@ -4,10 +4,17 @@ import useCurrentFreeBalance from '@/hooks/space/useCurrentFreeBalance';
 import { useTx } from '@/hooks/useink/useTx';
 import InstallPluginsButton from '@/pages/space/actions/InstallPluginsButton';
 import { useSpaceContext } from '@/providers/SpaceProvider';
+import { PluginInfo } from '@/types';
 import { messages } from '@/utils/messages';
+import { notifyTxStatus } from '@/utils/notifications';
+import { shouldDisableStrict } from 'useink/utils';
 
-export default function Plugins() {
-  const { info, plugins, isOwner, contract } = useSpaceContext();
+interface PluginProp {
+  info: PluginInfo;
+}
+
+function Plugin({ info }: PluginProp) {
+  const { isOwner, contract } = useSpaceContext();
   const freeBalance = useCurrentFreeBalance();
   const disablePluginTx = useTx(contract, 'disablePlugin');
   const enablePluginTx = useTx(contract, 'enablePlugin');
@@ -22,13 +29,23 @@ export default function Plugins() {
       return;
     }
 
+    disablePluginTx.resetState();
     disablePluginTx.signAndSend([pluginId], {}, (result) => {
+      if (!result) {
+        disablePluginTx.resetState();
+        return;
+      }
+
+      notifyTxStatus(result);
+
       if (result?.isInBlock) {
         if (result.dispatchError) {
           toast.error(result.dispatchError.toString());
         } else {
-          toast.success('Plugin disabled');
+          toast.success(`Plugin ${info.name} disabled`);
         }
+
+        disablePluginTx.resetState();
       }
     });
   };
@@ -39,16 +56,67 @@ export default function Plugins() {
       return;
     }
 
+    enablePluginTx.resetState();
     enablePluginTx.signAndSend([pluginId], {}, (result) => {
+      if (!result) {
+        enablePluginTx.resetState();
+        return;
+      }
+
+      notifyTxStatus(result);
+
       if (result?.isInBlock) {
         if (result.dispatchError) {
-          toast.error(result.dispatchError.toString());
+          toast.error(messages.txError);
         } else {
-          toast.success('Plugin enabled');
+          toast.success(`Plugin ${info.name} enabled`);
         }
+
+        enablePluginTx.resetState();
       }
     });
   };
+
+  const shouldDisable = info.disabled ? shouldDisableStrict(enablePluginTx) : shouldDisableStrict(disablePluginTx);
+
+  return (
+    <Flex py={4} justify='space-between' align='center' borderRadius={4}>
+      <Box>
+        <Flex gap={2}>
+          <Text fontSize='lg'>{info.name}</Text>
+          {info.disabled && (
+            <Box>
+              <Badge size='xs' variant='solid' colorScheme='red'>
+                Disabled
+              </Badge>
+            </Box>
+          )}
+        </Flex>
+        <Text fontSize='sm' color='gray.500'>
+          {info.description}
+        </Text>
+      </Box>
+      <Box>
+        {isOwner && (
+          <Button
+            variant='outline'
+            size='xs'
+            colorScheme={info.disabled ? 'green' : 'red'}
+            isLoading={shouldDisable}
+            onClick={info.disabled ? () => enable(info.id) : () => disable(info.id)}>
+            {info.disabled ? 'Enable' : 'Disable'}
+          </Button>
+        )}
+      </Box>
+    </Flex>
+  );
+}
+
+export default function Plugins() {
+  const { info, plugins, isOwner } = useSpaceContext();
+  if (!info) {
+    return null;
+  }
 
   return (
     <Box mt={3} borderWidth={1} borderColor='chakra-border-color' p={4} borderRadius={4} mb={4}>
@@ -59,34 +127,7 @@ export default function Plugins() {
       <Box>
         {plugins?.map((one, index) => (
           <Box key={one.id}>
-            <Flex py={4} justify='space-between' align='center' borderRadius={4}>
-              <Box>
-                <Flex gap={2}>
-                  <Text fontSize='lg'>{one.name}</Text>
-                  {one.disabled && (
-                    <Box>
-                      <Badge size='xs' variant='solid' colorScheme='red'>
-                        Disabled
-                      </Badge>
-                    </Box>
-                  )}
-                </Flex>
-                <Text fontSize='sm' color='gray.500'>
-                  {one.description}
-                </Text>
-              </Box>
-              <Box>
-                {isOwner && (
-                  <Button
-                    variant='outline'
-                    size='xs'
-                    colorScheme={one.disabled ? 'green' : 'red'}
-                    onClick={one.disabled ? () => enable(one.id) : () => disable(one.id)}>
-                    {one.disabled ? 'Enable' : 'Disable'}
-                  </Button>
-                )}
-              </Box>
-            </Flex>
+            <Plugin info={one} />
             {index < plugins.length - 1 && <Divider />}
           </Box>
         ))}

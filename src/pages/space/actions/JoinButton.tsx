@@ -21,11 +21,12 @@ import { useWalletContext } from '@/providers/WalletProvider';
 import { MemberStatus, Pricing, RegistrationType } from '@/types';
 import { eventEmitter, EventName } from '@/utils/eventemitter';
 import { messages } from '@/utils/messages';
+import { notifyTxStatus } from '@/utils/notifications';
 import { stringToNum } from '@/utils/number';
 import { formatBalance, shortenAddress } from '@/utils/string';
 import pluralize from 'pluralize';
 import { ContractSubmittableResult } from 'useink/core';
-import { shouldDisable } from 'useink/utils';
+import { shouldDisableStrict } from 'useink/utils';
 
 interface JoinButtonProps extends ButtonProps {}
 
@@ -53,25 +54,34 @@ export default function JoinButton(props: JoinButtonProps) {
     }
 
     const handleResponse = (result: ContractSubmittableResult | undefined, message: string) => {
+      if (!result) {
+        payToJoinTx.resetState();
+        registerMembershipTx.resetState();
+        return;
+      }
+
+      notifyTxStatus(result);
+
       if (result?.isInBlock) {
         if (result.dispatchError) {
-          toast.error(result.dispatchError.toString());
+          toast.error(messages.txError);
         } else {
           toast.success(message);
         }
 
+        payToJoinTx.resetState();
+        registerMembershipTx.resetState();
         onClose();
       }
     };
 
     const value = priceValue ? stringToNum(priceValue) : undefined;
     if (config?.registration === RegistrationType.PayToJoin) {
-      payToJoinTx.signAndSend([null], { value }, (result) => handleResponse(result, `Joined ${info?.name}`));
+      payToJoinTx.signAndSend([null], { value }, (result) => handleResponse(result, `You joined ${info?.name}`));
     } else if (config?.registration === RegistrationType.RequestToJoin) {
-      registerMembershipTx.signAndSend([null], { value }, (result, _, error) => {
-        console.log(error);
-        handleResponse(result, 'Your membership request has been submitted');
-      });
+      registerMembershipTx.signAndSend([null], { value }, (result) =>
+        handleResponse(result, 'Your membership request has been submitted'),
+      );
     }
   };
 
@@ -137,7 +147,7 @@ export default function JoinButton(props: JoinButtonProps) {
                 onClick={handleRequest}
                 colorScheme='primary'
                 minWidth='50%'
-                isDisabled={shouldDisable(payToJoinTx) || shouldDisable(registerMembershipTx)}>
+                isLoading={shouldDisableStrict(payToJoinTx) || shouldDisableStrict(registerMembershipTx)}>
                 {config.registration === RegistrationType.PayToJoin
                   ? (pricing === Pricing.Free && 'Join') ||
                     (pricing === Pricing.OneTimePaid && `Pay ${price} & Join`) ||

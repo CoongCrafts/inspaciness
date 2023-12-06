@@ -6,6 +6,7 @@ import { UpdatableInjected } from '@coong/sdk/types';
 import useWallets from '@/hooks/useWallets';
 import { Props } from '@/types';
 import Wallet from '@/wallets/Wallet';
+import WebsiteWallet from '@/wallets/WebsiteWallet';
 
 interface WalletContextProps {
   accounts: InjectedAccount[];
@@ -17,6 +18,7 @@ interface WalletContextProps {
   connectedWallet?: Wallet;
   selectedAccount?: InjectedAccount;
   setSelectedAccount: (account: InjectedAccount) => void;
+  prepareTx: () => Promise<void>;
 }
 
 export const WalletContext = createContext<WalletContextProps>({
@@ -25,6 +27,7 @@ export const WalletContext = createContext<WalletContextProps>({
   signOut: () => {},
   availableWallets: [],
   setSelectedAccount: () => {},
+  prepareTx: async () => {},
 });
 
 export const useWalletContext = () => {
@@ -102,6 +105,12 @@ export default function WalletProvider({ children }: Props) {
     removeSelectedAccount();
   };
 
+  const prepareTx = async () => {
+    if (connectedWallet instanceof WebsiteWallet) {
+      await connectedWallet.sdk?.newWaitingWalletInstance();
+    }
+  };
+
   return (
     <WalletContext.Provider
       value={{
@@ -114,6 +123,7 @@ export default function WalletProvider({ children }: Props) {
         connectedWallet,
         selectedAccount,
         setSelectedAccount,
+        prepareTx,
       }}>
       {children}
     </WalletContext.Provider>

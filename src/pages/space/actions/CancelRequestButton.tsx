@@ -18,8 +18,9 @@ import { useTx } from '@/hooks/useink/useTx';
 import { useSpaceContext } from '@/providers/SpaceProvider';
 import { Props } from '@/types';
 import { messages } from '@/utils/messages';
+import { notifyTxStatus } from '@/utils/notifications';
 import { formatBalance } from '@/utils/string';
-import { shouldDisable } from 'useink/utils';
+import { shouldDisableStrict } from 'useink/utils';
 
 interface CancelRequestButtonProps extends Props {
   buttonProps?: ButtonProps;
@@ -38,13 +39,21 @@ export default function CancelRequestButton({ buttonProps }: CancelRequestButton
     }
 
     cancelRequestTx.signAndSend([], {}, (result) => {
+      if (!result) {
+        cancelRequestTx.resetState();
+        return;
+      }
+
+      notifyTxStatus(result);
+
       if (result?.isInBlock) {
         if (result.dispatchError) {
-          toast.error(result.dispatchError.toString());
+          toast.error(messages.txError);
         } else {
-          toast.success('Request canceled');
+          toast.success('Membership request canceled');
         }
 
+        cancelRequestTx.resetState();
         onClose();
       }
     });
@@ -94,7 +103,7 @@ export default function CancelRequestButton({ buttonProps }: CancelRequestButton
               type='submit'
               onClick={doCancelRequest}
               colorScheme='red'
-              isDisabled={shouldDisable(cancelRequestTx)}>
+              isLoading={shouldDisableStrict(cancelRequestTx)}>
               Continue
             </Button>
           </ModalFooter>

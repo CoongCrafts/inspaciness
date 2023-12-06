@@ -46,12 +46,12 @@ import useFreeBalance from '@/hooks/useFreeBalance';
 import { useTx } from '@/hooks/useink/useTx';
 import { useWalletContext } from '@/providers/WalletProvider';
 import { NetworkInfo, Pricing, RegistrationType } from '@/types';
+import { messages } from '@/utils/messages';
+import { notifyTxStatus } from '@/utils/notifications';
 import { findPlugin } from '@/utils/plugins';
-import WebsiteWallet from '@/wallets/WebsiteWallet';
 import { useFormik } from 'formik';
-import { useApi } from 'useink';
 import { Development } from 'useink/chains';
-import { asContractInstantiatedEvent, isContractInstantiatedEvent } from 'useink/utils';
+import { asContractInstantiatedEvent, isContractInstantiatedEvent, shouldDisableStrict } from 'useink/utils';
 import * as yup from 'yup';
 
 // const DEFAULT_LOGO = 'https://ipfs.filebase.io/ipfs/QmQXLfTiSakezeLtoAQvgYBXnQ3tbvVfNXk6sUhjZAg1iK';
@@ -95,10 +95,9 @@ export default function SpaceLauncher() {
   const [network, setNetwork] = useState<NetworkInfo>();
   const contract = useMotherlandContract(network?.id || Development.id);
   const { state: pluginLaunchers } = useContractState<[string, string][]>(contract, 'pluginLaunchers');
-  const launchNewLand = useTx(contract, 'deployNewSpace');
+  const launchNewSpaceTx = useTx(contract, 'deployNewSpace');
   const navigate = useNavigate();
-  const { selectedAccount, connectedWallet } = useWalletContext();
-  const { api } = useApi(network?.id) || {};
+  const { selectedAccount } = useWalletContext();
   const [smallest] = useMediaQuery('(max-width: 700px)');
 
   const freeBalance = useFreeBalance(selectedAccount, network);
@@ -144,10 +143,6 @@ export default function SpaceLauncher() {
       const { name, desc, logoUrl } = formikStep1.values;
       const { registrationType, pricing, price, duration, plugins } = formikStep2.values;
 
-      if (connectedWallet instanceof WebsiteWallet) {
-        await connectedWallet.sdk?.newWaitingWalletInstance();
-      }
-
       let spacePricing: any = pricing;
       if (pricing === Pricing.OneTimePaid) {
         spacePricing = { [pricing]: { price: parseInt(price) * Math.pow(10, network!.decimals) } };
@@ -172,18 +167,17 @@ export default function SpaceLauncher() {
       };
       const spaceOwner = null; // default
 
-      launchNewLand.signAndSend([spaceInfo, spaceConfig, spaceOwner, plugins], {}, (result) => {
+      launchNewSpaceTx.signAndSend([spaceInfo, spaceConfig, spaceOwner, plugins], {}, (result) => {
         if (!result) {
+          launchNewSpaceTx.resetState();
           return;
         }
 
+        notifyTxStatus(result);
+
         if (result?.isInBlock) {
-          if (result.isError || result.dispatchError) {
-            if (result.dispatchError?.isModule) {
-              console.log(api!.registry.findMetaError(result.dispatchError?.asModule));
-            }
-            console.error(result.toHuman());
-            toast.error('Extrinsic failed!');
+          if (result.dispatchError) {
+            toast.error(messages.txError);
           } else {
             // @ts-ignore
             const deployedEvent = result.events.find(
@@ -200,6 +194,7 @@ export default function SpaceLauncher() {
           }
 
           formikHelpers.setSubmitting(false);
+          launchNewSpaceTx.resetState();
         }
       });
     },
@@ -634,7 +629,9 @@ export default function SpaceLauncher() {
                 colorScheme='primary'
                 type='submit'
                 minWidth={150}
-                isDisabled={formikStep3.isSubmitting || cannotMakeTransaction}>
+                isLoading={formikStep3.isSubmitting || shouldDisableStrict(launchNewSpaceTx)}
+                loadingText='Launching'
+                isDisabled={formikStep3.isSubmitting || cannotMakeTransaction || shouldDisableStrict(launchNewSpaceTx)}>
                 Launch
               </Button>
             </Flex>

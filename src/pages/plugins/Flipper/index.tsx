@@ -7,7 +7,9 @@ import { useTx } from '@/hooks/useink/useTx';
 import { useSpaceContext } from '@/providers/SpaceProvider';
 import { MemberStatus, PluginInfo, Props } from '@/types';
 import { messages } from '@/utils/messages';
+import { notifyTxStatus } from '@/utils/notifications';
 import { PLUGIN_FLIPPER } from '@/utils/plugins';
+import { shouldDisableStrict } from 'useink/utils';
 
 interface FlipperContentProps extends Props {
   info: PluginInfo;
@@ -26,12 +28,21 @@ function FlipperContent({ info }: FlipperContentProps) {
     }
 
     flipTx.signAndSend([], {}, (result) => {
-      if (result?.isInBlock) {
+      if (!result) {
+        flipTx.resetState();
+        return;
+      }
+
+      notifyTxStatus(result);
+
+      if (result.isInBlock) {
         if (result.dispatchError) {
-          toast.error(result.dispatchError.toString());
+          toast.error(messages.txError);
         } else {
-          toast.success('Value updated');
+          toast.success('Value flipped');
         }
+
+        flipTx.resetState();
       }
     });
   };
@@ -60,7 +71,14 @@ function FlipperContent({ info }: FlipperContentProps) {
           )}
         </Text>
 
-        <Button size='sm' colorScheme='primary' isDisabled={!isActiveMember} width={100} mt={4} onClick={flip}>
+        <Button
+          size='sm'
+          colorScheme='primary'
+          isLoading={shouldDisableStrict(flipTx)}
+          isDisabled={!isActiveMember}
+          width={100}
+          mt={4}
+          onClick={flip}>
           Flip
         </Button>
         {!isActiveMember && (

@@ -23,8 +23,10 @@ import { step2Schema } from '@/pages/SpaceLauncher';
 import { useSpaceContext } from '@/providers/SpaceProvider';
 import { Pricing, RegistrationType } from '@/types';
 import { messages } from '@/utils/messages';
+import { notifyTxStatus } from '@/utils/notifications';
 import { stringToNum } from '@/utils/number';
 import { useFormik } from 'formik';
+import { shouldDisableStrict } from 'useink/utils';
 
 export default function Membership() {
   const { network, config, isOwner, contract } = useSpaceContext();
@@ -59,6 +61,7 @@ export default function Membership() {
     enableReinitialize: true,
     onSubmit: (values, formikHelpers) => {
       if (freeBalance == 0) {
+        formikHelpers.setSubmitting(false);
         toast.error(messages.insufficientBalance);
         return;
       }
@@ -78,13 +81,21 @@ export default function Membership() {
       };
 
       updateConfigTx.signAndSend([spaceConfig], {}, (result) => {
+        if (!result) {
+          updateConfigTx.resetState(formikHelpers);
+          return;
+        }
+
+        notifyTxStatus(result);
+
         if (result?.isInBlock) {
           if (result.dispatchError) {
-            toast.error(result.dispatchError.toString());
+            toast.error(messages.txError);
           } else {
-            formikHelpers.setSubmitting(false);
             toast.success('Space membership updated');
           }
+
+          updateConfigTx.resetState(formikHelpers);
         }
       });
     },
@@ -226,7 +237,7 @@ export default function Membership() {
             size='sm'
             variant='outline'
             colorScheme='primary'
-            isDisabled={formik.isSubmitting}>
+            isLoading={formik.isSubmitting || shouldDisableStrict(updateConfigTx)}>
             Update Membership
           </Button>
         )}

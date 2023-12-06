@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useDryRun } from '@/hooks/useink/useDryRun';
 import { useWalletContext } from '@/providers/WalletProvider';
+import { FormikHelpers } from 'formik';
 import { ChainContract, useTxEvents } from 'useink';
 import {
   ApiBase,
@@ -23,12 +24,12 @@ export interface Tx<_T> {
   signAndSend: SignAndSend;
   status: TransactionStatus;
   result: ContractSubmittableResult | undefined;
-  resetState: () => void;
+  resetState: (formikHelpers?: FormikHelpers<any>) => void;
   events: EventRecord[];
 }
 
 export function useTx<T>(chainContract: ChainContract | undefined, message: string): Tx<T> {
-  const { selectedAccount, injectedApi } = useWalletContext();
+  const { selectedAccount, injectedApi, prepareTx } = useWalletContext();
   const [status, setStatus] = useState<TransactionStatus>('None');
   const [result, setResult] = useState<ContractSubmittableResult>();
   const dryRun = useDryRun(chainContract, message);
@@ -40,32 +41,41 @@ export function useTx<T>(chainContract: ChainContract | undefined, message: stri
         return;
       }
 
-      dryRun
-        .send(params, options)
-        .then((response) => {
-          console.log('dryRun response', params, options, response);
-          if (!response || !response.ok) return;
-          setStatus('PendingSignature');
+      prepareTx()
+        .then(() => {
+          setStatus('DryRun');
 
-          const { gasRequired } = response.value.raw;
-          const tx = chainContract?.contract.tx[message];
+          dryRun
+            .send(params, options)
+            .then((response) => {
+              console.log('dryRun response', params, options, response);
+              if (!response || !response.ok) return;
+              setStatus('PendingSignature');
 
-          if (!tx) {
-            cb?.(undefined, chainContract.contract.api, `'${message}' not found on contract instance`);
-            return;
-          }
+              const { gasRequired } = response.value.raw;
+              const tx = chainContract?.contract.tx[message];
 
-          tx({ gasLimit: gasRequired, ...toContractOptions(options) }, ...(params || []))
-            .signAndSend(
-              selectedAccount.address,
-              { signer: injectedApi.signer },
-              (response: ContractSubmittableResult) => {
-                setResult(response);
-                setStatus(response.status.type);
-                cb?.(response, chainContract?.contract.api);
-              },
-            )
-            .catch((e: unknown) => {
+              if (!tx) {
+                cb?.(undefined, chainContract.contract.api, `'${message}' not found on contract instance`);
+                return;
+              }
+
+              tx({ gasLimit: gasRequired, ...toContractOptions(options) }, ...(params || []))
+                .signAndSend(
+                  selectedAccount.address,
+                  { signer: injectedApi.signer },
+                  (response: ContractSubmittableResult) => {
+                    setResult(response);
+                    setStatus(response.status.type);
+                    cb?.(response, chainContract?.contract.api);
+                  },
+                )
+                .catch((e: unknown) => {
+                  cb?.(undefined, chainContract.contract.api, e);
+                  setStatus('None');
+                });
+            })
+            .catch((e) => {
               cb?.(undefined, chainContract.contract.api, e);
               setStatus('None');
             });
@@ -82,10 +92,11 @@ export function useTx<T>(chainContract: ChainContract | undefined, message: stri
     signAndSend,
     status,
     result,
-    resetState: () => {
+    resetState: (formikHelper?: FormikHelpers<any>) => {
       setResult(undefined);
       setStatus('None');
       txEvents.resetState();
+      formikHelper?.setSubmitting(false);
     },
     events: txEvents.events,
   };

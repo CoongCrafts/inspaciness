@@ -5,8 +5,9 @@ import useContractState from '@/hooks/useContractState';
 import { useTx } from '@/hooks/useink/useTx';
 import { useSpaceContext } from '@/providers/SpaceProvider';
 import { messages } from '@/utils/messages';
+import { notifyTxStatus } from '@/utils/notifications';
 import { shortenAddress } from '@/utils/string';
-import { shouldDisable } from 'useink/utils';
+import { shouldDisableStrict } from 'useink/utils';
 
 export default function UpgradeVersion() {
   const { motherContract, codeHash, contract, isOwner } = useSpaceContext();
@@ -29,12 +30,21 @@ export default function UpgradeVersion() {
     }
 
     setCodeHashTx.signAndSend([latestSpaceCode], {}, (result) => {
+      if (!result) {
+        setCodeHashTx.resetState();
+        return;
+      }
+
+      notifyTxStatus(result);
+
       if (result?.isInBlock) {
         if (result.dispatchError) {
-          toast.error(result.dispatchError.toString());
+          toast.error(messages.txError);
         } else {
           toast.success('Space version upgraded');
         }
+
+        setCodeHashTx.resetState();
       }
     });
   };
@@ -68,7 +78,7 @@ export default function UpgradeVersion() {
               size='sm'
               colorScheme='red'
               onClick={upgradeToLatestVersion}
-              isDisabled={shouldDisable(setCodeHashTx)}>
+              isLoading={shouldDisableStrict(setCodeHashTx)}>
               Upgrade Now
             </Button>
           </>

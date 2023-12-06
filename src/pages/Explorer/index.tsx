@@ -1,19 +1,20 @@
-import { Box, Button, Divider, Flex, SimpleGrid, Text } from '@chakra-ui/react';
-import { Spinner } from '@chakra-ui/react';
+import { Box, Button, Divider, Flex, SimpleGrid, Spinner, Text } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { useToggle, useWindowScroll } from 'react-use';
+import { useLocalStorage, useToggle, useWindowScroll } from 'react-use';
 import NetworkSelection from '@/components/shared/NetworkSelection';
 import useMotherContract from '@/hooks/contracts/useMotherContract';
 import usePagination from '@/hooks/usePagination';
 import SpaceCard from '@/pages/Explorer/SpaceCard';
 import { NetworkInfo, SpaceId } from '@/types';
-import { SUPPORTED_NETWORKS } from '@/utils/networks';
+import { findNetwork } from '@/utils/networks';
 import pluralize from 'pluralize';
+import { ChainId, Development } from 'useink/chains';
 
 const RECORD_PER_PAGE = 3 * 4;
 
 export default function Explorer() {
-  const [network, setNetwork] = useState<NetworkInfo>(SUPPORTED_NETWORKS.Development[0]);
+  const [chainId, setChainId] = useLocalStorage<ChainId>('myspace/selected_network', Development.id);
+  const network = findNetwork(chainId!);
   const contract = useMotherContract(network.id);
   const [loadMore, toggleLoadMore] = useToggle(false);
   const [onLoad, setOnLoad] = useToggle(true);
@@ -49,7 +50,7 @@ export default function Explorer() {
     setPageIndex(1);
     toggleLoadMore(false);
     setOnLoad(true);
-    setNetwork(network);
+    setChainId(network.id);
   };
 
   return (
@@ -62,12 +63,7 @@ export default function Explorer() {
       <Flex justifyContent='space-between' alignItems='center' flexGrow={1}>
         <Flex align='center' gap={1}>
           <Text fontWeight='semibold'>Network: </Text>
-          <NetworkSelection
-            responsive
-            size='sm'
-            onSelect={handleSetNetwork}
-            defaultNetwork={SUPPORTED_NETWORKS.Development[0]}
-          />
+          <NetworkSelection responsive size='sm' onSelect={handleSetNetwork} defaultNetwork={network} />
         </Flex>
         <Text color='dimgray' fontWeight='semibold' whiteSpace='nowrap'>
           {`${numberOfSpace} ${pluralize('space', numberOfSpace)} `}

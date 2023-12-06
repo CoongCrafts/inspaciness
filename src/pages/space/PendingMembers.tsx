@@ -1,4 +1,4 @@
-import { Flex, Tag, Text, IconButton, Button } from '@chakra-ui/react';
+import { Button, Flex, IconButton, Tag, Text, Tooltip } from '@chakra-ui/react';
 import { Identicon } from '@polkadot/react-identicon';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
@@ -9,9 +9,10 @@ import { useSpaceContext } from '@/providers/SpaceProvider';
 import { MembershipRequest, RequestApproval } from '@/types';
 import { fromNow } from '@/utils/date';
 import { messages } from '@/utils/messages';
+import { notifyTxStatus } from '@/utils/notifications';
 import { shortenAddress } from '@/utils/string';
 import { AddIcon, CheckIcon, ChevronLeftIcon, ChevronRightIcon, CloseIcon } from '@chakra-ui/icons';
-import { shouldDisable } from 'useink/utils';
+import { shouldDisableStrict } from 'useink/utils';
 
 const RECORD_PER_PAGE = 9;
 
@@ -37,15 +38,23 @@ export default function PendingMembers() {
     }
 
     submitRequestApprovalsTx.signAndSend([requestApprovals], {}, (result) => {
-      if (result?.isInBlock) {
-        if (result.dispatchError) {
-          toast.error(result.dispatchError.toString());
-        } else {
-          toast.success('Approved');
-        }
+      if (!result) {
+        submitRequestApprovalsTx.resetState();
+        return;
       }
 
-      setRequestApprovals([]);
+      notifyTxStatus(result);
+
+      if (result?.isInBlock) {
+        if (result.dispatchError) {
+          toast.error(messages.txError);
+        } else {
+          toast.success('Membership approvals submitted');
+        }
+
+        submitRequestApprovalsTx.resetState();
+        setRequestApprovals([]);
+      }
     });
   };
 
@@ -76,21 +85,27 @@ export default function PendingMembers() {
           colorScheme='primary'
           size='sm'
           onClick={() => submitApprovals(requestApprovals)}
-          isDisabled={requestApprovals.length === 0 || shouldDisable(submitRequestApprovalsTx)}
-          display={{ base: 'none', md: 'block' }}>
+          isLoading={shouldDisableStrict(submitRequestApprovalsTx)}
+          isDisabled={requestApprovals.length === 0}
+          display={{ base: 'none', md: 'flex' }}>
           Submit Approvals
         </Button>
         <IconButton
+          colorScheme='primary'
+          size='sm'
+          variant='outline'
           onClick={() => submitApprovals(requestApprovals)}
           aria-label={'Submit'}
           icon={<AddIcon />}
-          isDisabled={requestApprovals.length === 0 || shouldDisable(submitRequestApprovalsTx)}
-          display={{ base: 'block', md: 'none' }}
+          isLoading={shouldDisableStrict(submitRequestApprovalsTx)}
+          isDisabled={requestApprovals.length === 0}
+          display={{ base: 'flex', md: 'none' }}
         />
       </Flex>
       <Flex mt={4} flexDirection='column' gap={2} flexGrow={1}>
-        {items?.map((one) => (
+        {items?.map((one, idx) => (
           <Flex
+            borderRadius={4}
             p={2}
             alignItems='center'
             borderStyle='solid'
@@ -110,25 +125,30 @@ export default function PendingMembers() {
                 <Text fontSize='xs' color='darkgray'>{`Requested ${fromNow(one.requestedAt.toString())}`}</Text>
               </Flex>
             </Flex>
-            <Flex gap={2} px={1}>
-              <IconButton
-                onClick={() => handleSelect([one.who, true])}
-                colorScheme={
-                  requestApprovals.some(([address, isApprove]) => address === one.who && isApprove) ? 'green' : 'gray'
-                }
-                aria-label={'Approve'}
-                icon={<CheckIcon />}
-                isRound={true}
-              />
-              <IconButton
-                onClick={() => handleSelect([one.who, false])}
-                colorScheme={
-                  requestApprovals.some(([address, isApprove]) => address === one.who && !isApprove) ? 'red' : 'gray'
-                }
-                aria-label={'Refuse'}
-                icon={<CloseIcon />}
-                isRound={true}
-              />
+            <Flex gap={4} px={1}>
+              <Tooltip label={`Approve this post`} id={`approve-${idx}`} placement='top'>
+                <IconButton
+                  onClick={() => handleSelect([one.who, true])}
+                  colorScheme={
+                    requestApprovals.some(([address, isApprove]) => address === one.who && isApprove) ? 'green' : 'gray'
+                  }
+                  aria-label={'Approve'}
+                  icon={<CheckIcon />}
+                  isRound={true}
+                />
+              </Tooltip>
+
+              <Tooltip label={`Reject this post`} id={`reject-${idx}`} placement='top'>
+                <IconButton
+                  onClick={() => handleSelect([one.who, false])}
+                  colorScheme={
+                    requestApprovals.some(([address, isApprove]) => address === one.who && !isApprove) ? 'red' : 'gray'
+                  }
+                  aria-label={'Reject'}
+                  icon={<CloseIcon />}
+                  isRound={true}
+                />
+              </Tooltip>
             </Flex>
           </Flex>
         ))}

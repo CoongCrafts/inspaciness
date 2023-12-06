@@ -17,8 +17,9 @@ import { useTx } from '@/hooks/useink/useTx';
 import { step1Schema } from '@/pages/SpaceLauncher';
 import { useSpaceContext } from '@/providers/SpaceProvider';
 import { messages } from '@/utils/messages';
+import { notifyTxStatus } from '@/utils/notifications';
 import { useFormik } from 'formik';
-import { shouldDisable } from 'useink/utils';
+import { shouldDisableStrict } from 'useink/utils';
 
 export default function SpaceInfo() {
   const { network, info, isOwner, contract } = useSpaceContext();
@@ -44,13 +45,21 @@ export default function SpaceInfo() {
       const spaceInfo = { name, desc, logo: { Url: logoUrl } };
 
       updateInfoTx.signAndSend([spaceInfo], {}, (result) => {
+        if (!result) {
+          updateInfoTx.resetState(formikHelpers);
+          return;
+        }
+
+        notifyTxStatus(result);
+
         if (result?.isInBlock) {
           if (result.dispatchError) {
-            toast.error(result.dispatchError.toString());
+            toast.error(messages.txError);
           } else {
-            formikHelpers.setSubmitting(false);
             toast.success('Space profile updated');
           }
+
+          updateInfoTx.resetState(formikHelpers);
         }
       });
     },
@@ -132,7 +141,7 @@ export default function SpaceInfo() {
             mt={8}
             variant='outline'
             colorScheme='primary'
-            isDisabled={formik.isSubmitting || shouldDisable(updateInfoTx)}>
+            isLoading={formik.isSubmitting || shouldDisableStrict(updateInfoTx)}>
             Update Profile
           </Button>
         )}

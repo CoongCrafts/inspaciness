@@ -1,9 +1,9 @@
 import {
   Button,
   FormControl,
-  IconButton,
   FormErrorMessage,
   FormHelperText,
+  IconButton,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -18,9 +18,11 @@ import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { useTx } from '@/hooks/useink/useTx';
 import { usePostsContext } from '@/pages/plugins/Posts/PostsProvider';
+import { messages } from '@/utils/messages';
+import { notifyTxStatus } from '@/utils/notifications';
 import { AddIcon } from '@chakra-ui/icons';
 import { useFormik } from 'formik';
-import { shouldDisable } from 'useink/utils';
+import { shouldDisableStrict } from 'useink/utils';
 import * as yup from 'yup';
 
 export default function NewPostButton() {
@@ -39,21 +41,22 @@ export default function NewPostButton() {
       const { content } = values;
       const postContent = { Raw: content };
       newPostTx.signAndSend([postContent], undefined, (result) => {
-        console.log(result);
         if (!result) {
+          newPostTx.resetState(formikHelpers);
           return;
         }
 
-        if (result?.isInBlock) {
-          if (result.isError || result.dispatchError) {
-            console.error(result.toHuman());
-            toast.error('ExtrinsicFailed');
+        notifyTxStatus(result);
+
+        if (result.isInBlock) {
+          if (result.dispatchError) {
+            toast.error(messages.txError);
           } else {
-            onClose();
-            toast.success('Post created successfully!');
+            toast.success('New post created');
           }
 
-          formikHelpers.setSubmitting(false);
+          newPostTx.resetState(formikHelpers);
+          onClose();
         }
       });
     },
@@ -64,7 +67,7 @@ export default function NewPostButton() {
     formik.resetForm();
   }, [isOpen]);
 
-  const processing = shouldDisable(newPostTx);
+  const processing = shouldDisableStrict(newPostTx);
 
   return (
     <>
@@ -117,9 +120,11 @@ export default function NewPostButton() {
                 size='sm'
                 colorScheme='primary'
                 type='submit'
-                width={100}
-                isDisabled={formik.isSubmitting || processing || !formik.values.content}>
-                {processing ? 'Posting...' : 'Post'}
+                minWidth={120}
+                isLoading={processing}
+                loadingText='Posting...'
+                isDisabled={formik.isSubmitting || !formik.values.content}>
+                Post
               </Button>
             </ModalFooter>
           </form>
