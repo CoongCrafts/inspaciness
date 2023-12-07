@@ -46,11 +46,11 @@ import useFreeBalance from '@/hooks/useFreeBalance';
 import { useTx } from '@/hooks/useink/useTx';
 import { useWalletContext } from '@/providers/WalletProvider';
 import { NetworkInfo, Pricing, RegistrationType } from '@/types';
+import env from '@/utils/env';
 import { messages } from '@/utils/messages';
 import { notifyTxStatus } from '@/utils/notifications';
 import { findPlugin } from '@/utils/plugins';
 import { useFormik } from 'formik';
-import { Development } from 'useink/chains';
 import { asContractInstantiatedEvent, isContractInstantiatedEvent, shouldDisableStrict } from 'useink/utils';
 import * as yup from 'yup';
 
@@ -93,7 +93,7 @@ export default function SpaceLauncher() {
     count: STEPS.length,
   });
   const [network, setNetwork] = useState<NetworkInfo>();
-  const contract = useMotherlandContract(network?.id || Development.id);
+  const contract = useMotherlandContract(network?.id || env.defaultChainId);
   const { state: pluginLaunchers } = useContractState<[string, string][]>(contract, 'pluginLaunchers');
   const launchNewSpaceTx = useTx(contract, 'deployNewSpace');
   const navigate = useNavigate();
