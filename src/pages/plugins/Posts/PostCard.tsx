@@ -12,9 +12,10 @@ import { shortenAddress } from '@/utils/string';
 
 interface PostCardProps extends Props {
   postRecord: PostRecord;
+  handlePostUpdated: (content: any, postId: number) => void;
 }
 
-export default function PostCard({ postRecord: { post, postId } }: PostCardProps) {
+export default function PostCard({ postRecord: { post, postId }, handlePostUpdated }: PostCardProps) {
   const { contract } = useSpaceContext();
   const { state: authorInfo } = useContractState<MemberInfo>(contract, 'memberInfo', [post.author]);
   const { selectedAccount } = useWalletContext();
@@ -57,7 +58,16 @@ export default function PostCard({ postRecord: { post, postId } }: PostCardProps
               mr={-2}
             />
             <MenuList>
-              <MenuItem>{isAuthor && <UpdatePostButton postId={postId} post={post} />}</MenuItem>
+              <MenuItem>
+                {isAuthor && (
+                  <UpdatePostButton
+                    key={post.content.Raw}
+                    postId={postId}
+                    defaultValue={post.content.Raw}
+                    onPostUpdated={handlePostUpdated}
+                  />
+                )}
+              </MenuItem>
             </MenuList>
           </Menu>
         </Flex>

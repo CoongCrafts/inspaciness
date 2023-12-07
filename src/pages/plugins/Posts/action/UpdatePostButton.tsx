@@ -24,7 +24,7 @@ import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { useTx } from '@/hooks/useink/useTx';
 import { usePostsContext } from '@/pages/plugins/Posts/PostsProvider';
-import { Post, Props } from '@/types';
+import { Props } from '@/types';
 import { renderMd } from '@/utils/mdrenderer';
 import { messages } from '@/utils/messages';
 import { notifyTxStatus } from '@/utils/notifications';
@@ -34,17 +34,18 @@ import * as yup from 'yup';
 
 interface UpdatePostButtonProps extends Props {
   postId: number;
-  post: Post;
+  defaultValue: string;
+  onPostUpdated: (content: any, postId: number) => void;
 }
 
-export default function UpdatePostButton({ postId, post }: UpdatePostButtonProps) {
+export default function UpdatePostButton({ postId, defaultValue, onPostUpdated }: UpdatePostButtonProps) {
   const { contract } = usePostsContext();
   const updatePostTx = useTx<number>(contract, 'updatePost');
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const formik = useFormik({
     initialValues: {
-      content: post.content.Raw,
+      content: defaultValue,
     },
     validationSchema: yup.object().shape({
       content: yup.string().required().max(500),
@@ -67,8 +68,7 @@ export default function UpdatePostButton({ postId, post }: UpdatePostButtonProps
             toast.success('Post updated successfully');
 
             // Set current content by updated content
-            post.content = postContent;
-            post.updatedAt = Date.now();
+            onPostUpdated(postContent, postId);
           }
 
           updatePostTx.resetState(formikHelpers);
@@ -156,7 +156,7 @@ export default function UpdatePostButton({ postId, post }: UpdatePostButtonProps
                   minWidth={40}
                   isLoading={processing}
                   loadingText='Updating...'
-                  isDisabled={processing || formik.values.content === post.content.Raw}>
+                  isDisabled={processing || formik.values.content === defaultValue}>
                   Update
                 </Button>
               </Flex>

@@ -53,6 +53,17 @@ function PostsContent({ nonce, setNonce }: PostsContentProps) {
     setNonce(postsCount! + 1);
   };
 
+  const handlePostUpdated = (content: any, postId: number) => {
+    setStorage((prevState) => {
+      const postIndex = prevState.findIndex((one) => one.postId === postId);
+      const { post } = prevState[postIndex];
+      post.content = content;
+      post.updatedAt = Date.now();
+
+      return prevState.toSpliced(postIndex, 1, { postId, post });
+    });
+  };
+
   const hasNewPost = postsCount! - nonce;
 
   return (
@@ -79,7 +90,9 @@ function PostsContent({ nonce, setNonce }: PostsContentProps) {
       </Box>
       <Box>
         {storage.length !== 0
-          ? storage.map((postRecord) => <PostCard key={postRecord.postId} postRecord={postRecord} />)
+          ? storage.map((postRecord) => (
+              <PostCard key={postRecord.postId} postRecord={postRecord} handlePostUpdated={handlePostUpdated} />
+            ))
           : [...Array(5)].map((_, idx) => <PostsCardSkeleton key={idx} />)}
       </Box>
     </>
