@@ -51,7 +51,7 @@ export const SUPPORTED_NETWORKS: Record<ChainEnvironment, NetworkInfo[]> = {
     },
     {
       id: ShibuyaTestnet.id,
-      name: 'Shibuya Testnet (Astar)',
+      name: 'Shibuya (Astar)',
       logo: `${LOGO_FOLDER}/astar-network.png`,
       prefix: 5,
       symbol: 'SBY',
@@ -72,16 +72,6 @@ export const SUPPORTED_NETWORKS: Record<ChainEnvironment, NetworkInfo[]> = {
   ],
   [ChainEnvironment.Production]: [
     {
-      id: Astar.id,
-      name: 'Astar',
-      logo: `${LOGO_FOLDER}/astar-network.png`,
-      prefix: 5,
-      symbol: 'ASTR',
-      decimals: 18,
-      chain: Astar,
-      motherAddress: '',
-    },
-    {
       id: Aleph.id,
       name: 'Aleph Zero',
       logo: `${LOGO_FOLDER}/aleph-zero.png`,
@@ -99,6 +89,16 @@ export const SUPPORTED_NETWORKS: Record<ChainEnvironment, NetworkInfo[]> = {
       symbol: 'PHA',
       decimals: 12,
       chain: Phala,
+      motherAddress: '',
+    },
+    {
+      id: Astar.id,
+      name: 'Astar',
+      logo: `${LOGO_FOLDER}/astar-network.png`,
+      prefix: 5,
+      symbol: 'ASTR',
+      decimals: 18,
+      chain: Astar,
       motherAddress: '',
     },
   ],
