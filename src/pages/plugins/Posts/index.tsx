@@ -6,7 +6,7 @@ import PostCard from '@/pages/plugins/Posts/PostCard';
 import PostsProvider, { usePostsContext } from '@/pages/plugins/Posts/PostsProvider';
 import NewPostButton from '@/pages/plugins/Posts/action/NewPostButton';
 import { useSpaceContext } from '@/providers/SpaceProvider';
-import { MemberStatus, PostRecord } from '@/types';
+import { MemberStatus, Ordering, PostRecord } from '@/types';
 import { PLUGIN_POSTS } from '@/utils/plugins';
 
 const RECORD_PER_PAGE = 5;
@@ -24,6 +24,8 @@ function PostsContent() {
     total: numOfPost,
   } = usePagination<PostRecord>(contract, 'listPosts', RECORD_PER_PAGE);
   const { y } = useWindowScroll();
+
+  console.log(items);
 
   useEffect(() => {
     if (items && onLoad) {

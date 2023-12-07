@@ -140,3 +140,10 @@ export interface MembershipRequest {
 export type RequestApproval = [string, boolean];
 
 export type SpaceId = string;
+
+export enum Ordering {
+  Ascending = 'Ascending',
+  Descending = 'Descending',
+}
+
+export type OrderingParam = { [Ordering.Descending]: number } | Ordering.Ascending;
