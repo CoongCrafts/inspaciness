@@ -6,12 +6,13 @@ import NetworkSelection from '@/components/shared/NetworkSelection';
 import SpaceCard from '@/components/space/SpaceCard';
 import useSpaces from '@/hooks/useSpaces';
 import { useWalletContext } from '@/providers/WalletProvider';
+import env from '@/utils/env';
 import { findNetwork } from '@/utils/networks';
-import { ChainId, Development } from 'useink/chains';
+import { ChainId } from 'useink/chains';
 
 export default function MySpaces() {
   const navigate = useNavigate();
-  const [chainId, setChainId] = useLocalStorage<ChainId>('myspace/selected_network', Development.id);
+  const [chainId, setChainId] = useLocalStorage<ChainId>('myspace/selected_network', env.defaultChainId);
   const { selectedAccount } = useWalletContext();
   const network = findNetwork(chainId!);
   const spaces = useSpaces(chainId!);

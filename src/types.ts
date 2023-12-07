@@ -30,7 +30,7 @@ export interface NetworkInfo {
   symbol: string;
   decimals: number;
   chain: Chain;
-  motherAddress: string;
+  motherAddress?: string;
   disabled?: boolean;
 }
 

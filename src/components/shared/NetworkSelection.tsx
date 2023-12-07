@@ -11,7 +11,8 @@ import {
   useMediaQuery,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { ChainEnvironments, NetworkInfo, Props } from '@/types';
+import { ChainEnvironment, ChainEnvironments, NetworkInfo, Props } from '@/types';
+import env from '@/utils/env';
 import { SUPPORTED_NETWORKS } from '@/utils/networks';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 
@@ -21,6 +22,7 @@ interface NetworkSelectionProps extends Props {
   size?: string;
   responsive?: boolean;
   disabled?: boolean;
+  checkMotherAddress?: boolean;
 }
 
 export default function NetworkSelection({
@@ -29,6 +31,7 @@ export default function NetworkSelection({
   size,
   responsive = false,
   disabled = false,
+  checkMotherAddress = true,
 }: NetworkSelectionProps) {
   const [selectedNetwork, setSelectedNetwork] = useState<NetworkInfo>();
   const [smallest] = useMediaQuery('(max-width: 600px)');
@@ -64,22 +67,28 @@ export default function NetworkSelection({
         </Flex>
       </MenuButton>
       <MenuList>
-        {ChainEnvironments.map((env) => (
-          <MenuGroup key={env} title={env}>
-            {SUPPORTED_NETWORKS[env].map((one) => (
-              <MenuItem
-                key={one.id}
-                onClick={() => doSelect(one)}
-                isDisabled={one.disabled}
-                backgroundColor={one.id === selectedNetwork?.id ? 'active-menu-item-bg' : ''}>
-                <Flex direction='row' align='center' gap={2}>
-                  <Avatar size='xs' src={one.logo} />
-                  <span>{one.name}</span>
-                </Flex>
-              </MenuItem>
-            ))}
-          </MenuGroup>
-        ))}
+        {ChainEnvironments.map((chainEnv) => {
+          if (env.isProd && chainEnv === ChainEnvironment.Development) {
+            return null;
+          }
+
+          return (
+            <MenuGroup key={chainEnv} title={chainEnv}>
+              {SUPPORTED_NETWORKS[chainEnv].map((one) => (
+                <MenuItem
+                  key={one.id}
+                  onClick={() => doSelect(one)}
+                  isDisabled={checkMotherAddress ? !one.motherAddress : false}
+                  backgroundColor={one.id === selectedNetwork?.id ? 'active-menu-item-bg' : ''}>
+                  <Flex direction='row' align='center' gap={2}>
+                    <Avatar size='xs' src={one.logo} />
+                    <span>{one.name}</span>
+                  </Flex>
+                </MenuItem>
+              ))}
+            </MenuGroup>
+          );
+        })}
       </MenuList>
     </Menu>
   );
