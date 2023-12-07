@@ -7,7 +7,7 @@ import { OnChainSpace } from '@/types';
 import { ChainId } from 'useink/chains';
 import { pickDecoded } from 'useink/utils';
 
-export default function useSpaces(chainId: ChainId): OnChainSpace[] {
+export default function useSpaces(chainId: ChainId): OnChainSpace[] | undefined {
   const { selectedAccount } = useWalletContext();
   const [spaces, setSpaces] = useState<string[]>();
   const motherContract = useMotherContract(chainId);
@@ -27,5 +27,5 @@ export default function useSpaces(chainId: ChainId): OnChainSpace[] {
     }
   }, [memberAddress, memberSpacesCall.send]);
 
-  return spaces ? spaces.map((one) => ({ address: one, chainId })) : [];
+  return spaces?.map((one) => ({ address: one, chainId }));
 }

@@ -1,8 +1,9 @@
-import { Box, Button, Flex, Tag, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, SimpleGrid, Tag, Text } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLocalStorage } from 'react-use';
 import NetworkSelection from '@/components/shared/NetworkSelection';
+import SpaceCardSkeleton from '@/components/sketeton/SpaceCardSkeleton';
 import SpaceCard from '@/components/space/SpaceCard';
 import useSpaces from '@/hooks/useSpaces';
 import { useWalletContext } from '@/providers/WalletProvider';
@@ -30,7 +31,7 @@ export default function MySpaces() {
           <Text fontSize='xl' fontWeight='semibold'>
             My Spaces
           </Text>
-          {spaces.length > 0 && (
+          {!!spaces?.length && (
             <Box>
               <Tag colorScheme='gray'>{spaces.length}</Tag>
             </Box>
@@ -43,15 +44,12 @@ export default function MySpaces() {
           </Button>
         </Flex>
       </Flex>
-      <Flex gap={4} flexWrap='wrap'>
-        {spaces?.map((space) => (
-          <SpaceCard
-            w={{ base: '100%', md: 'calc((100% - 2rem)/3)', lg: 'calc((100% - 3rem)/4)' }}
-            space={space}
-            key={space.address}
-          />
-        ))}
-      </Flex>
+
+      <SimpleGrid columns={{ base: 1, sm: 2, md: 3, lg: 4 }} spacing={4}>
+        {spaces
+          ? spaces.map((space) => <SpaceCard space={space} key={space.address} />)
+          : [...Array(12)].map((_, idx) => <SpaceCardSkeleton key={idx} />)}
+      </SimpleGrid>
     </Box>
   );
 }
