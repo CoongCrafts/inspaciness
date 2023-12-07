@@ -14,7 +14,7 @@ import {
   Props,
   SpaceConfig,
   SpaceInfo,
-    MembershipRequest
+  MembershipRequest,
 } from '@/types';
 import { PluginInfo } from '@/types';
 import { findNetwork } from '@/utils/networks';
@@ -32,6 +32,7 @@ interface SpaceContextProps {
   motherContract?: ChainContract;
   contract?: ChainContract;
   isOwner: boolean;
+  ownerAddress?: string;
   memberStatus?: MemberStatus;
   plugins?: PluginInfo[];
   memberInfo?: MemberInfo;
@@ -100,9 +101,9 @@ export default function SpaceProvider({ space, children }: SpaceProviderProps) {
         memberInfo,
         pendingRequest,
         pendingRequestsCount,
+        ownerAddress: ownerId,
       }}>
       {children}
     </SpaceContext.Provider>
   );
 }
-
