@@ -17,7 +17,7 @@ const DEFAULT_CALLER = '5FWgDBZM7KNnUrDZpxr8Dij7isrXny2NNzGsovxBDFdWZYSZ';
 
 const SUPPORTED_CHAINS = Object.values(SUPPORTED_NETWORKS)
   .flat()
-  .filter((one) => !one.motherAddress)
+  .filter((one) => one.motherAddress)
   .filter((one) => (env.isProd ? one.id !== Development.id : true))
   .map((one) => one.chain) as ArrayOneOrMore<Chain>;
 
