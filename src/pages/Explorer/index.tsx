@@ -6,14 +6,15 @@ import useMotherContract from '@/hooks/contracts/useMotherContract';
 import usePagination from '@/hooks/usePagination';
 import SpaceCard from '@/pages/Explorer/SpaceCard';
 import { NetworkInfo, SpaceId } from '@/types';
+import env from '@/utils/env';
 import { findNetwork } from '@/utils/networks';
 import pluralize from 'pluralize';
-import { ChainId, Development } from 'useink/chains';
+import { ChainId } from 'useink/chains';
 
 const RECORD_PER_PAGE = 3 * 4;
 
 export default function Explorer() {
-  const [chainId, setChainId] = useLocalStorage<ChainId>('myspace/selected_network', Development.id);
+  const [chainId, setChainId] = useLocalStorage<ChainId>('myspace/selected_network', env.defaultChainId);
   const network = findNetwork(chainId!);
   const contract = useMotherContract(network.id);
   const [loadMore, toggleLoadMore] = useToggle(false);

@@ -7,17 +7,26 @@ import '@polkadot/api-augment/polkadot';
 import WalletProvider from '@/providers/WalletProvider';
 import router from '@/router';
 import { theme } from '@/theme';
+import env from '@/utils/env';
+import { SUPPORTED_NETWORKS } from '@/utils/networks';
 import { UseInkProvider } from 'useink';
-import { Development, RococoContractsTestnet } from 'useink/chains';
+import { Chain, Development } from 'useink/chains';
+import { ArrayOneOrMore } from 'useink/core';
 
 const DEFAULT_CALLER = '5FWgDBZM7KNnUrDZpxr8Dij7isrXny2NNzGsovxBDFdWZYSZ';
+
+const SUPPORTED_CHAINS = Object.values(SUPPORTED_NETWORKS)
+  .flat()
+  .filter((one) => !one.motherAddress)
+  .filter((one) => (env.isProd ? one.id !== Development.id : true))
+  .map((one) => one.chain) as ArrayOneOrMore<Chain>;
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <UseInkProvider
     config={{
       dappName: 'InSpace',
-      chains: [Development, RococoContractsTestnet],
+      chains: SUPPORTED_CHAINS,
       caller: { default: DEFAULT_CALLER },
     }}>
     <ColorModeScript initialColorMode={theme.config.initialColorMode} />
