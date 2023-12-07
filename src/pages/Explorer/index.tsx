@@ -2,6 +2,7 @@ import { Box, Button, Divider, Flex, SimpleGrid, Spinner, Text } from '@chakra-u
 import { useEffect, useState } from 'react';
 import { useLocalStorage, useToggle, useWindowScroll } from 'react-use';
 import NetworkSelection from '@/components/shared/NetworkSelection';
+import SpaceCardSkeleton from '@/components/sketeton/SpaceCardSkeleton';
 import useMotherContract from '@/hooks/contracts/useMotherContract';
 import usePagination from '@/hooks/usePagination';
 import SpaceCard from '@/pages/Explorer/SpaceCard';
@@ -23,7 +24,7 @@ export function ChainExplorer({ chainId, setChainId }: ChainExplorerProps) {
   const contract = useMotherContract(network.id);
   const [loadMore, toggleLoadMore] = useToggle(false);
   const [onLoad, setOnLoad] = useToggle(true);
-  const [storage, setStorage] = useState<SpaceId[]>([]);
+  const [spaceIds, setSpaceIds] = useState<SpaceId[]>();
   const {
     items,
     setPageIndex,
@@ -36,7 +37,7 @@ export function ChainExplorer({ chainId, setChainId }: ChainExplorerProps) {
   useEffect(() => {
     if (onLoad && items) {
       setOnLoad(false);
-      setStorage((preState) => [...preState, ...items]);
+      setSpaceIds((preState = []) => [...preState, ...items]);
     }
   }, [items]);
 
@@ -51,10 +52,6 @@ export function ChainExplorer({ chainId, setChainId }: ChainExplorerProps) {
   }, [loadMore, onLoad, y]);
 
   const handleSetNetwork = (network: NetworkInfo) => {
-    setStorage([]);
-    setPageIndex(1);
-    toggleLoadMore(false);
-    setOnLoad(true);
     setChainId(network.id);
   };
 
@@ -75,17 +72,29 @@ export function ChainExplorer({ chainId, setChainId }: ChainExplorerProps) {
         </Text>
       </Flex>
       <Divider my={4} />
+
+      {spaceIds?.length === 0 && (
+        <Text>
+          There are no community spaces on{' '}
+          <Text as='span' fontWeight='semibold'>
+            {network.name}
+          </Text>
+        </Text>
+      )}
+
       <SimpleGrid columns={{ base: 1, sm: 2, md: 3, lg: 4 }} spacing={4}>
-        {storage.map((spaceId) => (
-          <SpaceCard class='space-card' key={spaceId} spaceId={spaceId} chainId={network.id} />
-        ))}
+        {spaceIds
+          ? spaceIds.map((spaceId) => (
+              <SpaceCard class='space-card' key={spaceId} spaceId={spaceId} chainId={network.id} />
+            ))
+          : [...Array(12)].map((_, idx) => <SpaceCardSkeleton key={idx} />)}
       </SimpleGrid>
-      {onLoad && (
+      {onLoad && spaceIds?.length && (
         <Box mt={4} textAlign='center'>
           <Spinner />
         </Box>
       )}
-      {hasNextPage && !loadMore && (
+      {hasNextPage && spaceIds?.length && !loadMore && (
         <Box mt={4} textAlign='center'>
           <Button onClick={toggleLoadMore} variant='outline' width={200}>
             Load more

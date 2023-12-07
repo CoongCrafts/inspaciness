@@ -1,11 +1,10 @@
 import { ChakraProvider, ColorModeScript } from '@chakra-ui/react';
 import ReactDOM from 'react-dom/client';
-import { RouterProvider } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '@polkadot/api-augment/polkadot';
+import AppRouter from '@/AppRouter';
 import WalletProvider from '@/providers/WalletProvider';
-import router from '@/router';
 import { theme } from '@/theme';
 import env from '@/utils/env';
 import { SUPPORTED_NETWORKS } from '@/utils/networks';
@@ -32,7 +31,7 @@ root.render(
     <ColorModeScript initialColorMode={theme.config.initialColorMode} />
     <ChakraProvider theme={theme}>
       <WalletProvider>
-        <RouterProvider router={router} />
+        <AppRouter />
         <ToastContainer
           position='top-right'
           closeOnClick

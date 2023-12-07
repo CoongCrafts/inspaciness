@@ -1,28 +1,25 @@
 import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  useDisclosure,
   Button,
+  Circle,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   Input,
-  FormErrorMessage,
-  FormHelperText,
   InputGroup,
-  InputRightAddon,
   InputLeftElement,
-  Circle,
-  IconButton,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  useDisclosure,
 } from '@chakra-ui/react';
 import { Identicon } from '@polkadot/react-identicon';
 import { FormEvent, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import { isAddress } from '@polkadot/util-crypto';
+import { encodeAddress, isAddress } from '@polkadot/util-crypto';
 import useCurrentFreeBalance from '@/hooks/space/useCurrentFreeBalance';
 import { useCall } from '@/hooks/useink/useCall';
 import { useTx } from '@/hooks/useink/useTx';
@@ -30,25 +27,21 @@ import { useSpaceContext } from '@/providers/SpaceProvider';
 import { MemberStatus } from '@/types';
 import { messages } from '@/utils/messages';
 import { notifyTxStatus } from '@/utils/notifications';
-import { AddIcon } from '@chakra-ui/icons';
 import { useFormik } from 'formik';
 import { pickDecoded, shouldDisableStrict } from 'useink/utils';
 import * as yup from 'yup';
 
-const MILLISECS_PER_DAY = 24 * 60 * 60 * 1000;
-
-function InviteMemberButton() {
+export default function TransferOwnershipButton() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { contract } = useSpaceContext();
+  const { contract, ownerAddress } = useSpaceContext();
   const memberStatusCall = useCall<MemberStatus>(contract, 'memberStatus');
-  const grantMembershipTx = useTx(contract, 'grantMembership');
+  const transferOwnershipTx = useTx(contract, 'transferOwnership');
   const freeBalance = useCurrentFreeBalance();
 
   const formikInviteMember = useFormik({
-    initialValues: { address: '', expire: undefined },
+    initialValues: { address: '' },
     validationSchema: yup.object().shape({
       address: yup.string().test('is_valid_address', 'Invalid address format', (value) => isAddress(value)),
-      expire: yup.number().positive('Invalid expire time').integer('Invalid expire time'),
     }),
     onSubmit: (values, formikHelpers) => {
       (async () => {
@@ -58,9 +51,15 @@ function InviteMemberButton() {
           return;
         }
 
-        const { address, expire: expireAfter } = values;
+        const { address } = values;
         if (!isAddress(address)) {
           toast.error('Invalid address format');
+          formikHelpers.setSubmitting(false);
+          return;
+        }
+
+        if (ownerAddress && encodeAddress(ownerAddress) == encodeAddress(address)) {
+          toast.error(`${address} is currently the owner of the space`);
           formikHelpers.setSubmitting(false);
           return;
         }
@@ -73,15 +72,15 @@ function InviteMemberButton() {
           return;
         }
 
-        if (status === MemberStatus.Active) {
-          toast.error('The address is already an active member of the space!');
+        if (status !== MemberStatus.Active) {
+          toast.error('Can only transfer ownership to an active member!');
           formikHelpers.setSubmitting(false);
           return;
         }
 
-        grantMembershipTx.signAndSend([address, expireAfter ? expireAfter * MILLISECS_PER_DAY : null], {}, (result) => {
+        transferOwnershipTx.signAndSend([address], {}, (result) => {
           if (!result) {
-            grantMembershipTx.resetState(formikHelpers);
+            transferOwnershipTx.resetState(formikHelpers);
             return;
           }
 
@@ -91,10 +90,10 @@ function InviteMemberButton() {
             if (result.dispatchError) {
               toast.error(messages.txError);
             } else {
-              toast.success('Member invited');
+              toast.success('Ownership transferred');
             }
 
-            grantMembershipTx.resetState(formikHelpers);
+            transferOwnershipTx.resetState(formikHelpers);
             onClose();
           }
         });
@@ -104,28 +103,14 @@ function InviteMemberButton() {
 
   useEffect(() => {
     formikInviteMember.resetForm();
-    grantMembershipTx.resetState();
+    transferOwnershipTx.resetState();
   }, [isOpen]);
 
   return (
     <>
-      <Button
-        variant='outline'
-        colorScheme='primary'
-        size='sm'
-        onClick={onOpen}
-        display={{ base: 'none', md: 'block' }}>
-        Invite
+      <Button colorScheme='red' onClick={onOpen}>
+        Transfer Ownership
       </Button>
-      <IconButton
-        aria-label={'Invite'}
-        size='sm'
-        variant='outline'
-        colorScheme='primary'
-        onClick={onOpen}
-        icon={<AddIcon />}
-        display={{ base: 'block', md: 'none' }}
-      />
       <Modal isOpen={isOpen} onClose={onClose} size={{ base: 'full', md: 'xl' }}>
         <ModalOverlay />
         <ModalContent
@@ -133,14 +118,14 @@ function InviteMemberButton() {
           onSubmit={(e) => {
             formikInviteMember.handleSubmit(e as FormEvent<HTMLFormElement>);
           }}>
-          <ModalHeader>Invite new member</ModalHeader>
+          <ModalHeader>Transfer Ownership</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <FormControl
               mb={4}
               isRequired
               isInvalid={!!formikInviteMember.values.address && !!formikInviteMember.errors.address}>
-              <FormLabel>Address</FormLabel>
+              <FormLabel>New owner address</FormLabel>
               <InputGroup>
                 <InputLeftElement px='auto'>
                   {!!formikInviteMember.values.address && !formikInviteMember.errors.address ? (
@@ -160,24 +145,6 @@ function InviteMemberButton() {
                 <FormErrorMessage>{formikInviteMember.errors.address}</FormErrorMessage>
               )}
             </FormControl>
-            <FormControl isInvalid={!!formikInviteMember.errors.expire}>
-              <FormLabel>Expire after</FormLabel>
-              <InputGroup width={{ md: '50%' }}>
-                <Input
-                  type='number'
-                  value={formikInviteMember.values.expire}
-                  onChange={formikInviteMember.handleChange}
-                  placeholder='e.g: 365'
-                  name='expire'
-                />
-                <InputRightAddon children={'days'} />
-              </InputGroup>
-              {!!formikInviteMember.errors.expire ? (
-                <FormErrorMessage>{formikInviteMember.errors.expire}</FormErrorMessage>
-              ) : (
-                <FormHelperText>Leave empty for non-expiring membership</FormHelperText>
-              )}
-            </FormControl>
           </ModalBody>
           <ModalFooter gap='0.5rem'>
             <Button variant='outline' onClick={onClose}>
@@ -186,9 +153,9 @@ function InviteMemberButton() {
             <Button
               type='submit'
               colorScheme='primary'
-              isLoading={formikInviteMember.isSubmitting || shouldDisableStrict(grantMembershipTx)}
+              isLoading={formikInviteMember.isSubmitting || shouldDisableStrict(transferOwnershipTx)}
               isDisabled={formikInviteMember.isSubmitting || !formikInviteMember.isValid}>
-              Invite
+              Transfer
             </Button>
           </ModalFooter>
         </ModalContent>
@@ -196,5 +163,3 @@ function InviteMemberButton() {
     </>
   );
 }
-
-export default InviteMemberButton;

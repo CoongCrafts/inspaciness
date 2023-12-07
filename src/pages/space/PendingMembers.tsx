@@ -1,4 +1,4 @@
-import { Button, Flex, IconButton, Tag, Text, Tooltip } from '@chakra-ui/react';
+import { Box, Button, Flex, IconButton, Tag, Text, Tooltip } from '@chakra-ui/react';
 import { Identicon } from '@polkadot/react-identicon';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
@@ -71,6 +71,8 @@ export default function PendingMembers() {
     });
   };
 
+  const hasPendingRequests = !!items?.length;
+
   return (
     <Flex flexDirection='column'>
       <Flex justifyContent='space-between' gap={4}>
@@ -78,31 +80,36 @@ export default function PendingMembers() {
           <Text fontSize={{ md: 'xl' }} fontWeight='semibold'>
             Pending Membership Requests
           </Text>
-          <Tag size='sm'>{pendingRequestsCount}</Tag>
+          {hasPendingRequests && <Tag size='sm'>{pendingRequestsCount}</Tag>}
         </Flex>
-        <Button
-          variant='outline'
-          colorScheme='primary'
-          size='sm'
-          onClick={() => submitApprovals(requestApprovals)}
-          isLoading={shouldDisableStrict(submitRequestApprovalsTx)}
-          isDisabled={requestApprovals.length === 0}
-          display={{ base: 'none', md: 'flex' }}>
-          Submit Approvals
-        </Button>
-        <IconButton
-          colorScheme='primary'
-          size='sm'
-          variant='outline'
-          onClick={() => submitApprovals(requestApprovals)}
-          aria-label={'Submit'}
-          icon={<AddIcon />}
-          isLoading={shouldDisableStrict(submitRequestApprovalsTx)}
-          isDisabled={requestApprovals.length === 0}
-          display={{ base: 'flex', md: 'none' }}
-        />
+        {hasPendingRequests && (
+          <Box>
+            <Button
+              variant='outline'
+              colorScheme='primary'
+              size='sm'
+              onClick={() => submitApprovals(requestApprovals)}
+              isLoading={shouldDisableStrict(submitRequestApprovalsTx)}
+              isDisabled={requestApprovals.length === 0}
+              display={{ base: 'none', md: 'flex' }}>
+              Submit Approvals
+            </Button>
+            <IconButton
+              colorScheme='primary'
+              size='sm'
+              variant='outline'
+              onClick={() => submitApprovals(requestApprovals)}
+              aria-label={'Submit'}
+              icon={<AddIcon />}
+              isLoading={shouldDisableStrict(submitRequestApprovalsTx)}
+              isDisabled={requestApprovals.length === 0}
+              display={{ base: 'flex', md: 'none' }}
+            />
+          </Box>
+        )}
       </Flex>
       <Flex mt={4} flexDirection='column' gap={2} flexGrow={1}>
+        {!hasPendingRequests && <Text>There are no pending requests.</Text>}
         {items?.map((one, idx) => (
           <Flex
             borderRadius={4}
@@ -153,25 +160,27 @@ export default function PendingMembers() {
           </Flex>
         ))}
       </Flex>
-      <Flex mt={4} justifyContent={'space-between'} alignItems='center' gap={2}>
-        <Text fontSize='sm' fontWeight='semibold' color='dimgray'>{`Page ${pageIndex}/${numberOfPage}`}</Text>
-        <Flex alignItems='center' gap={2}>
-          <IconButton
-            onClick={() => setPageIndex((pre) => pre - 1)}
-            aria-label='Back'
-            size='sm'
-            icon={<ChevronLeftIcon fontSize='1.2rem' />}
-            isDisabled={pageIndex === 1}
-          />
-          <IconButton
-            onClick={() => setPageIndex((pre) => pre + 1)}
-            aria-label='Next'
-            size='sm'
-            icon={<ChevronRightIcon fontSize='1.2rem' />}
-            isDisabled={pageIndex === numberOfPage}
-          />
+      {hasPendingRequests && (
+        <Flex mt={4} justifyContent={'space-between'} alignItems='center' gap={2}>
+          <Text fontSize='sm' fontWeight='semibold' color='dimgray'>{`Page ${pageIndex}/${numberOfPage}`}</Text>
+          <Flex alignItems='center' gap={2}>
+            <IconButton
+              onClick={() => setPageIndex((pre) => pre - 1)}
+              aria-label='Back'
+              size='sm'
+              icon={<ChevronLeftIcon fontSize='1.2rem' />}
+              isDisabled={pageIndex === 1}
+            />
+            <IconButton
+              onClick={() => setPageIndex((pre) => pre + 1)}
+              aria-label='Next'
+              size='sm'
+              icon={<ChevronRightIcon fontSize='1.2rem' />}
+              isDisabled={pageIndex === numberOfPage}
+            />
+          </Flex>
         </Flex>
-      </Flex>
+      )}
     </Flex>
   );
 }

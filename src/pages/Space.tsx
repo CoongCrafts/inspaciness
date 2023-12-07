@@ -21,6 +21,7 @@ import { MdFlip } from 'react-icons/md';
 import { RiFileTextLine, RiSettings4Line, RiTeamLine, RiUserFollowLine } from 'react-icons/ri';
 import { Link as LinkRouter, Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import SpaceSkeleton from '@/components/sketeton/SpaceSkeleton';
 import SpaceAvatar from '@/components/space/SpaceAvatar';
 import CancelRequestButton from '@/pages/space/actions/CancelRequestButton';
 import JoinButton from '@/pages/space/actions/JoinButton';
@@ -74,8 +75,8 @@ function SpaceContent() {
     setMenuItems(menuItems);
   }, [plugins]);
 
-  if (!plugins || !menuItems) {
-    return null;
+  if (!info || !plugins || !menuItems) {
+    return <SpaceSkeleton />;
   }
 
   const activeIndex = menuItems.findIndex((one) => location.pathname.split('/').at(-1) === one.path);
