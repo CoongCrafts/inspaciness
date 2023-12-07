@@ -13,8 +13,12 @@ import { ChainId } from 'useink/chains';
 
 const RECORD_PER_PAGE = 3 * 4;
 
-export default function Explorer() {
-  const [chainId, setChainId] = useLocalStorage<ChainId>('myspace/selected_network', env.defaultChainId);
+interface ChainExplorerProps {
+  chainId: ChainId;
+  setChainId: (chainId: ChainId) => void;
+}
+
+export function ChainExplorer({ chainId, setChainId }: ChainExplorerProps) {
   const network = findNetwork(chainId!);
   const contract = useMotherContract(network.id);
   const [loadMore, toggleLoadMore] = useToggle(false);
@@ -55,7 +59,7 @@ export default function Explorer() {
   };
 
   return (
-    <Box mb={8}>
+    <Box key={network.id} mb={8}>
       <Flex flex={1} justify='center' alignItems='center' mb={4}>
         <Text fontSize={{ base: 'xl', md: '3xl' }} fontWeight='semibold' textAlign='center'>
           Find your communities on InSpace 🥳
@@ -90,4 +94,10 @@ export default function Explorer() {
       )}
     </Box>
   );
+}
+
+export default function Explorer() {
+  const [chainId, setChainId] = useLocalStorage<ChainId>('myspace/selected_network', env.defaultChainId);
+
+  return <ChainExplorer key={chainId!} chainId={chainId!} setChainId={setChainId} />;
 }

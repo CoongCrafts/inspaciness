@@ -31,7 +31,7 @@ export default function MobileMenuButton({ activeIndex }: MobileMenuButtonProps)
   return (
     <>
       <IconButton onClick={onOpen} aria-label={'Open Menu'} variant='outline' size='sm' icon={<HamburgerIcon />} />
-      <Drawer isOpen={isOpen} onClose={onClose} placement='left' size='full'>
+      <Drawer isOpen={isOpen} onClose={onClose} placement='right' size='full'>
         <DrawerOverlay />
         <DrawerContent>
           <DrawerHeader>
