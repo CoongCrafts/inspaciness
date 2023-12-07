@@ -25,7 +25,7 @@ export default function Explorer() {
     pageIndex,
     total: numberOfSpace,
     hasNextPage = false,
-  } = usePagination<SpaceId>(contract, 'listSpaces', RECORD_PER_PAGE);
+  } = usePagination<SpaceId>(contract, 'listSpaces', RECORD_PER_PAGE, false);
   const { y } = useWindowScroll();
 
   useEffect(() => {
@@ -45,11 +45,14 @@ export default function Explorer() {
     }
   }, [loadMore, onLoad, y]);
 
-  const handleSetNetwork = (network: NetworkInfo) => {
-    setStorage([]);
-    setPageIndex(1);
+  useEffect(() => {
     toggleLoadMore(false);
     setOnLoad(true);
+    setPageIndex(1);
+  }, [chainId]);
+
+  const handleSetNetwork = (network: NetworkInfo) => {
+    setStorage([]);
     setChainId(network.id);
   };
 
