@@ -1,6 +1,6 @@
-import { Box, Button, Flex, SimpleGrid, Tag, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, SimpleGrid, Tag, Text, Link } from '@chakra-ui/react';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useLocalStorage } from 'react-use';
 import NetworkSelection from '@/components/shared/NetworkSelection';
 import SpaceCardSkeleton from '@/components/sketeton/SpaceCardSkeleton';
@@ -44,6 +44,24 @@ export default function MySpaces() {
           </Button>
         </Flex>
       </Flex>
+
+      {spaces?.length === 0 && (
+        <Text>
+          You have no spaces on{' '}
+          <Text as='span' fontWeight='semibold'>
+            {network.name}
+          </Text>
+          , create{' '}
+          <Link as={RouterLink} to='/launch' color='primary.500' textDecoration='underline'>
+            a new space
+          </Link>{' '}
+          or{' '}
+          <Link as={RouterLink} to='/explore' color='primary.500' textDecoration='underline'>
+            join community spaces
+          </Link>{' '}
+          now.
+        </Text>
+      )}
 
       <SimpleGrid columns={{ base: 1, sm: 2, md: 3, lg: 4 }} spacing={4}>
         {spaces

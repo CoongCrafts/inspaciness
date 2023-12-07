@@ -72,6 +72,16 @@ export function ChainExplorer({ chainId, setChainId }: ChainExplorerProps) {
         </Text>
       </Flex>
       <Divider my={4} />
+
+      {spaceIds?.length === 0 && (
+        <Text>
+          There are no community spaces on{' '}
+          <Text as='span' fontWeight='semibold'>
+            {network.name}
+          </Text>
+        </Text>
+      )}
+
       <SimpleGrid columns={{ base: 1, sm: 2, md: 3, lg: 4 }} spacing={4}>
         {spaceIds
           ? spaceIds.map((spaceId) => (

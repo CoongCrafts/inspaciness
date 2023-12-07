@@ -1,4 +1,5 @@
 import { Box, Flex, IconButton, SimpleGrid, Tag, Text } from '@chakra-ui/react';
+import MemberCardSkeleton from '@/components/sketeton/MemberCardSkeleton';
 import usePagination from '@/hooks/usePagination';
 import MemberCard from '@/pages/space/MemberCard';
 import InviteMemberButton from '@/pages/space/actions/InviteMemberButton';
@@ -30,9 +31,9 @@ export default function Members() {
         {isOwner && <InviteMemberButton />}
       </Flex>
       <SimpleGrid flexGrow={1} columns={{ base: 1, lg: 2 }} gap={2}>
-        {items?.map((item) => (
-          <MemberCard key={item.index} memberRecord={item} />
-        ))}
+        {items
+          ? items.map((item) => <MemberCard key={item.index} memberRecord={item} />)
+          : [...Array(6)].map((_, idx) => <MemberCardSkeleton key={idx} />)}
       </SimpleGrid>
       <Flex mt={4} justifyContent='space-between' align='center'>
         <Text fontSize='sm' fontWeight='semibold' color='dimgray'>{`Page ${pageIndex} / ${numberOfPage}`}</Text>
