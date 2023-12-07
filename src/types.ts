@@ -145,5 +145,3 @@ export enum Ordering {
   Ascending = 'Ascending',
   Descending = 'Descending',
 }
-
-export type OrderingParam = { [Ordering.Descending]: number } | Ordering.Ascending;

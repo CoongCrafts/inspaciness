@@ -1,7 +1,13 @@
 import { Box, Flex, SimpleGrid, Skeleton, SkeletonCircle } from '@chakra-ui/react';
+import { useLocation } from 'react-router-dom';
 import MemberCardSkeleton from '@/components/sketeton/MemberCardSkeleton';
+import PostsCardSkeleton from '@/components/sketeton/PostsCardSkeleton';
 
 export default function SpaceSkeleton() {
+  const location = useLocation();
+
+  const currentPath = location.pathname.split('/').at(-1);
+
   return (
     <Box my={3}>
       <Flex gap={6} align={{ base: 'start', md: 'center' }} direction={{ base: 'column', md: 'row' }}>
@@ -27,11 +33,20 @@ export default function SpaceSkeleton() {
         </Box>
         <Box flex={1}>
           <Skeleton height='28px' mb={4} w={{ base: 180, sm: 250 }} />
-          <SimpleGrid flexGrow={1} columns={{ base: 1, lg: 2 }} gap={2}>
-            {[...Array(6)].map((_, idx) => (
-              <MemberCardSkeleton key={idx} />
-            ))}
-          </SimpleGrid>
+          {currentPath === 'posts' && (
+            <SimpleGrid flexGrow={1} columns={1} gap={2}>
+              {[...Array(5)].map((_, idx) => (
+                <PostsCardSkeleton key={idx} />
+              ))}
+            </SimpleGrid>
+          )}
+          {currentPath === 'members' && (
+            <SimpleGrid flexGrow={1} columns={{ base: 1, lg: 2 }} gap={2}>
+              {[...Array(6)].map((_, idx) => (
+                <MemberCardSkeleton key={idx} />
+              ))}
+            </SimpleGrid>
+          )}
         </Box>
       </Flex>
     </Box>

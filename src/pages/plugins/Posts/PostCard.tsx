@@ -4,6 +4,7 @@ import { RiMore2Fill } from 'react-icons/ri';
 import useContractState from '@/hooks/useContractState';
 import UpdatePostButton from '@/pages/plugins/Posts/action/UpdatePostButton';
 import { useSpaceContext } from '@/providers/SpaceProvider';
+import { useWalletContext } from '@/providers/WalletProvider';
 import { MemberInfo, PostContent, PostRecord, Props } from '@/types';
 import { fromNow } from '@/utils/date';
 import { renderMd } from '@/utils/mdrenderer';
@@ -16,10 +17,13 @@ interface PostCardProps extends Props {
 export default function PostCard({ postRecord: { post, postId } }: PostCardProps) {
   const { contract } = useSpaceContext();
   const { state: authorInfo } = useContractState<MemberInfo>(contract, 'memberInfo', [post.author]);
+  const { selectedAccount } = useWalletContext();
 
   if (!authorInfo || !(PostContent.Raw in post.content)) {
     return null;
   }
+
+  const isAuthor = post.author === selectedAccount?.address;
 
   return (
     <>
@@ -43,7 +47,7 @@ export default function PostCard({ postRecord: { post, postId } }: PostCardProps
               </Flex>
             </Flex>
           </Flex>
-          <Menu>
+          <Menu placement='left'>
             <MenuButton
               as={IconButton}
               aria-label='Menu Button'
@@ -53,9 +57,7 @@ export default function PostCard({ postRecord: { post, postId } }: PostCardProps
               mr={-2}
             />
             <MenuList>
-              <MenuItem>
-                <UpdatePostButton postId={postId} post={post} />
-              </MenuItem>
+              <MenuItem>{isAuthor && <UpdatePostButton postId={postId} post={post} />}</MenuItem>
             </MenuList>
           </Menu>
         </Flex>

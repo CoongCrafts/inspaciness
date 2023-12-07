@@ -30,6 +30,10 @@ export default function PostsProvider({ info, children }: PostsProviderProps) {
   const contract = usePostsContract(info);
   const { state: postsCountStr } = useContractState<string>(contract, 'postsCount');
 
+  if (!postsCountStr) {
+    return null;
+  }
+
   return (
     <PostsContext.Provider value={{ info, postsCount: stringToNum(postsCountStr), contract }}>
       {children}
