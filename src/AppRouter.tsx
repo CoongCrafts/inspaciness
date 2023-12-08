@@ -3,6 +3,7 @@ import ScrollToTop from '@/components/shared/ScrollToTop';
 import MainLayout from '@/layouts/MainLayout';
 import Homepage from '@/pages/Homepage';
 import MySpaces from '@/pages/MySpaces';
+import ShortcutRedirect from '@/pages/ShortcutRedirect';
 import Space from '@/pages/Space';
 import SpaceLauncher from '@/pages/SpaceLauncher';
 import UploadContracts from '@/pages/UploadContracts';
@@ -32,6 +33,7 @@ export default function AppRouter() {
           <Route path='/upload' element={<UploadContracts />} />,
           <Route path='/launch' element={<SpaceLauncher />} />,
         </Route>
+        <Route path='/:shortcut' element={<ShortcutRedirect />} />,
       </Routes>
     </BrowserRouter>
   );
