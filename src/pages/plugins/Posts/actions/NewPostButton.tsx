@@ -24,9 +24,11 @@ import {
 } from '@chakra-ui/react';
 import { FormEvent, useEffect } from 'react';
 import { toast } from 'react-toastify';
+import { useEffectOnce } from 'react-use';
 import { useTx } from '@/hooks/useink/useTx';
 import { usePostsContext } from '@/pages/plugins/Posts/PostsProvider';
 import { Props } from '@/types';
+import { eventEmitter, EventName } from '@/utils/eventemitter';
 import { renderMd } from '@/utils/mdrenderer';
 import { messages } from '@/utils/messages';
 import { notifyTxStatus } from '@/utils/notifications';
@@ -82,6 +84,15 @@ export default function NewPostButton({ onPostCreated }: NewPostButtonProps) {
     newPostTx.resetState();
     formik.resetForm();
   }, [isOpen]);
+
+  useEffectOnce(() => {
+    const showPopup = () => onOpen();
+    eventEmitter.on(EventName.SHOW_NEW_POST_POPUP, showPopup);
+
+    return () => {
+      eventEmitter.off(EventName.SHOW_NEW_POST_POPUP, showPopup);
+    };
+  });
 
   const processing = shouldDisableStrict(newPostTx);
 

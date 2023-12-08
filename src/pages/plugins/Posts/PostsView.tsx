@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Tag, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Link, Tag, Text } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useWindowScroll } from 'react-use';
 import PostsCardSkeleton from '@/components/sketeton/PostsCardSkeleton';
@@ -8,6 +8,7 @@ import { usePostsContext } from '@/pages/plugins/Posts/PostsProvider';
 import NewPostButton from '@/pages/plugins/Posts/actions/NewPostButton';
 import { useSpaceContext } from '@/providers/SpaceProvider';
 import { MemberStatus, PostRecord, Props } from '@/types';
+import { eventEmitter, EventName } from '@/utils/eventemitter';
 import pluralize from 'pluralize';
 
 const RECORD_PER_PAGE = 4;
@@ -66,6 +67,7 @@ function PostsContent({ nonce, setNonce }: PostsContentProps) {
   };
 
   const newPostsCount = postsCount! - nonce;
+  const canCreatePost = memberStatus === MemberStatus.Active;
 
   return (
     <>
@@ -79,7 +81,7 @@ function PostsContent({ nonce, setNonce }: PostsContentProps) {
               <Tag>{numOfPost}</Tag>
             </Box>
           </Flex>
-          <Box>{memberStatus === MemberStatus.Active && <NewPostButton onPostCreated={onPostCreated} />}</Box>
+          <Box>{canCreatePost && <NewPostButton onPostCreated={onPostCreated} />}</Box>
         </Flex>
       </Box>
       <Box>
@@ -88,6 +90,19 @@ function PostsContent({ nonce, setNonce }: PostsContentProps) {
             View {newPostsCount.toString().padStart(2, '0')} New {pluralize('Post', newPostsCount)}
           </Button>
         )}
+        {posts?.length === 0 &&
+          newPostsCount === 0 &&
+          (canCreatePost ? (
+            <Text>
+              There are no posts in this space,{' '}
+              <Link onClick={() => eventEmitter.emit(EventName.SHOW_NEW_POST_POPUP)} color='primary.500'>
+                create a new post
+              </Link>{' '}
+              now!
+            </Text>
+          ) : (
+            <Text>There are no posts in this space, check back later.</Text>
+          ))}
         {posts
           ? posts.map((postRecord) => (
               <PostCard key={postRecord.postId} postRecord={postRecord} onPostUpdated={onPostUpdated} />
