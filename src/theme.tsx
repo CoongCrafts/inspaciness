@@ -65,6 +65,7 @@ export const theme = extendTheme({
         },
         'h1, h2, h3, h4, h5, h6': {
           fontWeight: 'semibold',
+          marginBottom: '0.5rem',
         },
         h1: {
           fontSize: '1.5rem',
@@ -77,6 +78,12 @@ export const theme = extendTheme({
         },
         'h4, h5, h6': {
           fontSize: '1.1rem',
+        },
+        p: {
+          marginBottom: '0.5rem',
+          '&:last-child': {
+            marginBottom: '0',
+          },
         },
       },
     },

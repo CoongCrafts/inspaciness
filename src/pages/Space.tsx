@@ -40,7 +40,7 @@ export enum SpacePath {
   Members = 'members',
   PendingMembers = 'pending-members',
   Settings = 'settings',
-  Posts = 'post',
+  Posts = 'posts',
   Flipper = 'flipper',
 }
 

@@ -1,22 +1,22 @@
-import { Box, Flex, IconButton, Menu, MenuButton, MenuItem, MenuList, Text } from '@chakra-ui/react';
+import { Box, Flex, IconButton, Menu, MenuButton, MenuList, Text } from '@chakra-ui/react';
 import { Identicon } from '@polkadot/react-identicon';
 import { RiMore2Fill } from 'react-icons/ri';
 import useContractState from '@/hooks/useContractState';
-import UpdatePostButton from '@/pages/plugins/Posts/action/UpdatePostButton';
+import UpdatePostButton from '@/pages/plugins/Posts/actions/UpdatePostButton';
 import { useSpaceContext } from '@/providers/SpaceProvider';
 import { useWalletContext } from '@/providers/WalletProvider';
-import { MemberInfo, PostContent, PostRecord, Props } from '@/types';
+import { MemberInfo, MemberStatus, PostContent, PostRecord, Props } from '@/types';
 import { fromNow } from '@/utils/date';
 import { renderMd } from '@/utils/mdrenderer';
 import { shortenAddress } from '@/utils/string';
 
 interface PostCardProps extends Props {
   postRecord: PostRecord;
-  handlePostUpdated: (content: any, postId: number) => void;
+  onPostUpdated: (content: any, postId: number) => void;
 }
 
-export default function PostCard({ postRecord: { post, postId }, handlePostUpdated }: PostCardProps) {
-  const { contract } = useSpaceContext();
+export default function PostCard({ postRecord: { post, postId }, onPostUpdated }: PostCardProps) {
+  const { contract, memberStatus, isOwner } = useSpaceContext();
   const { state: authorInfo } = useContractState<MemberInfo>(contract, 'memberInfo', [post.author]);
   const { selectedAccount } = useWalletContext();
 
@@ -25,54 +25,62 @@ export default function PostCard({ postRecord: { post, postId }, handlePostUpdat
     return null;
   }
 
-  const isAuthor = post.author === selectedAccount?.address;
+  const canEditPost = isOwner || post.author === selectedAccount?.address;
+  const isActiveMember = memberStatus === MemberStatus.Active;
 
   return (
     <>
-      <Box key={postId} border='1px' borderColor='gray.200' px={4} py={2} borderRadius={4} mb={4}>
-        <Flex justifyContent='space-between'>
-          <Flex gap={2} mb={1} alignItems='center'>
-            <Identicon value={post.author} size={24} theme='polkadot' />
-            <Flex flexDir='column'>
-              <Text fontWeight='semibold' color='gray.600'>
-                {authorInfo.name || shortenAddress(post.author)}
-              </Text>
+      <Box key={postId} border='1px' borderColor='chakra-border-color' p={4} borderRadius={4} mb={2}>
+        <Flex justifyContent='space-between' alignItems='center'>
+          <Flex gap={2} mb={1} alignItems='start'>
+            <Identicon value={post.author} size={30} theme='polkadot' />
+            <Flex direction='column'>
+              <Flex align='center' gap={1} mb={1} fontWeight='semibold' wrap='wrap' mt='-2px'>
+                <Text lineHeight={1}>{authorInfo.name || shortenAddress(post.author)}</Text>
+                {authorInfo.name && (
+                  <Text fontSize='sm' lineHeight={1} color='gray.500' mt='1px'>
+                    {shortenAddress(post.author)}
+                  </Text>
+                )}
+              </Flex>
               <Flex gap={1}>
-                <Text fontSize='sm' color='gray.500'>
+                <Text fontSize='sm' color='gray.500' lineHeight={1}>
                   {fromNow(post.createdAt)}
                 </Text>
                 {post.updatedAt && (
-                  <Text fontSize='sm' color='gray.500'>
+                  <Text fontSize='sm' color='gray.500' lineHeight={1}>
                     - edited
                   </Text>
                 )}
               </Flex>
             </Flex>
           </Flex>
-          <Menu placement='left'>
-            <MenuButton
-              as={IconButton}
-              aria-label='Menu Button'
-              icon={<RiMore2Fill />}
-              size='sm'
-              variant='ghost'
-              mr={-2}
-            />
-            <MenuList py={0}>
-              <MenuItem isDisabled={!isAuthor}>
-                <UpdatePostButton
-                  key={post.content.Raw}
-                  postId={postId}
-                  defaultValue={post.content.Raw}
-                  onPostUpdated={handlePostUpdated}
+          <Box>
+            {isActiveMember && canEditPost && (
+              <Menu placement='bottom'>
+                <MenuButton
+                  as={IconButton}
+                  aria-label='Menu Button'
+                  icon={<RiMore2Fill />}
+                  size='sm'
+                  variant='ghost'
+                  mr={-2}
                 />
-              </MenuItem>
-            </MenuList>
-          </Menu>
+                <MenuList py={0}>
+                  <UpdatePostButton
+                    key={post.content.Raw}
+                    postId={postId}
+                    defaultValue={post.content.Raw}
+                    onPostUpdated={onPostUpdated}
+                  />
+                </MenuList>
+              </Menu>
+            )}
+          </Box>
         </Flex>
         <Box
           className='post-content'
-          mt={3}
+          mt={2}
           dangerouslySetInnerHTML={{ __html: renderMd(post.content.Raw || '') }}></Box>
       </Box>
     </>

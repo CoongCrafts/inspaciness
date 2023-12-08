@@ -1,3 +1,5 @@
+import flipperMetadata from '@/metadata/flipper.json';
+import postsMetadata from '@/metadata/posts.json';
 import { Plugin } from '@/types';
 
 export const PLUGIN_POSTS = 'POST';
@@ -18,6 +20,14 @@ const REGISTERED_PLUGINS: Plugin[] = [
 
 export const findPlugin = (id: string): Plugin | undefined => {
   return REGISTERED_PLUGINS.find((p) => p.id === id);
+};
+
+export const findPluginMetadata = (id: string) => {
+  if (id === PLUGIN_POSTS) {
+    return postsMetadata;
+  } else if (id === PLUGIN_FLIPPER) {
+    return flipperMetadata;
+  }
 };
 
 export default REGISTERED_PLUGINS;

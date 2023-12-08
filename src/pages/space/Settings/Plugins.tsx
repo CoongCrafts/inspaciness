@@ -1,27 +1,43 @@
 import { Badge, Box, Button, Divider, Flex, Text } from '@chakra-ui/react';
 import { toast } from 'react-toastify';
 import useCurrentFreeBalance from '@/hooks/space/useCurrentFreeBalance';
+import useContractState from '@/hooks/useContractState';
 import { useTx } from '@/hooks/useink/useTx';
 import InstallPluginsButton from '@/pages/space/actions/InstallPluginsButton';
+import UpgradePluginButton from '@/pages/space/actions/UpgradePluginButton';
 import { useSpaceContext } from '@/providers/SpaceProvider';
 import { PluginInfo } from '@/types';
 import { messages } from '@/utils/messages';
 import { notifyTxStatus } from '@/utils/notifications';
-import { shouldDisableStrict } from 'useink/utils';
+import { RustResult, shouldDisableStrict } from 'useink/utils';
 
 interface PluginProp {
   info: PluginInfo;
 }
 
 function Plugin({ info }: PluginProp) {
-  const { isOwner, contract } = useSpaceContext();
+  const { isOwner, contract, motherContract } = useSpaceContext();
   const freeBalance = useCurrentFreeBalance();
+  const { state: latestHashCodeResult } = useContractState<RustResult<string, any>>(
+    motherContract,
+    'latestPluginCode',
+    [info.id],
+  );
+  const { state: currentHashCodeResult } = useContractState<RustResult<string, any>>(contract, 'pluginCodeHash', [
+    info.id,
+  ]);
+
   const disablePluginTx = useTx(contract, 'disablePlugin');
   const enablePluginTx = useTx(contract, 'enablePlugin');
 
   if (!info) {
     return null;
   }
+
+  const { Ok: latestHashCode } = latestHashCodeResult || {};
+  const { Ok: currentHashCode } = currentHashCodeResult || {};
+
+  const hasNewVersion = !!latestHashCode && !!currentHashCode && latestHashCode !== currentHashCode;
 
   const disable = (pluginId: string) => {
     if (freeBalance === 0) {
@@ -80,9 +96,15 @@ function Plugin({ info }: PluginProp) {
   const shouldDisable = info.disabled ? shouldDisableStrict(enablePluginTx) : shouldDisableStrict(disablePluginTx);
 
   return (
-    <Flex py={4} justify='space-between' align='center' borderRadius={4}>
+    <Flex
+      py={4}
+      justify='space-between'
+      align={{ base: 'start', sm: 'center' }}
+      borderRadius={4}
+      gap={4}
+      direction={{ base: 'column', sm: 'row' }}>
       <Box>
-        <Flex gap={2}>
+        <Flex gap={2} wrap='wrap'>
           <Text fontSize='lg'>{info.name}</Text>
           {info.disabled && (
             <Box>
@@ -96,7 +118,10 @@ function Plugin({ info }: PluginProp) {
           {info.description}
         </Text>
       </Box>
-      <Box>
+      <Flex gap={2}>
+        {isOwner && hasNewVersion && !info.disabled && (
+          <UpgradePluginButton pluginInfo={info} currentCodeHash={currentHashCode!} latestCodeHash={latestHashCode!} />
+        )}
         {isOwner && (
           <Button
             variant='outline'
@@ -107,7 +132,7 @@ function Plugin({ info }: PluginProp) {
             {info.disabled ? 'Enable' : 'Disable'}
           </Button>
         )}
-      </Box>
+      </Flex>
     </Flex>
   );
 }

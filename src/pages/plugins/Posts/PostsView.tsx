@@ -5,11 +5,12 @@ import PostsCardSkeleton from '@/components/sketeton/PostsCardSkeleton';
 import usePagination from '@/hooks/usePagination';
 import PostCard from '@/pages/plugins/Posts/PostCard';
 import { usePostsContext } from '@/pages/plugins/Posts/PostsProvider';
-import NewPostButton from '@/pages/plugins/Posts/action/NewPostButton';
+import NewPostButton from '@/pages/plugins/Posts/actions/NewPostButton';
 import { useSpaceContext } from '@/providers/SpaceProvider';
 import { MemberStatus, PostRecord, Props } from '@/types';
+import pluralize from 'pluralize';
 
-const RECORD_PER_PAGE = 5;
+const RECORD_PER_PAGE = 4;
 
 interface PostsContentProps extends Props {
   nonce: number;
@@ -20,7 +21,7 @@ function PostsContent({ nonce, setNonce }: PostsContentProps) {
   const { memberStatus } = useSpaceContext();
   const { contract, postsCount } = usePostsContext();
 
-  const [storage, setStorage] = useState<PostRecord[]>([]);
+  const [posts, setPosts] = useState<PostRecord[]>();
   const [onLoad, setOnLoad] = useState(true);
   const {
     items,
@@ -34,7 +35,7 @@ function PostsContent({ nonce, setNonce }: PostsContentProps) {
   useEffect(() => {
     if (items && onLoad) {
       setOnLoad(false);
-      setStorage((prevState) => [...prevState, ...items]);
+      setPosts((prevState = []) => [...prevState, ...items]);
     }
   }, [items]);
 
@@ -48,13 +49,13 @@ function PostsContent({ nonce, setNonce }: PostsContentProps) {
     }
   }, [onLoad, y]);
 
-  const handlePostCreated = () => {
+  const onPostCreated = () => {
     // TODO: Get postId from result of newPostTx to set nonce
     setNonce(postsCount! + 1);
   };
 
-  const handlePostUpdated = (content: any, postId: number) => {
-    setStorage((prevState) => {
+  const onPostUpdated = (content: any, postId: number) => {
+    setPosts((prevState = []) => {
       const postIndex = prevState.findIndex((one) => one.postId === postId);
       const { post } = prevState[postIndex];
       post.content = content;
@@ -64,7 +65,7 @@ function PostsContent({ nonce, setNonce }: PostsContentProps) {
     });
   };
 
-  const hasNewPost = postsCount! - nonce;
+  const newPostsCount = postsCount! - nonce;
 
   return (
     <>
@@ -78,20 +79,18 @@ function PostsContent({ nonce, setNonce }: PostsContentProps) {
               <Tag>{numOfPost}</Tag>
             </Box>
           </Flex>
-          <Flex gap={2}>
-            {hasNewPost !== 0 && (
-              <Button onClick={() => setNonce(postsCount!)} variant='outline' size='sm'>
-                {`New posted (${hasNewPost})`}
-              </Button>
-            )}
-            {memberStatus === MemberStatus.Active && <NewPostButton onPostCreated={handlePostCreated} />}
-          </Flex>
+          <Box>{memberStatus === MemberStatus.Active && <NewPostButton onPostCreated={onPostCreated} />}</Box>
         </Flex>
       </Box>
       <Box>
-        {storage.length !== 0
-          ? storage.map((postRecord) => (
-              <PostCard key={postRecord.postId} postRecord={postRecord} handlePostUpdated={handlePostUpdated} />
+        {newPostsCount > 0 && (
+          <Button onClick={() => setNonce(postsCount!)} variant='outline' size='sm' width='full' mb={2}>
+            View {newPostsCount.toString().padStart(2, '0')} New {pluralize('Post', newPostsCount)}
+          </Button>
+        )}
+        {posts
+          ? posts.map((postRecord) => (
+              <PostCard key={postRecord.postId} postRecord={postRecord} onPostUpdated={onPostUpdated} />
             ))
           : [...Array(5)].map((_, idx) => <PostsCardSkeleton key={idx} />)}
       </Box>
