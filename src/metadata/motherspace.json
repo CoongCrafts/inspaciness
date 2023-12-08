@@ -1,6 +1,6 @@
 {
   "source": {
-    "hash": "0xab8e5cfad65a0969099309f5df79f9ad602813fdcb73fb4b1eaff62d203ee68d",
+    "hash": "0x1b31d21aeb4686c63f14a69cf3f00dd0b18830e200747f09c4a4f7e46a7cb89e",
     "language": "ink! 4.3.0",
     "compiler": "rustc 1.73.0-nightly",
     "build_info": {
@@ -84,7 +84,7 @@
         "displayName": [
           "ChainExtension"
         ],
-        "type": 45
+        "type": 47
       },
       "hash": {
         "displayName": [
@@ -97,7 +97,7 @@
         "displayName": [
           "Timestamp"
         ],
-        "type": 44
+        "type": 46
       }
     },
     "events": [],
@@ -414,6 +414,7 @@
         "args": [],
         "default": false,
         "docs": [
+          " Update plugin launcher address or remove it",
           " For the sake of simplicity, get full list of plugin launcher",
           " We'll need to add pagination later"
         ],
@@ -428,6 +429,67 @@
           "type": 40
         },
         "selector": "0xed3a62d8"
+      },
+      {
+        "args": [
+          {
+            "label": "plugin_id",
+            "type": {
+              "displayName": [
+                "PluginId"
+              ],
+              "type": 26
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "latest_plugin_code",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 41
+        },
+        "selector": "0xfd3ed8a2"
+      },
+      {
+        "args": [
+          {
+            "label": "plugin_id",
+            "type": {
+              "displayName": [
+                "PluginId"
+              ],
+              "type": 26
+            }
+          },
+          {
+            "label": "new_code_hash",
+            "type": {
+              "displayName": [
+                "CodeHash"
+              ],
+              "type": 0
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "upgrade_plugin_code",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 38
+        },
+        "selector": "0xb13942d9"
       },
       {
         "args": [
@@ -462,7 +524,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 41
+          "type": 43
         },
         "selector": "0xe5b8ee4b"
       },
@@ -478,7 +540,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 43
+          "type": 45
         },
         "selector": "0xeef02b02"
       },
@@ -1915,6 +1977,90 @@
               {
                 "fields": [
                   {
+                    "type": 0
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 11
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 0
+          },
+          {
+            "name": "E",
+            "type": 11
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 43,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 44
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 8
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 44
+          },
+          {
+            "name": "E",
+            "type": 8
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 44,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
                     "type": 30
                   }
                 ],
@@ -1949,7 +2095,7 @@
       }
     },
     {
-      "id": 43,
+      "id": 45,
       "type": {
         "def": {
           "variant": {
@@ -1991,7 +2137,7 @@
       }
     },
     {
-      "id": 44,
+      "id": 46,
       "type": {
         "def": {
           "primitive": "u64"
@@ -1999,7 +2145,7 @@
       }
     },
     {
-      "id": 45,
+      "id": 47,
       "type": {
         "def": {
           "variant": {}

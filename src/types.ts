@@ -113,13 +113,19 @@ export interface OnChainPluginInfo {
   disabled: boolean;
 }
 
+export interface PostRecord {
+  postId: number;
+  post: Post;
+}
+
+export enum PostContent {
+  Raw = 'Raw',
+  IpfsCid = 'IpfsCid',
+}
+
 export interface Post {
-  id: number;
   author: string;
-  content: {
-    Raw?: string;
-    IpfsCid?: string;
-  };
+  content: { [PostContent.Raw]: string } | { [PostContent.IpfsCid]: string };
   createdAt: number;
   updatedAt: number | null;
 }
@@ -134,3 +140,8 @@ export interface MembershipRequest {
 export type RequestApproval = [string, boolean];
 
 export type SpaceId = string;
+
+export enum Ordering {
+  Ascending = 'Ascending',
+  Descending = 'Descending',
+}
