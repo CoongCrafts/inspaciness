@@ -24,8 +24,12 @@ export default function MobileMenuButton({ activeIndex }: MobileMenuButtonProps)
   const { onClose, onOpen, isOpen } = useDisclosure();
 
   const doNavigate = (path: string) => {
-    navigate(path);
-    onClose();
+    if (path.startsWith('http')) {
+      window.location.href = path;
+    } else {
+      navigate(path);
+      onClose();
+    }
   };
 
   return (
@@ -43,9 +47,9 @@ export default function MobileMenuButton({ activeIndex }: MobileMenuButtonProps)
           </DrawerHeader>
           <DrawerCloseButton size='lg' />
           <DrawerBody>
-            <Flex mt={4} gap={6} flexDir='column'>
+            <Flex mt={4} gap={2} flexDir='column'>
               {MAIN_MENU_ITEM.map((one, index) => (
-                <Button borderRadius={0} variant='link' key={one.name} onClick={() => doNavigate(one.path)}>
+                <Button borderRadius={0} py={2} variant='link' key={one.name} onClick={() => doNavigate(one.path)}>
                   <Text
                     fontWeight='semibold'
                     color={activeIndex === index ? 'primary.600' : 'gray.600'}
