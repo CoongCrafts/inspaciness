@@ -1,4 +1,4 @@
-import { Box, Container, Flex, Text, useMediaQuery } from '@chakra-ui/react';
+import { Box, Container, Flex, Image, Text, useMediaQuery } from '@chakra-ui/react';
 import { Link, useLocation } from 'react-router-dom';
 import AccountSelection from '@/components/AccountSelection';
 import WalletSelection from '@/components/dialog/WalletSelection';
@@ -32,9 +32,7 @@ export default function MainHeader() {
         gap={4}
         h={16}>
         <Link to='/'>
-          <Text fontSize='3xl' fontWeight='bold' color='primary.300'>
-            inspace
-          </Text>
+          <Image w='40px' src='/inspace-rounded-logo.png' alt='InSpace Logo' />
         </Link>
         {!smallScreen && (
           <Flex gap={6} fontWeight='semibold'>
