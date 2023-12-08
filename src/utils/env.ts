@@ -1,4 +1,4 @@
-import { Development, RococoContractsTestnet } from 'useink/chains';
+import { AlephTestnet, Development } from 'useink/chains';
 
 const isProd = import.meta.env.PROD;
 
@@ -12,7 +12,7 @@ const env = {
     testnetShibuya: import.meta.env.VITE_TESTNET_SHIBUYA_MOTHERADDRESS,
     testnetPhala: import.meta.env.VITE_TESTNET_PHALA_MOTHERADDRESS,
   },
-  defaultChainId: isProd ? RococoContractsTestnet.id : Development.id,
+  defaultChainId: isProd ? AlephTestnet.id : Development.id,
 };
 
 export default env;
