@@ -20,6 +20,7 @@ export default function PostCard({ postRecord: { post, postId }, handlePostUpdat
   const { state: authorInfo } = useContractState<MemberInfo>(contract, 'memberInfo', [post.author]);
   const { selectedAccount } = useWalletContext();
 
+  // We have not supported PostContent.IpfsCid yet
   if (!authorInfo || !(PostContent.Raw in post.content)) {
     return null;
   }
@@ -57,16 +58,14 @@ export default function PostCard({ postRecord: { post, postId }, handlePostUpdat
               variant='ghost'
               mr={-2}
             />
-            <MenuList>
-              <MenuItem>
-                {isAuthor && (
-                  <UpdatePostButton
-                    key={post.content.Raw}
-                    postId={postId}
-                    defaultValue={post.content.Raw}
-                    onPostUpdated={handlePostUpdated}
-                  />
-                )}
+            <MenuList py={0}>
+              <MenuItem isDisabled={!isAuthor}>
+                <UpdatePostButton
+                  key={post.content.Raw}
+                  postId={postId}
+                  defaultValue={post.content.Raw}
+                  onPostUpdated={handlePostUpdated}
+                />
               </MenuItem>
             </MenuList>
           </Menu>

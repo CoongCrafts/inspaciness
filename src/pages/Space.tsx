@@ -36,15 +36,23 @@ import { ChevronDownIcon } from '@chakra-ui/icons';
 import pluralize from 'pluralize';
 import { ChainId } from 'useink/chains';
 
+export enum SpacePath {
+  Members = 'members',
+  PendingMembers = 'pending-members',
+  Settings = 'settings',
+  Posts = 'post',
+  Flipper = 'flipper',
+}
+
 const MENU_ITEMS: MenuItemType[] = [
-  { name: 'Members', path: 'members', icon: RiTeamLine },
-  { name: 'Pending Members', path: 'pending-members', icon: RiUserFollowLine },
-  { name: 'Settings', path: 'settings', icon: RiSettings4Line },
+  { name: 'Members', path: SpacePath.Members, icon: RiTeamLine },
+  { name: 'Pending Members', path: SpacePath.PendingMembers, icon: RiUserFollowLine },
+  { name: 'Settings', path: SpacePath.Settings, icon: RiSettings4Line },
 ];
 
 const PLUGIN_MENU_ITEMS: Record<string, MenuItemType> = {
-  [PLUGIN_POSTS]: { name: 'Posts', path: 'posts', icon: RiFileTextLine },
-  [PLUGIN_FLIPPER]: { name: 'Flipper', path: 'flipper', icon: MdFlip },
+  [PLUGIN_POSTS]: { name: 'Posts', path: SpacePath.Posts, icon: RiFileTextLine },
+  [PLUGIN_FLIPPER]: { name: 'Flipper', path: SpacePath.Flipper, icon: MdFlip },
 };
 
 function SpaceContent() {
@@ -65,7 +73,7 @@ function SpaceContent() {
       .filter((x) => x);
     let menuItems = [...pluginMenuItems, ...MENU_ITEMS];
     if (!showPendingMembers) {
-      menuItems = menuItems.filter((x) => x.path !== 'pending-members');
+      menuItems = menuItems.filter((x) => x.path !== SpacePath.PendingMembers);
     }
 
     if (location.pathname.endsWith(space.address)) {
@@ -167,7 +175,7 @@ function SpaceContent() {
                 borderRadius={0}
                 to={one.path}>
                 {one.name}
-                {one.path === 'pending-members' && !!pendingRequestsCount && (
+                {one.path === SpacePath.PendingMembers && !!pendingRequestsCount && (
                   <Tag size='sm' colorScheme='red' variant='solid'>
                     {pendingRequestsCount}
                   </Tag>
@@ -194,7 +202,7 @@ function SpaceContent() {
             {menuItems.map((one) => (
               <Tab key={one.name} as={LinkRouter} to={one.path} _selected={{ boxShadow: 'none' }} whiteSpace='nowrap'>
                 {one.name}
-                {one.path === 'pending-members' && !!pendingRequestsCount && (
+                {one.path === SpacePath.PendingMembers && !!pendingRequestsCount && (
                   <Tag ml={2} size='sm' colorScheme='red' variant='solid'>
                     {pendingRequestsCount}
                   </Tag>

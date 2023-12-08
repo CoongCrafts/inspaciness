@@ -2,6 +2,7 @@ import { Box, Flex, SimpleGrid, Skeleton, SkeletonCircle } from '@chakra-ui/reac
 import { useLocation } from 'react-router-dom';
 import MemberCardSkeleton from '@/components/sketeton/MemberCardSkeleton';
 import PostsCardSkeleton from '@/components/sketeton/PostsCardSkeleton';
+import { SpacePath } from '@/pages/Space';
 
 export default function SpaceSkeleton() {
   const location = useLocation();
@@ -33,14 +34,14 @@ export default function SpaceSkeleton() {
         </Box>
         <Box flex={1}>
           <Skeleton height='28px' mb={4} w={{ base: 180, sm: 250 }} />
-          {currentPath === 'posts' && (
+          {currentPath === SpacePath.Posts && (
             <SimpleGrid flexGrow={1} columns={1} gap={2}>
               {[...Array(5)].map((_, idx) => (
                 <PostsCardSkeleton key={idx} />
               ))}
             </SimpleGrid>
           )}
-          {currentPath === 'members' && (
+          {currentPath === SpacePath.Members && (
             <SimpleGrid flexGrow={1} columns={{ base: 1, lg: 2 }} gap={2}>
               {[...Array(6)].map((_, idx) => (
                 <MemberCardSkeleton key={idx} />
