@@ -28,7 +28,7 @@ function MemberCard({ memberRecord }: MemberCardProps) {
       </Flex>
       <Box>
         <Flex align='center' gap={2}>
-          <Text noOfLines={1} fontSize='1rem' color='dimgray' fontWeight='semibold' wordBreak='break-word'>
+          <Text noOfLines={1} fontSize='1rem' fontWeight='semibold' wordBreak='break-word'>
             {info.name || shortenAddress(memberRecord.accountId)}
           </Text>
           <Box>
@@ -45,7 +45,7 @@ function MemberCard({ memberRecord }: MemberCardProps) {
             </Badge>
           </Box>
         </Flex>
-        <Flex gap={2} color='dimgray' fontSize='xs'>
+        <Flex gap={2} color='dimgray' fontSize='sm'>
           {info.name && (
             <>
               <Text fontWeight='semibold'>{shortenAddress(memberRecord.accountId)}</Text>

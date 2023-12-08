@@ -118,11 +118,15 @@ function Plugin({ info }: PluginProp) {
           {info.description}
         </Text>
       </Box>
-      <Flex gap={2}>
-        {isOwner && hasNewVersion && !info.disabled && (
-          <UpgradePluginButton pluginInfo={info} currentCodeHash={currentHashCode!} latestCodeHash={latestHashCode!} />
-        )}
-        {isOwner && (
+      {isOwner && (
+        <Flex gap={2}>
+          {hasNewVersion && !info.disabled && (
+            <UpgradePluginButton
+              pluginInfo={info}
+              currentCodeHash={currentHashCode!}
+              latestCodeHash={latestHashCode!}
+            />
+          )}
           <Button
             variant='outline'
             size='xs'
@@ -131,8 +135,8 @@ function Plugin({ info }: PluginProp) {
             onClick={info.disabled ? () => enable(info.id) : () => disable(info.id)}>
             {info.disabled ? 'Enable' : 'Disable'}
           </Button>
-        )}
-      </Flex>
+        </Flex>
+      )}
     </Flex>
   );
 }
