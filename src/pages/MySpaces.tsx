@@ -27,7 +27,7 @@ export default function MySpaces() {
   return (
     <Box>
       <Flex flex={1} justify='space-between' alignItems='center' mb={4}>
-        <Flex align='center' gap={2}>
+        <Flex align='center' gap={1}>
           <Text fontSize='xl' fontWeight='semibold'>
             My Spaces
           </Text>

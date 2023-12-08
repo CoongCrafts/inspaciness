@@ -20,7 +20,7 @@ const MainFooter: FC<Props> = () => {
         <span>
           <Text>
             Copyright &copy; 2023 InSpace by{' '}
-            <Link href='https://coongcrafts.io' isExternal textDecoration='underline'>
+            <Link href='https://github.com/CoongCrafts' isExternal textDecoration='underline'>
               Coong Crafts
             </Link>
           </Text>

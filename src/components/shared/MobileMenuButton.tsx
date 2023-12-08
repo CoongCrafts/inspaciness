@@ -8,6 +8,7 @@ import {
   DrawerOverlay,
   Flex,
   IconButton,
+  Image,
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
@@ -38,18 +39,22 @@ export default function MobileMenuButton({ activeIndex }: MobileMenuButtonProps)
       <Drawer isOpen={isOpen} onClose={onClose} placement='right' size='full'>
         <DrawerOverlay />
         <DrawerContent>
-          <DrawerHeader>
+          <DrawerHeader textAlign='center' paddingInline={4}>
             <Link to='/'>
-              <Text textAlign='center' fontSize='3xl' fontWeight='bold' color='primary.300'>
-                inspace
-              </Text>
+              <Image w='40px' src='/inspace-rounded-logo.png' alt='InSpace Logo' />
             </Link>
           </DrawerHeader>
           <DrawerCloseButton size='lg' />
-          <DrawerBody>
+          <DrawerBody paddingInline={4}>
             <Flex mt={4} gap={2} flexDir='column'>
               {MAIN_MENU_ITEM.map((one, index) => (
-                <Button borderRadius={0} py={2} variant='link' key={one.name} onClick={() => doNavigate(one.path)}>
+                <Button
+                  justifyContent='start'
+                  borderRadius={0}
+                  py={2}
+                  variant='link'
+                  key={one.name}
+                  onClick={() => doNavigate(one.path)}>
                   <Text
                     fontWeight='semibold'
                     color={activeIndex === index ? 'primary.600' : 'gray.600'}
