@@ -15,7 +15,7 @@ export default function useSpaces(chainId: ChainId): OnChainSpace[] | undefined 
   const memberAddress = selectedAccount?.address;
 
   useEffect(() => {
-    setSpaces([]);
+    setSpaces(undefined);
   }, [chainId]);
 
   useAsync(async () => {
