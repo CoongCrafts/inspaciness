@@ -52,11 +52,11 @@ export default function MySpaces() {
             {network.name}
           </Text>
           , create{' '}
-          <Link as={RouterLink} to='/launch' color='primary.500' textDecoration='underline'>
+          <Link as={RouterLink} to='/launch' color='primary.500'>
             a new space
           </Link>{' '}
           or{' '}
-          <Link as={RouterLink} to='/explore' color='primary.500' textDecoration='underline'>
+          <Link as={RouterLink} to='/explore' color='primary.500'>
             join community spaces
           </Link>{' '}
           now.
