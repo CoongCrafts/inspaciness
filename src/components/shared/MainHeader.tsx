@@ -10,6 +10,7 @@ export const MAIN_MENU_ITEM: MenuItemType[] = [
   { name: 'Home', path: '/' },
   { name: 'Explore', path: '/explore' },
   { name: 'Github', path: 'https://github.com/CoongCrafts/inspaciness' },
+  { name: 'Faucets', path: '/faucets' },
 ];
 
 export default function MainHeader() {
@@ -32,7 +33,7 @@ export default function MainHeader() {
         gap={4}
         h={16}>
         <Link to='/'>
-          <Image w='40px' src='/inspace-rounded-logo.png' alt='InSpace Logo' />
+          <Image h='40px' src='/inspace-rounded-logo.png' alt='InSpace Logo' />
         </Link>
         {!smallScreen && (
           <Flex gap={6} fontWeight='semibold'>

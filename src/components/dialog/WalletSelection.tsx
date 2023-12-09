@@ -34,6 +34,7 @@ const WalletButton = ({ walletInfo, afterSelectWallet }: WalletButtonProps) => {
 
   return (
     <Button
+      variant='outline'
       onClick={connectWallet}
       isLoading={installed && !ready}
       isDisabled={!installed}
