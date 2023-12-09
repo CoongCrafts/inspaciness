@@ -19,6 +19,8 @@ A protocol to launch and manage your community spaces using <a href="https://use
 
 ## Features
 
+## Status
+
 ## Development Setup
 
 ## Deployment Instructions
