@@ -150,3 +150,20 @@ export enum PostPerm {
   SpaceOwner = 'SpaceOwner',
   ActiveMember = 'ActiveMember',
 }
+
+export interface Poll {
+  id: number;
+  title: string;
+  desc: string | null;
+  options: string[];
+  author: string;
+  createdAt: number;
+  updatedAt: number | null;
+  expiredAt: number | null;
+}
+
+export interface PollVotes {
+  totalVotes: string;
+  votesByOptions: [string, string][];
+  votedOption: string | null;
+}

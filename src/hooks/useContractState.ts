@@ -1,7 +1,8 @@
 import { useMemo, useState } from 'react';
 import { useAsync } from 'react-use';
 import { ContractPromise } from '@polkadot/api-contract';
-import { ChainContract, useBlockHeader, useCall, useWallet } from 'useink';
+import { useCall } from '@/hooks/useink/useCall';
+import { ChainContract, useBlockHeader, useWallet } from 'useink';
 import { pickDecoded } from 'useink/utils';
 
 export default function useContractState<T>(
