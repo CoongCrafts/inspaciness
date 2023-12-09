@@ -4,16 +4,24 @@ import {
   Aleph,
   AlephTestnet,
   Astar,
+  Chain,
   ChainId,
+  Custom,
   Development,
   Phala,
   PhalaTestnet,
   RococoContractsTestnet,
-  ShibuyaTestnet,
 } from 'useink/chains';
 
 const LOGO_FOLDER =
   'https://raw.githubusercontent.com/Koniverse/SubWallet-ChainList/master/packages/chain-list/src/logo';
+
+export const DwellirShibuya: Chain = {
+  ...Custom,
+  id: 'custom',
+  name: 'Dwellir Shibuya',
+  rpcs: ['wss://shibuya-rpc.dwellir.com'],
+};
 
 export const SUPPORTED_NETWORKS: Record<ChainEnvironment, NetworkInfo[]> = {
   [ChainEnvironment.Development]: [
@@ -50,13 +58,13 @@ export const SUPPORTED_NETWORKS: Record<ChainEnvironment, NetworkInfo[]> = {
       motherAddress: env.motherAddress.testnetPhala,
     },
     {
-      id: ShibuyaTestnet.id,
+      id: DwellirShibuya.id,
       name: 'Shibuya (Astar)',
       logo: `${LOGO_FOLDER}/astar-network.png`,
       prefix: 5,
       symbol: 'SBY',
       decimals: 18,
-      chain: ShibuyaTestnet,
+      chain: DwellirShibuya,
       motherAddress: env.motherAddress.testnetShibuya,
     },
     {
