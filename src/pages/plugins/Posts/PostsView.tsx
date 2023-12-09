@@ -6,8 +6,7 @@ import usePagination from '@/hooks/usePagination';
 import PostCard from '@/pages/plugins/Posts/PostCard';
 import { usePostsContext } from '@/pages/plugins/Posts/PostsProvider';
 import NewPostButton from '@/pages/plugins/Posts/actions/NewPostButton';
-import { useSpaceContext } from '@/providers/SpaceProvider';
-import { MemberStatus, PostRecord, Props } from '@/types';
+import { PostRecord, Props } from '@/types';
 import { eventEmitter, EventName } from '@/utils/eventemitter';
 import pluralize from 'pluralize';
 
@@ -19,8 +18,7 @@ interface PostsContentProps extends Props {
 }
 
 function PostsContent({ nonce, setNonce }: PostsContentProps) {
-  const { memberStatus } = useSpaceContext();
-  const { contract, postsCount } = usePostsContext();
+  const { contract, postsCount, canCreatePost } = usePostsContext();
 
   const [posts, setPosts] = useState<PostRecord[]>();
   const [onLoad, setOnLoad] = useState(true);
@@ -67,7 +65,6 @@ function PostsContent({ nonce, setNonce }: PostsContentProps) {
   };
 
   const newPostsCount = postsCount! - nonce;
-  const canCreatePost = memberStatus === MemberStatus.Active;
 
   return (
     <>

@@ -99,7 +99,7 @@ export default function UpdatePostButton({
       <MenuItem icon={<EditIcon />} isDisabled={disabled} onClick={onOpen}>
         Edit
       </MenuItem>
-      <Modal isOpen={isOpen} onClose={onClose} size={{ base: 'full', md: '3xl' }}>
+      <Modal isOpen={isOpen} onClose={onClose} size={{ base: 'full', md: '3xl' }} closeOnOverlayClick={false}>
         <ModalOverlay />
         <ModalContent as='form' onSubmit={(e) => formik.handleSubmit(e as FormEvent<HTMLFormElement>)}>
           <ModalHeader>Edit Post #{postId}</ModalHeader>

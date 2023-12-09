@@ -1,6 +1,6 @@
 {
   "source": {
-    "hash": "0xede657463cdbfd81a1e18dc19b4f83b3dd6204a8e96d8d51ba34e8ab4100b124",
+    "hash": "0xeedac7c845248c0bf96feb8271439b0e1fe6a4e60b169293d8d9024e3e2a5a94",
     "language": "ink! 4.3.0",
     "compiler": "rustc 1.73.0-nightly",
     "build_info": {
@@ -70,7 +70,7 @@
         "displayName": [
           "Balance"
         ],
-        "type": 33
+        "type": 35
       },
       "blockNumber": {
         "displayName": [
@@ -82,13 +82,13 @@
         "displayName": [
           "ChainExtension"
         ],
-        "type": 34
+        "type": 36
       },
       "hash": {
         "displayName": [
           "Hash"
         ],
-        "type": 31
+        "type": 33
       },
       "maxEventTopics": 4,
       "timestamp": {
@@ -268,7 +268,7 @@
         "args": [],
         "default": false,
         "docs": [],
-        "label": "posts_count",
+        "label": "post_perm",
         "mutates": false,
         "payable": false,
         "returnType": {
@@ -277,6 +277,48 @@
             "MessageResult"
           ],
           "type": 29
+        },
+        "selector": "0xb0e11074"
+      },
+      {
+        "args": [
+          {
+            "label": "new_perm",
+            "type": {
+              "displayName": [
+                "PostPerm"
+              ],
+              "type": 30
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "update_perm",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 13
+        },
+        "selector": "0x86401b75"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "posts_count",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 31
         },
         "selector": "0x0a76d095"
       },
@@ -295,7 +337,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 30
+          "type": 32
         },
         "selector": "0xe1b64803"
       },
@@ -313,7 +355,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 30
+          "type": 32
         },
         "selector": "0x80306c84"
       },
@@ -325,7 +367,7 @@
               "displayName": [
                 "Hash"
               ],
-              "type": 31
+              "type": 33
             }
           }
         ],
@@ -357,7 +399,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 32
+          "type": 34
         },
         "selector": "0xbd69cea7"
       }
@@ -510,6 +552,30 @@
                 }
               },
               "name": "posts_nonce"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "enum": {
+                      "dispatchKey": "0xfe21e95b",
+                      "name": "PostPerm",
+                      "variants": {
+                        "0": {
+                          "fields": [],
+                          "name": "SpaceOwner"
+                        },
+                        "1": {
+                          "fields": [],
+                          "name": "ActiveMember"
+                        }
+                      }
+                    }
+                  },
+                  "root_key": "0xfe21e95b"
+                }
+              },
+              "name": "post_perm"
             }
           ],
           "name": "Posts"
@@ -1280,6 +1346,72 @@
               {
                 "fields": [
                   {
+                    "type": 30
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 8
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 30
+          },
+          {
+            "name": "E",
+            "type": 8
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 30,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 0,
+                "name": "SpaceOwner"
+              },
+              {
+                "index": 1,
+                "name": "ActiveMember"
+              }
+            ]
+          }
+        },
+        "path": [
+          "posts",
+          "posts",
+          "PostPerm"
+        ]
+      }
+    },
+    {
+      "id": 31,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
                     "type": 5
                   }
                 ],
@@ -1314,7 +1446,7 @@
       }
     },
     {
-      "id": 30,
+      "id": 32,
       "type": {
         "def": {
           "variant": {
@@ -1356,7 +1488,7 @@
       }
     },
     {
-      "id": 31,
+      "id": 33,
       "type": {
         "def": {
           "composite": {
@@ -1376,7 +1508,7 @@
       }
     },
     {
-      "id": 32,
+      "id": 34,
       "type": {
         "def": {
           "variant": {
@@ -1384,7 +1516,7 @@
               {
                 "fields": [
                   {
-                    "type": 31
+                    "type": 33
                   }
                 ],
                 "index": 0,
@@ -1405,7 +1537,7 @@
         "params": [
           {
             "name": "T",
-            "type": 31
+            "type": 33
           },
           {
             "name": "E",
@@ -1418,7 +1550,7 @@
       }
     },
     {
-      "id": 33,
+      "id": 35,
       "type": {
         "def": {
           "primitive": "u128"
@@ -1426,7 +1558,7 @@
       }
     },
     {
-      "id": 34,
+      "id": 36,
       "type": {
         "def": {
           "variant": {}

@@ -145,3 +145,8 @@ export enum Ordering {
   Ascending = 'Ascending',
   Descending = 'Descending',
 }
+
+export enum PostPerm {
+  SpaceOwner = 'SpaceOwner',
+  ActiveMember = 'ActiveMember',
+}

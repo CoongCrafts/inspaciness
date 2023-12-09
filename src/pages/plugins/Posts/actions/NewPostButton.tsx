@@ -115,7 +115,7 @@ export default function NewPostButton({ onPostCreated }: NewPostButtonProps) {
         icon={<AddIcon />}
         display={{ base: 'block', md: 'none' }}
       />
-      <Modal isOpen={isOpen} onClose={onClose} size={{ base: 'full', md: '3xl' }}>
+      <Modal isOpen={isOpen} onClose={onClose} size={{ base: 'full', md: '3xl' }} closeOnOverlayClick={false}>
         <ModalOverlay />
         <ModalContent as='form' onSubmit={(e) => formik.handleSubmit(e as FormEvent<HTMLFormElement>)}>
           <ModalHeader>New Post</ModalHeader>
