@@ -76,7 +76,7 @@ function About() {
           <Text fontSize='lg' fontWeight='semibold'>
             🤝 Flexible membership models
           </Text>
-          <Text color='dimgray'>Space membership can be free, one time paid or maintained via a subscription.</Text>
+          <Text color='dimgray'>Space memberships can be free, one time paid or maintained via a subscription.</Text>
         </Box>
         <Divider my={4} />
         <Box>
@@ -84,7 +84,7 @@ function About() {
             ⚙️ Upgradability
           </Text>
           <Text color='dimgray'>
-            Enhance your space and plugins by upgrading to newer versions, and it's your choice to upgrade or not.
+            Enhance your spaces and plugins by upgrading to newer versions, and it's your choice to upgrade or not.
           </Text>
         </Box>
         <Divider my={4} />
@@ -93,7 +93,7 @@ function About() {
             🔑 Private spaces <Tag>Coming soon</Tag>
           </Text>
           <Text color='dimgray'>
-            Only active members can access confidential information on space by proving proof-of-membership.
+            Only active members can access confidential information on spaces by proving proof-of-memberships.
           </Text>
         </Box>
       </Box>
