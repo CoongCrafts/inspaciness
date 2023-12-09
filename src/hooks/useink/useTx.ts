@@ -43,23 +43,23 @@ export function useTx<T>(chainContract: ChainContract | undefined, message: stri
 
       setStatus('DryRun');
 
-      dryRun
-        .send(params, options)
-        .then((response) => {
-          console.log('dryRun response', params, options, response);
-          if (!response || !response.ok) return;
-          setStatus('PendingSignature');
+      prepareTx()
+        .then(() => {
+          dryRun
+            .send(params, options)
+            .then((response) => {
+              console.log('dryRun response', params, options, response);
+              if (!response || !response.ok) return;
+              setStatus('PendingSignature');
 
-          const { gasRequired } = response.value.raw;
-          const tx = chainContract?.contract.tx[message];
+              const { gasRequired } = response.value.raw;
+              const tx = chainContract?.contract.tx[message];
 
-          if (!tx) {
-            cb?.(undefined, chainContract.contract.api, `'${message}' not found on contract instance`);
-            return;
-          }
+              if (!tx) {
+                cb?.(undefined, chainContract.contract.api, `'${message}' not found on contract instance`);
+                return;
+              }
 
-          prepareTx()
-            .then(() => {
               tx({ gasLimit: gasRequired, ...toContractOptions(options) }, ...(params || []))
                 .signAndSend(
                   selectedAccount.address,

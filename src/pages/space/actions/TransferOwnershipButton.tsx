@@ -19,7 +19,7 @@ import {
 import { Identicon } from '@polkadot/react-identicon';
 import { FormEvent, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import { encodeAddress, isAddress } from '@polkadot/util-crypto';
+import { isAddress } from '@polkadot/util-crypto';
 import useCurrentFreeBalance from '@/hooks/space/useCurrentFreeBalance';
 import { useCall } from '@/hooks/useink/useCall';
 import { useTx } from '@/hooks/useink/useTx';
@@ -27,6 +27,7 @@ import { useSpaceContext } from '@/providers/SpaceProvider';
 import { MemberStatus } from '@/types';
 import { messages } from '@/utils/messages';
 import { notifyTxStatus } from '@/utils/notifications';
+import { equalAddresses } from '@/utils/string';
 import { useFormik } from 'formik';
 import { pickDecoded, shouldDisableStrict } from 'useink/utils';
 import * as yup from 'yup';
@@ -58,7 +59,7 @@ export default function TransferOwnershipButton() {
           return;
         }
 
-        if (ownerAddress && encodeAddress(ownerAddress) == encodeAddress(address)) {
+        if (ownerAddress && equalAddresses(ownerAddress, address)) {
           toast.error(`${address} is currently the owner of the space`);
           formikHelpers.setSubmitting(false);
           return;

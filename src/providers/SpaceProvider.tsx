@@ -7,18 +7,19 @@ import useSpace from '@/hooks/useSpace';
 import { useWalletContext } from '@/providers/WalletProvider';
 import {
   MemberInfo,
+  MembershipRequest,
   MemberStatus,
   NetworkInfo,
   OnChainPluginInfo,
   OnChainSpace,
+  PluginInfo,
   Props,
   SpaceConfig,
   SpaceInfo,
-  MembershipRequest,
 } from '@/types';
-import { PluginInfo } from '@/types';
 import { findNetwork } from '@/utils/networks';
 import { findPlugin } from '@/utils/plugins';
+import { equalAddresses } from '@/utils/string';
 import { ChainContract, useApi } from 'useink';
 
 interface SpaceContextProps {
@@ -75,7 +76,7 @@ export default function SpaceProvider({ space, children }: SpaceProviderProps) {
   const network = findNetwork(space.chainId);
   const { api } = useApi(space.chainId) || {};
 
-  const isOwner = selectedAccount?.address === ownerId;
+  const isOwner = equalAddresses(selectedAccount?.address, ownerId);
   const plugins = installedPlugins?.map(({ id, address, disabled }) => ({
     ...findPlugin(id)!, // TODO filter-out unsupported plugins
     address,

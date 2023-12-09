@@ -1,4 +1,5 @@
 import { formatBalance as formatBalancePolka } from '@polkadot/util';
+import { encodeAddress } from '@polkadot/util-crypto';
 import { NetworkInfo } from '@/types';
 
 export const trimTrailingSlash = (input: string): string => {
@@ -26,4 +27,8 @@ export function formatBalance(balance: string, network: NetworkInfo, withUnit = 
     withZero,
     withUnit: withUnit && network.symbol,
   });
+}
+
+export function equalAddresses(address01?: string, address02?: string) {
+  return !!address01 && !!address02 && encodeAddress(address01) === encodeAddress(address02);
 }

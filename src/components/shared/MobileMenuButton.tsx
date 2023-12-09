@@ -41,7 +41,7 @@ export default function MobileMenuButton({ activeIndex }: MobileMenuButtonProps)
         <DrawerContent>
           <DrawerHeader textAlign='center' paddingInline={4}>
             <Link to='/'>
-              <Image w='40px' src='/inspace-rounded-logo.png' alt='InSpace Logo' />
+              <Image h='40px' src='/inspace-rounded-logo.png' alt='InSpace Logo' />
             </Link>
           </DrawerHeader>
           <DrawerCloseButton size='lg' />

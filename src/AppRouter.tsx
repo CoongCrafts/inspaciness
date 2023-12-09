@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ScrollToTop from '@/components/shared/ScrollToTop';
 import MainLayout from '@/layouts/MainLayout';
+import Faucets from '@/pages/Faucets';
 import Homepage from '@/pages/Homepage';
 import MySpaces from '@/pages/MySpaces';
 import ShortcutRedirect from '@/pages/ShortcutRedirect';
@@ -34,6 +35,7 @@ export default function AppRouter() {
           </Route>
           <Route path='/upload' element={<UploadContracts />} />,
           <Route path='/launch' element={<SpaceLauncher />} />,
+          <Route path='/faucets' element={<Faucets />} />,
         </Route>
         <Route path='/:shortcut' element={<ShortcutRedirect />} />,
       </Routes>
