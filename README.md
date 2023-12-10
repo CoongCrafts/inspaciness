@@ -26,9 +26,24 @@ A protocol to launch and manage your community spaces using <a href="https://use
 
 ### Concepts
 
+- `Motherspace`
+- `Space`
+- `Plugin Launcher`
+- `Plugin`
+
+⏳ _in progress_
+
 ### Architecture
 
+⏳ _in progress_
+
+![InSpace-Overall Architecture](https://github.com/CoongCrafts/inspaciness/assets/6867026/45aa1e5d-11f7-4f76-b769-cf0a43c542a3)
+
 ### Plugins
+Available plugins, more to come soon:
+1. `Posts`: Keep space members updated with posts and announcements.
+2. `Polls`: Create and vote on polls within your space, where only active members have a voice.
+3. `Flipper`: Flip a boolean value, only active member can flip.
 
 ### Status
 
@@ -40,8 +55,17 @@ A protocol to launch and manage your community spaces using <a href="https://use
 | Phala PoC 5 | ⏳ | -- |
 
 ### Development Setup
+1. Clone the repo
+1. Do not change the `.env` file, create a `.env.local` file on your local to add your custom variables.
+2. Install dependencies `yarn install`
+3. Run `yarn start`
+
+   
+⏳ _in progress_
 
 ### Deployment Instructions
+
+⏳ _in progress_
 
 ### License
 
