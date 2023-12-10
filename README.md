@@ -21,6 +21,13 @@ A protocol to launch and manage your community spaces using <a href="https://use
 
 ## Status
 
+| Supported Testnet | Live | Motherspace Address |
+| ----------- | ----------- |  ----------- |
+| Aleph Zero Testnet | ✅ | `5E1ogStNoR23ZvCiHAFsQ6zpa5UQA2hzt6Fddfu56V4EdCky` |
+| Shibuya (Astar) | ✅ | `ZfWhiZcuWF2YWFnLpY9hgbf3sXd1Zd3Hkc5W4q9djGAUNkS` |
+| Rococo Contracts | ✅ | `5GCdvb4e37EyfQxb1jPEmW8kzL3iZeS5tj1SqHW4usbqFfSC` |
+| Phala PoC 5 | ⏳ | -- |
+
 ## Development Setup
 
 ## Deployment Instructions
