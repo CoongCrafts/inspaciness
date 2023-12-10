@@ -107,7 +107,7 @@ function About() {
         </Text>
       </Flex>
       <Box my={8}>
-        <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={4}>
+        <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
           {FEATURES.map((one) => (
             <Box borderWidth='1px' borderColor='primary.100' borderRadius={4} p={4}>
               <Text fontSize='lg' fontWeight='semibold'>
