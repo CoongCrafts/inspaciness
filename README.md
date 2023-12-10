@@ -17,20 +17,20 @@ A protocol to launch and manage your community spaces using <a href="https://use
 <p>
 
 
-## Features
+### Features
 - ✅ Works on both desktop and mobile browsers natively with the support of [Coong Wallet](https://coongwallet.io)
 - ✅ Flexible membership models with different registration types for spaces
 - ✅ Extends functionalities for spaces with plugins
 - ✅ Versioning management for spaces & plugins via motherspace
 - ⏳ Private spaces (coming soon with Phala Contracts support)
 
-## Concepts
+### Concepts
 
-## Architecture
+### Architecture
 
-## Plugins
+### Plugins
 
-## Status
+### Status
 
 | Supported Testnet | Live | Motherspace Contract Address |
 | ----------- | ----------- |  ----------- |
@@ -39,11 +39,11 @@ A protocol to launch and manage your community spaces using <a href="https://use
 | Rococo Contracts | ✅ | `5GCdvb4e37EyfQxb1jPEmW8kzL3iZeS5tj1SqHW4usbqFfSC` |
 | Phala PoC 5 | ⏳ | -- |
 
-## Development Setup
+### Development Setup
 
-## Deployment Instructions
+### Deployment Instructions
 
-## License
+### License
 
 Apache 2.0
 
