@@ -120,7 +120,7 @@ export default function PollCard({ poll }: PollCardProps) {
           )}
           {!isExpire && poll.expiredAt && (
             <Text fontSize='sm' color='dimgray'>
-              Ended {fromNow(poll.expiredAt)}
+              Ends {fromNow(poll.expiredAt)}
             </Text>
           )}
           {isExpire && (
