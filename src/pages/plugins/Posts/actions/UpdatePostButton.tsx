@@ -26,6 +26,7 @@ import { FormEvent, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { useTx } from '@/hooks/useink/useTx';
 import { usePostsContext } from '@/pages/plugins/Posts/PostsProvider';
+import { postValidationScheme } from '@/pages/plugins/Posts/actions/NewPostButton';
 import { Props } from '@/types';
 import { renderMd } from '@/utils/mdrenderer';
 import { messages } from '@/utils/messages';
@@ -33,7 +34,6 @@ import { notifyTxStatus } from '@/utils/notifications';
 import { EditIcon } from '@chakra-ui/icons';
 import { useFormik } from 'formik';
 import { shouldDisableStrict } from 'useink/utils';
-import * as yup from 'yup';
 
 interface UpdatePostButtonProps extends Props {
   postId: number;
@@ -56,9 +56,7 @@ export default function UpdatePostButton({
     initialValues: {
       content: defaultValue,
     },
-    validationSchema: yup.object().shape({
-      content: yup.string().required().max(500),
-    }),
+    validationSchema: postValidationScheme,
     onSubmit: (values, formikHelpers) => {
       const { content } = values;
       const postContent = { Raw: content };
@@ -114,7 +112,7 @@ export default function UpdatePostButton({
               </TabList>
               <TabPanels>
                 <TabPanel p={2}>
-                  <FormControl isInvalid={formik.touched.content && !!formik.errors.content}>
+                  <FormControl isInvalid={!!formik.values.content && !!formik.errors.content}>
                     <Textarea
                       height={40}
                       size='md'
@@ -125,7 +123,7 @@ export default function UpdatePostButton({
                       autoFocus
                       onChange={formik.handleChange}
                     />
-                    {formik.touched.content && !!formik.errors.content && (
+                    {!!formik.values.content && !!formik.errors.content && (
                       <FormErrorMessage>{formik.errors.content}</FormErrorMessage>
                     )}
                   </FormControl>

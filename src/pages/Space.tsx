@@ -155,9 +155,8 @@ function SpaceContent() {
       <Flex flexDir={{ base: 'column', md: 'row' }}>
         <Flex // Navigation bar for large screen
           direction='column'
-          width={220}
           display={{ base: 'none', md: 'flex' }}>
-          <Box position='sticky' top={4}>
+          <Box position='sticky' top={4} width={220}>
             {menuItems.map((one, index) => (
               <Button
                 key={one.name}

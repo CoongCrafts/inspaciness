@@ -37,6 +37,10 @@ import { useFormik } from 'formik';
 import { shouldDisableStrict } from 'useink/utils';
 import * as yup from 'yup';
 
+export const postValidationScheme = yup.object().shape({
+  content: yup.string().required().max(500, 'Content must be at most 500 characters'),
+});
+
 interface NewPostButtonProps extends Props {
   onPostCreated: () => void;
 }
@@ -50,9 +54,7 @@ export default function NewPostButton({ onPostCreated }: NewPostButtonProps) {
     initialValues: {
       content: '',
     },
-    validationSchema: yup.object().shape({
-      content: yup.string().required().max(500),
-    }),
+    validationSchema: postValidationScheme,
     onSubmit: (values, formikHelpers) => {
       const { content } = values;
       const postContent = { Raw: content };
@@ -130,7 +132,7 @@ export default function NewPostButton({ onPostCreated }: NewPostButtonProps) {
               </TabList>
               <TabPanels>
                 <TabPanel p={2}>
-                  <FormControl isInvalid={formik.touched.content && !!formik.errors.content}>
+                  <FormControl isInvalid={!!formik.values.content && !!formik.errors.content}>
                     <Textarea
                       height={40}
                       size='md'
@@ -141,7 +143,7 @@ export default function NewPostButton({ onPostCreated }: NewPostButtonProps) {
                       autoFocus
                       onChange={formik.handleChange}
                     />
-                    {formik.touched.content && !!formik.errors.content && (
+                    {!!formik.values.content && !!formik.errors.content && (
                       <FormErrorMessage>{formik.errors.content}</FormErrorMessage>
                     )}
                   </FormControl>
