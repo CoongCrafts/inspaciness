@@ -9,7 +9,7 @@ interface PollsContext {
   info: PluginInfo;
   contract?: ChainContract;
   pollsCount?: number;
-  polls: Poll[];
+  polls?: Poll[];
 }
 
 export const PollsContext = createContext<PollsContext>(null!);
@@ -33,9 +33,9 @@ export default function PollsProvider({ info, children }: PollsProviderProps) {
   const pollsCount = parseInt(pollsCountStr);
 
   const pollsId = useMemo(() => [...Array(pollsCount)].map((_, idx) => idx).reverse(), [pollsCount]);
-  const { state: rawPolls = [] } = useContractState<[string, any | null][]>(contract, 'pollsByIds', [pollsId]);
+  const { state: rawPolls } = useContractState<[string, any | null][]>(contract, 'pollsByIds', [pollsId]);
   const polls = rawPolls
-    .filter((one) => !!one)
+    ?.filter((one) => !!one)
     .map(
       ([idStr, rawPoll]) =>
         ({

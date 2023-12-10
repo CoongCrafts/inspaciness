@@ -22,6 +22,7 @@ export default function PollsView() {
         {isOwner && <NewPollButton />}
       </Flex>
       {pollsCount === 0 &&
+        polls &&
         (isOwner ? (
           <Text>
             There are no polls in this space,{' '}
