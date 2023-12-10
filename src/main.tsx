@@ -7,6 +7,7 @@ import AppRouter from '@/AppRouter';
 import WalletProvider from '@/providers/WalletProvider';
 import { theme } from '@/theme';
 import env from '@/utils/env';
+import { fadeOut } from '@/utils/misc';
 import { SUPPORTED_NETWORKS } from '@/utils/networks';
 import { UseInkProvider } from 'useink';
 import { Chain, Development } from 'useink/chains';
@@ -19,6 +20,8 @@ const SUPPORTED_CHAINS = Object.values(SUPPORTED_NETWORKS)
   .filter((one) => one.motherAddress)
   .filter((one) => (env.isProd ? one.id !== Development.id : true))
   .map((one) => one.chain) as ArrayOneOrMore<Chain>;
+
+fadeOut(document.getElementById('loading-overlay'));
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(

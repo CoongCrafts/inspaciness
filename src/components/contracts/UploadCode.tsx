@@ -92,7 +92,7 @@ export default function UploadCode() {
     <Box>
       <FormControl mb={4}>
         <FormLabel>Network to deploy</FormLabel>
-        <NetworkSelection checkMotherAddress={false} onSelect={setNetwork} />
+        <NetworkSelection defaultNetwork={network} onSelect={setNetwork} />
 
         {network && (
           <Flex mt={2}>
