@@ -21,7 +21,7 @@ export default function PollsView() {
         </Flex>
         {isOwner && <NewPollButton />}
       </Flex>
-      <Flex mt={4} flexDir='column' gap={2}>
+      <Flex my={4} flexDir='column' gap={2}>
         {polls.map((poll) => (
           <PollCard key={poll.id} poll={poll} />
         ))}
@@ -30,14 +30,14 @@ export default function PollsView() {
       {pollsCount === 0 &&
         (isOwner ? (
           <Text>
-            There are no posts in this space,{' '}
+            There are no polls in this space,{' '}
             <Link onClick={() => eventEmitter.emit(EventName.SHOW_NEW_POLL_POPUP)} color='primary.500'>
-              create a new post
+              create a new poll
             </Link>{' '}
             now!
           </Text>
         ) : (
-          <Text>There are no poll in this space, check back later.</Text>
+          <Text>There are no polls in this space, check back later.</Text>
         ))}
     </Flex>
   );

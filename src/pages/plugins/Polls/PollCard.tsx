@@ -10,6 +10,7 @@ import { useSpaceContext } from '@/providers/SpaceProvider';
 import { MemberStatus, Poll, PollVotes, Props } from '@/types';
 import { fromNow, now, timestampToDate } from '@/utils/date';
 import { stringToNum } from '@/utils/number';
+import pluralize from 'pluralize';
 
 interface PollVotesResult {
   Ok?: PollVotes;
@@ -59,14 +60,13 @@ export default function PollCard({ poll }: PollCardProps) {
 
   const isActiveMember = memberStatus === MemberStatus.Active;
   const isExpire = poll.expiredAt && timestampToDate(poll.expiredAt) < now();
-  const hideResults = isActiveMember && !pollVotes.votedOption && !isExpire;
-
-  console.log(poll.id, hideResults);
+  const votedOption = pollVotes.votedOption ? stringToNum(pollVotes.votedOption) : undefined;
+  const isVoted = votedOption !== undefined;
 
   return (
-    <Flex flexDir='column' borderWidth={1} p={4} borderRadius={4} gap={2}>
-      <Flex justifyContent='space-between'>
-        <Text fontWeight='semibold'>#{poll.id}</Text>
+    <Flex flexDir='column' borderWidth={1} p={4} pt={2} borderRadius={4} gap={2}>
+      <Flex justifyContent='space-between' align='center'>
+        <Text fontWeight='semibold'>Poll #{poll.id}</Text>
         {isOwner && (
           <Menu placement='bottom'>
             <MenuButton
@@ -83,47 +83,55 @@ export default function PollCard({ poll }: PollCardProps) {
           </Menu>
         )}
       </Flex>
-      <Text fontWeight='semibold'>{poll.title}</Text>
-      <Flex mt={4} flexDir='column' gap={2}>
+      <Text>{poll.title}</Text>
+      <Flex mt={2} flexDir='column' gap={2}>
         {votesToOptions.map(([option, votes], optionIdx) => (
           <Flex
             key={`${option}${optionIdx}`}
-            borderWidth={2}
-            borderRadius={8}
+            borderWidth={1}
+            borderRadius={4}
             px={2}
             py={1}
             justifyContent='space-between'
             cursor='pointer'
-            _hover={{ bg: 'primary.100' }}
+            transitionDuration='200ms'
+            _hover={votedOption === optionIdx ? {} : { bg: 'primary.200' }}
             borderColor={optionIdx === voteOption ? 'primary.400' : 'charka-border-color'}
             onClick={() => handleVote(optionIdx)}
-            bgGradient={!hideResults ? `linear(to-r, primary.300 ${votes * 100}%, white 0%)` : ''}
+            bgGradient={`linear(to-r, ${votedOption === optionIdx ? 'primary.200' : 'primary.100'} ${
+              votes * 100
+            }%, white 0%)`}
             pointerEvents={!isActiveMember || isExpire ? 'none' : 'auto'}>
             <Text>{option}</Text>
-            {!hideResults && <Text>{(votes * 100).toFixed(2)}%</Text>}
+            <Text>{(votes * 100).toFixed(2)}%</Text>
           </Flex>
         ))}
       </Flex>
-      <Flex mt={4} justifyContent='space-between' alignItems='center'>
-        <Flex height={4} alignItems='center' gap={2}>
-          {!isExpire && (
+      <Flex mt={2} justifyContent='space-between' align='center'>
+        <Flex align='center' gap={2}>
+          {!isExpire && isActiveMember && (
             <Box>
-              {voteOption !== undefined && voteOption.toString() !== pollVotes.votedOption ? (
-                <VoteButton pollId={poll.id} optionIndex={voteOption} />
+              {isVoted && voteOption === votedOption ? (
+                <UnvoteButton pollId={poll.id} />
               ) : (
-                pollVotes.votedOption && <UnvoteButton pollId={poll.id} />
+                <VoteButton label={isVoted ? 'Change Vote' : 'Vote'} pollId={poll.id} optionIndex={voteOption} />
               )}
             </Box>
           )}
-          {poll.expiredAt && (
+          {!isExpire && poll.expiredAt && (
             <Text fontSize='sm' color='dimgray'>
-              End {fromNow(poll.expiredAt)}
+              Ended {fromNow(poll.expiredAt)}
+            </Text>
+          )}
+          {isExpire && (
+            <Text fontSize='sm' color='dimgray'>
+              Final results
             </Text>
           )}
         </Flex>
         <Flex gap={2}>
           <Text fontSize='sm' color='dimgray'>
-            {pollVotes.totalVotes} votes
+            {pollVotes.totalVotes} {pluralize('vote', stringToNum(pollVotes.totalVotes))}
           </Text>
         </Flex>
       </Flex>

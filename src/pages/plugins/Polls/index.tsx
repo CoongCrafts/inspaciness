@@ -6,7 +6,7 @@ import { PLUGIN_POLLS } from '@/utils/plugins';
 
 export default function Polls() {
   const { plugins } = useSpaceContext();
-  const pollsPlugin = plugins?.find((one) => (one.id = PLUGIN_POLLS));
+  const pollsPlugin = plugins?.find((one) => one.id === PLUGIN_POLLS);
   if (!pollsPlugin) {
     return null;
   }

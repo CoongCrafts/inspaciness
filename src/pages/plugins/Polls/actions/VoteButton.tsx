@@ -8,16 +8,18 @@ import { notifyTxStatus } from '@/utils/notifications';
 
 interface VoteButtonProps extends Props {
   pollId: number;
-  optionIndex: number;
+  optionIndex?: number;
+  label?: string;
 }
 
-export default function VoteButton({ pollId, optionIndex }: VoteButtonProps) {
+export default function VoteButton({ pollId, optionIndex, label = 'Vote' }: VoteButtonProps) {
   const { contract } = usePollsContext();
   const voteTx = useTx(contract, 'vote');
 
   const doVote = () => {
     voteTx.signAndSend([pollId, optionIndex], undefined, (result) => {
       if (!result) {
+        voteTx.resetState();
         return;
       }
 
@@ -27,7 +29,7 @@ export default function VoteButton({ pollId, optionIndex }: VoteButtonProps) {
         if (result.dispatchError) {
           toast.error(messages.txError);
         } else {
-          toast.success('Vote success');
+          toast.success('Voted!');
         }
       }
 
@@ -35,9 +37,17 @@ export default function VoteButton({ pollId, optionIndex }: VoteButtonProps) {
     });
   };
 
+  const isDisabled = optionIndex === undefined;
+
   return (
-    <Button onClick={doVote} size='sm' colorScheme='primary' minWidth={20}>
-      Vote
+    <Button
+      onClick={doVote}
+      size='sm'
+      variant={isDisabled ? 'outline' : 'solid'}
+      colorScheme='primary'
+      minWidth={20}
+      isDisabled={isDisabled}>
+      {label}
     </Button>
   );
 }

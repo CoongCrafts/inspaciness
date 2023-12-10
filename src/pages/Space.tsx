@@ -17,9 +17,8 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { FaPollH } from 'react-icons/fa';
 import { MdFlip } from 'react-icons/md';
-import { RiFileTextLine, RiSettings4Line, RiTeamLine, RiUserFollowLine } from 'react-icons/ri';
+import { RiChatPollLine, RiFileTextLine, RiSettings4Line, RiTeamLine, RiUserFollowLine } from 'react-icons/ri';
 import { Link as LinkRouter, Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import SpaceSkeleton from '@/components/sketeton/SpaceSkeleton';
@@ -55,7 +54,7 @@ const MENU_ITEMS: MenuItemType[] = [
 const PLUGIN_MENU_ITEMS: Record<string, MenuItemType> = {
   [PLUGIN_POSTS]: { name: 'Posts', path: SpacePath.Posts, icon: RiFileTextLine },
   [PLUGIN_FLIPPER]: { name: 'Flipper', path: SpacePath.Flipper, icon: MdFlip },
-  [PLUGIN_POLLS]: { name: 'Polls', path: SpacePath.Polls, icon: FaPollH },
+  [PLUGIN_POLLS]: { name: 'Polls', path: SpacePath.Polls, icon: RiChatPollLine },
 };
 
 function SpaceContent() {
