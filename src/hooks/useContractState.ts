@@ -18,7 +18,11 @@ export default function useContractState<T>(
 
   useAsync(async () => {
     const result = await call.send(actualArgs, { defaultCaller });
-    setState(pickDecoded<T>(result));
+
+    // TODO fixme!
+    if (result && JSON.stringify(state) !== JSON.stringify(pickDecoded<T>(result))) {
+      setState(pickDecoded<T>(result));
+    }
   }, [call.send, blockNumber, actualArgs]);
 
   return { state };
