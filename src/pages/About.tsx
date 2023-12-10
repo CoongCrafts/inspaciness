@@ -2,7 +2,7 @@ import { Box, Button, Divider, Flex, Link, SimpleGrid, Tag, Text } from '@chakra
 import { Link as RouterLink } from 'react-router-dom';
 import SpaceCard from '@/components/space/SpaceCard';
 import { OnChainSpace } from '@/types';
-import { AlephTestnet, RococoContractsTestnet } from 'useink/chains';
+import { AlephTestnet } from 'useink/chains';
 
 const FEATURED_SPACES: OnChainSpace[] = [
   {
@@ -10,8 +10,32 @@ const FEATURED_SPACES: OnChainSpace[] = [
     address: '5HmQUVoD4WfWMoRifYaTGeQaBdKJznvoNLUsRLzQLU6Voijb',
   },
   {
-    chainId: RococoContractsTestnet.id,
-    address: '5GB9sKMqKfUTMHmA1YfWrFb43xJHFGb8vra7Bv9tKnPWiBjz',
+    chainId: AlephTestnet.id,
+    address: '5HkJzUvS85WpxJZtbj2rmTFcJfosHgrHsyHLb4YquP2xiDPM',
+  },
+  {
+    chainId: AlephTestnet.id,
+    address: '5CGMt8gYoTU23wsWS9aUvKRUZNjysh6Zr6LW39bu1bDYgLwD',
+  },
+  {
+    chainId: AlephTestnet.id,
+    address: '5FysFYUP1j11FmfviBpj6CwvpwN5XW1k9u5wA9cyoXSyFuW4',
+  },
+  {
+    chainId: AlephTestnet.id,
+    address: '5HrBR1UY579LZHTNdk3m667qVSxmkTMpiDQ6Sp4QrbPaUFEu',
+  },
+  {
+    chainId: AlephTestnet.id,
+    address: '5C9XMtrkEfYSmBJJvKMacuCkcJdLAUeAuS4pyLzdke3bEYic',
+  },
+  {
+    chainId: AlephTestnet.id,
+    address: '5Ek9RhiUMi3SsKBgR4Mipb19yRsz1P9upNufcep2TYAaSsng',
+  },
+  {
+    chainId: AlephTestnet.id,
+    address: '5DPMZj3uu5yxHJYG8CrB4osGWS5rDWko8Wt4Rvf3EX5NU6bt',
   },
 ];
 
