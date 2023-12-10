@@ -2,7 +2,7 @@ import { Box, Button, Divider, Flex, Link, SimpleGrid, Tag, Text } from '@chakra
 import { Link as RouterLink } from 'react-router-dom';
 import SpaceCard from '@/components/space/SpaceCard';
 import { OnChainSpace } from '@/types';
-import { AlephTestnet, RococoContractsTestnet } from 'useink/chains';
+import { AlephTestnet } from 'useink/chains';
 
 const FEATURED_SPACES: OnChainSpace[] = [
   {
@@ -10,8 +10,72 @@ const FEATURED_SPACES: OnChainSpace[] = [
     address: '5HmQUVoD4WfWMoRifYaTGeQaBdKJznvoNLUsRLzQLU6Voijb',
   },
   {
-    chainId: RococoContractsTestnet.id,
-    address: '5GB9sKMqKfUTMHmA1YfWrFb43xJHFGb8vra7Bv9tKnPWiBjz',
+    chainId: AlephTestnet.id,
+    address: '5HkJzUvS85WpxJZtbj2rmTFcJfosHgrHsyHLb4YquP2xiDPM',
+  },
+  {
+    chainId: AlephTestnet.id,
+    address: '5CGMt8gYoTU23wsWS9aUvKRUZNjysh6Zr6LW39bu1bDYgLwD',
+  },
+  {
+    chainId: AlephTestnet.id,
+    address: '5FysFYUP1j11FmfviBpj6CwvpwN5XW1k9u5wA9cyoXSyFuW4',
+  },
+  {
+    chainId: AlephTestnet.id,
+    address: '5HrBR1UY579LZHTNdk3m667qVSxmkTMpiDQ6Sp4QrbPaUFEu',
+  },
+  {
+    chainId: AlephTestnet.id,
+    address: '5C9XMtrkEfYSmBJJvKMacuCkcJdLAUeAuS4pyLzdke3bEYic',
+  },
+  {
+    chainId: AlephTestnet.id,
+    address: '5Ek9RhiUMi3SsKBgR4Mipb19yRsz1P9upNufcep2TYAaSsng',
+  },
+  {
+    chainId: AlephTestnet.id,
+    address: '5DPMZj3uu5yxHJYG8CrB4osGWS5rDWko8Wt4Rvf3EX5NU6bt',
+  },
+];
+
+const FEATURES = [
+  {
+    title: '📱 Works on both desktop and mobile devices',
+    description: (
+      <>
+        Engage with your community while on the go with the support of{' '}
+        <Link href='http://coongwallet.io' target='_blank' color='primary.500'>
+          Coong Wallet
+        </Link>
+        .
+      </>
+    ),
+  },
+  {
+    title: '🛡️ Full control over contracts and data',
+    description: 'Launch your own smart contracts to manage your spaces, and of course you own the data.',
+  },
+  {
+    title: '🔌️ Expand functionalities with plugins',
+    description: 'Add more functionalities for your spaces by installing plugins.',
+  },
+  {
+    title: '🤝 Flexible membership models',
+    description: 'Space memberships can be free, one time paid or maintained via a subscription.',
+  },
+  {
+    title: '⚙️ Upgradable',
+    description:
+      "Enhance your spaces and plugins by upgrading to newer versions, and it's your choice to upgrade or not.",
+  },
+  {
+    title: (
+      <>
+        🔑 Private spaces <Tag>Coming soon</Tag>
+      </>
+    ),
+    description: 'Only active members can access confidential information on spaces by proving proof-of-memberships.',
   },
 ];
 
@@ -43,59 +107,17 @@ function About() {
         </Text>
       </Flex>
       <Box my={8}>
-        <Box>
-          <Text fontSize='lg' fontWeight='semibold'>
-            📱 Works on both desktop and mobile devices
-          </Text>
-          <Text color='dimgray'>
-            Engage with your community while on the go with the support of{' '}
-            <Link href='http://coongwallet.io' target='_blank' color='primary.500'>
-              Coong Wallet
-            </Link>
-            .
-          </Text>
-        </Box>
-        <Divider my={4} />
-        <Box>
-          <Text fontSize='lg' fontWeight='semibold'>
-            🛡️ Full control over contracts and data
-          </Text>
-          <Text color='dimgray'>
-            Launch your own smart contracts to manage your spaces, and of course you own the data.
-          </Text>
-        </Box>
-        <Divider my={4} />
-        <Box>
-          <Text fontSize='lg' fontWeight='semibold'>
-            🔌️ Expand functionalities with plugins
-          </Text>
-          <Text color='dimgray'>Add more functionalities for your spaces by installing plugins.</Text>
-        </Box>
-        <Divider my={4} />
-        <Box>
-          <Text fontSize='lg' fontWeight='semibold'>
-            🤝 Flexible membership models
-          </Text>
-          <Text color='dimgray'>Space memberships can be free, one time paid or maintained via a subscription.</Text>
-        </Box>
-        <Divider my={4} />
-        <Box>
-          <Text fontSize='lg' fontWeight='semibold'>
-            ⚙️ Upgradability
-          </Text>
-          <Text color='dimgray'>
-            Enhance your spaces and plugins by upgrading to newer versions, and it's your choice to upgrade or not.
-          </Text>
-        </Box>
-        <Divider my={4} />
-        <Box>
-          <Text fontSize='lg' fontWeight='semibold'>
-            🔑 Private spaces <Tag>Coming soon</Tag>
-          </Text>
-          <Text color='dimgray'>
-            Only active members can access confidential information on spaces by proving proof-of-memberships.
-          </Text>
-        </Box>
+        <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
+          {FEATURES.map((one) => (
+            <Box borderWidth='1px' borderColor='primary.100' borderRadius={4} p={4}>
+              <Text fontSize='lg' fontWeight='semibold'>
+                {one.title}
+              </Text>
+              <Divider my={2} />
+              <Text color='dimgray'>{one.description}</Text>
+            </Box>
+          ))}
+        </SimpleGrid>
       </Box>
       <Box my={8}>
         <Text fontSize='2xl' fontWeight='semibold' bgGradient='linear(to-l, #FF0080, #6753DF)' bgClip='text'>

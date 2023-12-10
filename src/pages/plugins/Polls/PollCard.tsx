@@ -30,7 +30,7 @@ export default function PollCard({ poll }: PollCardProps) {
   const [voteOption, setVoteOption] = useState<number>();
 
   useEffect(() => {
-    if (!pollVotesResults?.Ok) {
+    if (!pollVotesResults?.Ok || voteOption !== undefined) {
       return;
     }
 

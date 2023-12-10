@@ -5,6 +5,7 @@ import { usePollsContext } from '@/pages/plugins/Polls/PollsProvider';
 import { Props } from '@/types';
 import { messages } from '@/utils/messages';
 import { notifyTxStatus } from '@/utils/notifications';
+import { shouldDisableStrict } from 'useink/utils';
 
 interface VoteButtonProps extends Props {
   pollId: number;
@@ -46,6 +47,7 @@ export default function VoteButton({ pollId, optionIndex, label = 'Vote' }: Vote
       variant={isDisabled ? 'outline' : 'solid'}
       colorScheme='primary'
       minWidth={20}
+      isLoading={shouldDisableStrict(voteTx)}
       isDisabled={isDisabled}>
       {label}
     </Button>
