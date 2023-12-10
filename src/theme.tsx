@@ -85,6 +85,7 @@ export const theme = extendTheme({
             marginBottom: '0',
           },
         },
+        wordBreak: 'break-word',
       },
     },
   },
