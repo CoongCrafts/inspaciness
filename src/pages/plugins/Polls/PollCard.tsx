@@ -95,7 +95,6 @@ export default function PollCard({ poll }: PollCardProps) {
             justifyContent='space-between'
             cursor='pointer'
             transitionDuration='200ms'
-            _hover={votedOption === optionIdx ? {} : { bg: 'primary.200' }}
             borderColor={optionIdx === voteOption ? 'primary.400' : 'charka-border-color'}
             onClick={() => handleVote(optionIdx)}
             bgGradient={`linear(to-r, ${votedOption === optionIdx ? 'primary.200' : 'primary.100'} ${
