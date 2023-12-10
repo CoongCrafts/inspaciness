@@ -21,6 +21,7 @@ import { FormEvent, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useTx } from '@/hooks/useink/useTx';
 import { usePollsContext } from '@/pages/plugins/Polls/PollsProvider';
+import { pollValidationScheme } from '@/pages/plugins/Polls/actions/NewPollButton';
 import { Poll, Props } from '@/types';
 import { formatDate } from '@/utils/date';
 import { messages } from '@/utils/messages';
@@ -46,6 +47,7 @@ export default function EditPollButton({ poll }: EditPollButtonProps) {
       options: poll.options,
       expiredAt: poll.expiredAt ? formatDate(poll.expiredAt) : '',
     },
+    validationSchema: pollValidationScheme,
     onSubmit: ({ question, options, expiredAt }, formikHelpers) => {
       options = options.filter((one) => !!one);
       expiredAt = expiredAt ? Date.parse(expiredAt).toString() : '';
@@ -110,29 +112,21 @@ export default function EditPollButton({ poll }: EditPollButtonProps) {
                   value={formik.values.question}
                   onChange={formik.handleChange}
                   name='question'
-                  placeholder='What you want to poll?'
+                  maxLength={300}
+                  placeholder='Got a poll topic in mind?'
                 />
                 {!!formik.errors.question ? (
                   <FormErrorMessage>{formik.errors.question}</FormErrorMessage>
                 ) : (
-                  <FormHelperText>Maximum 500 characters</FormHelperText>
+                  <FormHelperText>Maximum 300 characters</FormHelperText>
                 )}
-              </FormControl>
-              <FormControl>
-                <FormLabel>Expired at</FormLabel>
-                <Input
-                  type='datetime-local'
-                  value={formik.values.expiredAt}
-                  onChange={formik.handleChange}
-                  name='expiredAt'
-                />
-                <FormHelperText>Leave empty if you want edit it later</FormHelperText>
               </FormControl>
               <FormControl>
                 <FormLabel>Options</FormLabel>
                 <Flex flexDir='column' gap={2}>
                   {[...Array(numOfOption)].map((_, idx) => (
                     <Input
+                      maxLength={200}
                       key={`${poll.id}${idx}`}
                       value={formik.values.options[idx]}
                       onChange={(e) =>
@@ -143,6 +137,17 @@ export default function EditPollButton({ poll }: EditPollButtonProps) {
                     />
                   ))}
                 </Flex>
+                <FormHelperText>At least 2 options required, maximum 200 each</FormHelperText>
+              </FormControl>
+              <FormControl>
+                <FormLabel>Expired at</FormLabel>
+                <Input
+                  type='datetime-local'
+                  value={formik.values.expiredAt}
+                  onChange={formik.handleChange}
+                  name='expiredAt'
+                />
+                <FormHelperText>Leave empty for non expiring poll</FormHelperText>
               </FormControl>
             </Flex>
           </ModalBody>

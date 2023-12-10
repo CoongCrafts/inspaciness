@@ -32,6 +32,17 @@ import * as yup from 'yup';
 
 const DEFAULT_NUM_OF_OPTION = 3;
 
+export const pollValidationScheme = yup.object({
+  question: yup.string().max(300).required('Question is required'),
+  options: yup
+    .array()
+    .test(
+      'at_least_two_option',
+      'A poll need at least two options',
+      (options) => options && options.filter((one) => !!one).length >= 2,
+    ),
+});
+
 export default function NewPollButton() {
   const { contract } = usePollsContext();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -45,16 +56,7 @@ export default function NewPollButton() {
       options: Array(numOfOption) as string[],
       expiredAt: '',
     },
-    validationSchema: yup.object({
-      question: yup.string().max(500).required('Question is required'),
-      options: yup
-        .array()
-        .test(
-          'at_least_two_option',
-          'A poll need at least two options',
-          (options) => options && options.filter((one) => !!one).length >= 2,
-        ),
-    }),
+    validationSchema: pollValidationScheme,
     onSubmit: ({ question, expiredAt, options }, formikHelpers) => {
       options = options.filter((one) => !!one);
       expiredAt = expiredAt ? Date.parse(expiredAt).toString() : '';
@@ -133,35 +135,27 @@ export default function NewPollButton() {
           <ModalCloseButton />
           <ModalBody>
             <Flex flexDir='column' gap={4}>
-              <FormControl isInvalid={!!formik.errors.question} isRequired>
+              <FormControl isInvalid={formik.touched.question && !!formik.errors.question} isRequired>
                 <FormLabel>Question</FormLabel>
                 <Textarea
                   value={formik.values.question}
                   onChange={formik.handleChange}
                   name='question'
-                  placeholder='What you want to poll?'
+                  maxLength={300}
+                  placeholder='Got a poll topic in mind?'
                 />
                 {formik.touched.question && !!formik.errors.question ? (
                   <FormErrorMessage>{formik.errors.question}</FormErrorMessage>
                 ) : (
-                  <FormHelperText>Maximum 500 characters</FormHelperText>
+                  <FormHelperText>Maximum 300 characters</FormHelperText>
                 )}
-              </FormControl>
-              <FormControl>
-                <FormLabel>Expired at</FormLabel>
-                <Input
-                  type='datetime-local'
-                  value={formik.values.expiredAt}
-                  onChange={formik.handleChange}
-                  name='expiredAt'
-                />
-                <FormHelperText>Leave empty if you want edit it later</FormHelperText>
               </FormControl>
               <FormControl>
                 <FormLabel>Options</FormLabel>
                 <Flex flexDir='column' gap={2}>
                   {[...Array(numOfOption)].map((_, idx) => (
                     <Input
+                      maxLength={200}
                       key={idx}
                       value={formik.values.options[idx]}
                       onChange={(e) =>
@@ -171,6 +165,17 @@ export default function NewPollButton() {
                     />
                   ))}
                 </Flex>
+                <FormHelperText>At least 2 options required, maximum 200 each</FormHelperText>
+              </FormControl>
+              <FormControl>
+                <FormLabel>Expired at</FormLabel>
+                <Input
+                  type='datetime-local'
+                  value={formik.values.expiredAt}
+                  onChange={formik.handleChange}
+                  name='expiredAt'
+                />
+                <FormHelperText>Leave empty for non expiring poll</FormHelperText>
               </FormControl>
             </Flex>
           </ModalBody>

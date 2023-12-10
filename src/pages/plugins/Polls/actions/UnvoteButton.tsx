@@ -17,6 +17,7 @@ export default function UnvoteButton({ pollId }: UnvoteButtonProps) {
   const doUnvote = () => {
     unvoteTx.signAndSend([pollId], undefined, (result) => {
       if (!result) {
+        unvoteTx.resetState();
         return;
       }
 
@@ -26,7 +27,7 @@ export default function UnvoteButton({ pollId }: UnvoteButtonProps) {
         if (result.dispatchError) {
           toast.error(messages.txError);
         } else {
-          toast.success('Unvote success');
+          toast.success('Vote removed');
         }
       }
 
@@ -37,7 +38,7 @@ export default function UnvoteButton({ pollId }: UnvoteButtonProps) {
   return (
     <>
       <Button onClick={doUnvote} size='sm' variant='outline' minWidth={20}>
-        Unvote
+        Remove Vote
       </Button>
     </>
   );
