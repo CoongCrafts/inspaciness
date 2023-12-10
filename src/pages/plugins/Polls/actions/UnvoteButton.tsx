@@ -5,6 +5,7 @@ import { usePollsContext } from '@/pages/plugins/Polls/PollsProvider';
 import { Props } from '@/types';
 import { messages } from '@/utils/messages';
 import { notifyTxStatus } from '@/utils/notifications';
+import { shouldDisableStrict } from 'useink/utils';
 
 interface UnvoteButtonProps extends Props {
   pollId: number;
@@ -37,7 +38,7 @@ export default function UnvoteButton({ pollId }: UnvoteButtonProps) {
 
   return (
     <>
-      <Button onClick={doUnvote} size='sm' variant='outline' minWidth={20}>
+      <Button onClick={doUnvote} size='sm' variant='outline' minWidth={20} isLoading={shouldDisableStrict(unvoteTx)}>
         Remove Vote
       </Button>
     </>
