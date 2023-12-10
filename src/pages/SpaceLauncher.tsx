@@ -501,15 +501,6 @@ export default function SpaceLauncher() {
               </FormControl>
               <FormControl display='flex' alignItems='center' opacity={0.5}>
                 <FormLabel htmlFor='email-alerts' mb='0'>
-                  Polls
-                </FormLabel>
-                <Switch id='plugin-polls' disabled />
-                <Badge ml={4} fontSize='0.6em' variant='solid'>
-                  Coming soon
-                </Badge>
-              </FormControl>
-              <FormControl display='flex' alignItems='center' opacity={0.5}>
-                <FormLabel htmlFor='email-alerts' mb='0'>
                   Auction
                 </FormLabel>
                 <Switch id='plugin-auction' disabled />
