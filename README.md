@@ -18,10 +18,21 @@ A protocol to launch and manage your community spaces using <a href="https://use
 
 
 ## Features
+- ✅ Works on both desktop and mobile browsers natively with the support of [Coong Wallet](https://coongwallet.io)
+- ✅ Flexible membership models with different registration types for spaces
+- ✅ Extends functionalities for spaces with plugins
+- ✅ Versioning management for spaces & plugins via motherspace
+- ⏳ Private spaces (coming soon with Phala Contracts support)
+
+## Concepts
+
+## Architecture
+
+## Plugins
 
 ## Status
 
-| Supported Testnet | Live | Motherspace Address |
+| Supported Testnet | Live | Motherspace Contract Address |
 | ----------- | ----------- |  ----------- |
 | Aleph Zero Testnet | ✅ | `5E1ogStNoR23ZvCiHAFsQ6zpa5UQA2hzt6Fddfu56V4EdCky` |
 | Shibuya (Astar) | ✅ | `ZfWhiZcuWF2YWFnLpY9hgbf3sXd1Zd3Hkc5W4q9djGAUNkS` |
