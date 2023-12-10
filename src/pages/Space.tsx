@@ -18,7 +18,7 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { MdFlip } from 'react-icons/md';
-import { RiFileTextLine, RiSettings4Line, RiTeamLine, RiUserFollowLine } from 'react-icons/ri';
+import { RiChatPollLine, RiFileTextLine, RiSettings4Line, RiTeamLine, RiUserFollowLine } from 'react-icons/ri';
 import { Link as LinkRouter, Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import SpaceSkeleton from '@/components/sketeton/SpaceSkeleton';
@@ -30,7 +30,7 @@ import UpdateDisplayNameButton from '@/pages/space/actions/UpdateDisplayNameButt
 import SpaceProvider, { useSpaceContext } from '@/providers/SpaceProvider';
 import { MemberStatus, MenuItemType, RegistrationType } from '@/types';
 import { renderMd } from '@/utils/mdrenderer';
-import { PLUGIN_FLIPPER, PLUGIN_POSTS } from '@/utils/plugins';
+import { PLUGIN_FLIPPER, PLUGIN_POLLS, PLUGIN_POSTS } from '@/utils/plugins';
 import { shortenAddress } from '@/utils/string';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import pluralize from 'pluralize';
@@ -42,6 +42,7 @@ export enum SpacePath {
   Settings = 'settings',
   Posts = 'posts',
   Flipper = 'flipper',
+  Polls = 'polls',
 }
 
 const MENU_ITEMS: MenuItemType[] = [
@@ -53,6 +54,7 @@ const MENU_ITEMS: MenuItemType[] = [
 const PLUGIN_MENU_ITEMS: Record<string, MenuItemType> = {
   [PLUGIN_POSTS]: { name: 'Posts', path: SpacePath.Posts, icon: RiFileTextLine },
   [PLUGIN_FLIPPER]: { name: 'Flipper', path: SpacePath.Flipper, icon: MdFlip },
+  [PLUGIN_POLLS]: { name: 'Polls', path: SpacePath.Polls, icon: RiChatPollLine },
 };
 
 function SpaceContent() {
