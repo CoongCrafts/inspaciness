@@ -99,7 +99,7 @@ export default function InstallPluginsButton() {
             <Flex mt={4} direction='column' gap={2}>
               {availablePlugins.map((one, index) => (
                 <Box key={index}>
-                  <FormControl key={index}>
+                  <FormControl>
                     <Flex align='center'>
                       <FormLabel mb='0'>{one.name}</FormLabel>
                       <Switch

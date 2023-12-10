@@ -21,7 +21,7 @@ const REGISTERED_PLUGINS: Plugin[] = [
   {
     id: PLUGIN_POLLS,
     name: 'Polls',
-    description: 'Create polls to ...',
+    description: 'Create and vote on polls within your space, where only active members have a voice.',
   },
 ];
 

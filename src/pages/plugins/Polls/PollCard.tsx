@@ -64,7 +64,7 @@ export default function PollCard({ poll }: PollCardProps) {
   const isVoted = votedOption !== undefined;
 
   return (
-    <Flex flexDir='column' borderWidth={1} p={4} pt={2} borderRadius={4} gap={2}>
+    <Flex flexDir='column' borderWidth={1} p={4} pt={2} borderRadius={4} gap={2} mb={2}>
       <Flex justifyContent='space-between' align='center'>
         <Text fontWeight='semibold'>Poll #{poll.id}</Text>
         {isOwner && (

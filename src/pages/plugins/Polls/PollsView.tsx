@@ -1,4 +1,4 @@
-import { Flex, Link, Tag, Text } from '@chakra-ui/react';
+import { Box, Flex, Link, Tag, Text } from '@chakra-ui/react';
 import PollsCardSkeleton from '@/components/sketeton/PollsCardSkeleton';
 import PollCard from '@/pages/plugins/Polls/PollCard';
 import { usePollsContext } from '@/pages/plugins/Polls/PollsProvider';
@@ -11,8 +11,8 @@ export default function PollsView() {
   const { pollsCount, polls } = usePollsContext();
 
   return (
-    <Flex flexDir='column'>
-      <Flex justifyContent='space-between' alignItems='center' gap={2}>
+    <Box mb={4}>
+      <Flex justifyContent='space-between' alignItems='center' gap={2} mb={4}>
         <Flex alignItems='center' gap={2}>
           <Text fontSize='xl' fontWeight='semibold'>
             Polls
@@ -20,12 +20,6 @@ export default function PollsView() {
           <Tag>{pollsCount}</Tag>
         </Flex>
         {isOwner && <NewPollButton />}
-      </Flex>
-      <Flex my={4} flexDir='column' gap={2}>
-        {polls.map((poll) => (
-          <PollCard key={poll.id} poll={poll} />
-        ))}
-        {pollsCount === undefined && [...Array(5)].map((_, idx) => <PollsCardSkeleton key={idx} />)}
       </Flex>
       {pollsCount === 0 &&
         (isOwner ? (
@@ -39,6 +33,9 @@ export default function PollsView() {
         ) : (
           <Text>There are no polls in this space, check back later.</Text>
         ))}
-    </Flex>
+      {polls
+        ? polls.map((poll) => <PollCard key={poll.id} poll={poll} />)
+        : [...Array(5)].map((_, idx) => <PollsCardSkeleton key={idx} />)}
+    </Box>
   );
 }

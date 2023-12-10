@@ -6,6 +6,7 @@ import {
   Badge,
   Box,
   Button,
+  Divider,
   Flex,
   FormControl,
   FormErrorMessage,
@@ -461,22 +462,31 @@ export default function SpaceLauncher() {
                 if (!pluginInfo) return null;
 
                 return (
-                  <FormControl key={index} display='flex' alignItems='center'>
-                    <FormLabel mb='0'>{pluginInfo.name}</FormLabel>
-                    <Switch
-                      colorScheme='primary'
-                      onChange={(e) => {
-                        const checked = e.target.checked;
-                        const plugins = formikStep2.values.plugins.filter((one) => one !== pluginInfo.id);
-                        if (checked) {
-                          plugins.push(pluginInfo.id);
-                        }
+                  <Box key={index}>
+                    <FormControl>
+                      <Flex align='center'>
+                        <FormLabel mb='0'>{pluginInfo.name}</FormLabel>
+                        <Switch
+                          colorScheme='primary'
+                          onChange={(e) => {
+                            const checked = e.target.checked;
+                            const plugins = formikStep2.values.plugins.filter((one) => one !== pluginInfo.id);
+                            if (checked) {
+                              plugins.push(pluginInfo.id);
+                            }
 
-                        formikStep2.setFieldValue('plugins', plugins);
-                      }}
-                      isChecked={formikStep2.values.plugins.includes(pluginInfo.id)}
-                    />
-                  </FormControl>
+                            formikStep2.setFieldValue('plugins', plugins);
+                          }}
+                          isChecked={formikStep2.values.plugins.includes(pluginInfo.id)}
+                        />
+                      </Flex>
+
+                      <Text fontSize='sm' color='gray.500'>
+                        {pluginInfo.description}
+                      </Text>
+                    </FormControl>
+                    <Divider mt={2} />
+                  </Box>
                 );
               })}
 
