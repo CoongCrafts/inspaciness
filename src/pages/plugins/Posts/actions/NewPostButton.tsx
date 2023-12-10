@@ -51,7 +51,7 @@ export default function NewPostButton({ onPostCreated }: NewPostButtonProps) {
       content: '',
     },
     validationSchema: yup.object().shape({
-      content: yup.string().required().max(500),
+      content: yup.string().required().max(500, 'Content must be at most 500 characters'),
     }),
     onSubmit: (values, formikHelpers) => {
       const { content } = values;
@@ -130,7 +130,7 @@ export default function NewPostButton({ onPostCreated }: NewPostButtonProps) {
               </TabList>
               <TabPanels>
                 <TabPanel p={2}>
-                  <FormControl isInvalid={formik.touched.content && !!formik.errors.content}>
+                  <FormControl isInvalid={!!formik.values.content && !!formik.errors.content}>
                     <Textarea
                       height={40}
                       size='md'
@@ -141,7 +141,7 @@ export default function NewPostButton({ onPostCreated }: NewPostButtonProps) {
                       autoFocus
                       onChange={formik.handleChange}
                     />
-                    {formik.touched.content && !!formik.errors.content && (
+                    {!!formik.values.content && !!formik.errors.content && (
                       <FormErrorMessage>{formik.errors.content}</FormErrorMessage>
                     )}
                   </FormControl>
