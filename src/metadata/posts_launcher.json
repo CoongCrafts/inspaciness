@@ -1,11 +1,11 @@
 {
   "source": {
-    "hash": "0xe5464f339af343c3d3bd1305ab7563eb139664428c1ff1bf1349268cf8630675",
+    "hash": "0xdbd541fb228790c5e0970b4ea5312a43af039d9ad5c196d7cbe8d6be5b2af48f",
     "language": "ink! 4.3.0",
-    "compiler": "rustc 1.73.0-nightly",
+    "compiler": "rustc 1.77.0-nightly",
     "build_info": {
       "build_mode": "Debug",
-      "cargo_contract_version": "4.0.0-alpha",
+      "cargo_contract_version": "3.2.0",
       "rust_toolchain": "nightly-aarch64-apple-darwin",
       "wasm_opt_settings": {
         "keep_debug_symbols": false,
@@ -20,7 +20,6 @@
       "Thang X. Vu <thang@coongcrafts.io>"
     ]
   },
-  "image": null,
   "spec": {
     "constructors": [
       {

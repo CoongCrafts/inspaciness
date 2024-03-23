@@ -11,6 +11,7 @@ import UploadContracts from '@/pages/UploadContracts';
 import Flipper from '@/pages/plugins/Flipper';
 import Polls from '@/pages/plugins/Polls';
 import Posts from '@/pages/plugins/Posts';
+import PendingPosts from '@/pages/plugins/Posts/PendingPosts';
 import Members from '@/pages/space/Members';
 import PendingMembers from '@/pages/space/PendingMembers';
 import Settings from '@/pages/space/Settings';
@@ -32,6 +33,7 @@ export default function AppRouter() {
             <Route path='members' element={<Members />} />,
             <Route path='settings' element={<Settings />} />,
             <Route path='pending-members' element={<PendingMembers />} />,
+            <Route path='pending-posts' element={<PendingPosts />} />,
           </Route>
           <Route path='/upload' element={<UploadContracts />} />,
           <Route path='/launch' element={<SpaceLauncher />} />,

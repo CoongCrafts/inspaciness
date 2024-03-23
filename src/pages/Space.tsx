@@ -23,6 +23,7 @@ import { Link as LinkRouter, Outlet, useLocation, useNavigate, useParams } from 
 import { toast } from 'react-toastify';
 import SpaceSkeleton from '@/components/sketeton/SpaceSkeleton';
 import SpaceAvatar from '@/components/space/SpaceAvatar';
+import PendingPostsButton from '@/pages/plugins/Posts/PendingPosts/PendingPostsButton';
 import CancelRequestButton from '@/pages/space/actions/CancelRequestButton';
 import JoinButton from '@/pages/space/actions/JoinButton';
 import LeaveSpaceButton from '@/pages/space/actions/LeaveSpaceButton';
@@ -41,6 +42,7 @@ export enum SpacePath {
   PendingMembers = 'pending-members',
   Settings = 'settings',
   Posts = 'posts',
+  PendingPosts = 'pending-posts',
   Flipper = 'flipper',
   Polls = 'polls',
 }
@@ -65,6 +67,8 @@ function SpaceContent() {
     useSpaceContext();
 
   const showPendingMembers = config?.registration === RegistrationType.RequestToJoin && isOwner;
+
+  const showPendingPosts = plugins?.find((plugin) => plugin.id === PLUGIN_POSTS);
 
   useEffect(() => {
     if (!plugins) return;
@@ -156,7 +160,8 @@ function SpaceContent() {
         <Flex // Navigation bar for large screen
           direction='column'
           display={{ base: 'none', md: 'flex' }}>
-          <Box position='sticky' top={4} width={220}>
+          <Flex flexDir='column' position='sticky' top={4} width={220}>
+            {showPendingPosts && <PendingPostsButton info={showPendingPosts} />}
             {menuItems.map((one, index) => (
               <Button
                 key={one.name}
@@ -183,7 +188,7 @@ function SpaceContent() {
                 )}
               </Button>
             ))}
-          </Box>
+          </Flex>
         </Flex>
         <Tabs // Navigation bar for small screen
           index={activeIndex}

@@ -149,6 +149,7 @@ export enum Ordering {
 export enum PostPerm {
   SpaceOwner = 'SpaceOwner',
   ActiveMember = 'ActiveMember',
+  ActiveMemberWithApproval = 'ActiveMemberWithApproval',
 }
 
 export interface Poll {
@@ -167,3 +168,5 @@ export interface PollVotes {
   votesByOptions: [string, string][];
   votedOption: string | null;
 }
+
+export type PendingPostApproval = [number, boolean];

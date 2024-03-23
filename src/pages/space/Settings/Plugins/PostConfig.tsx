@@ -68,6 +68,7 @@ export default function PostConfig({ pluginInfo }: PostConfigProps) {
         <Select size='sm' isReadOnly={!isOwner} isDisabled={!isOwner} value={postPerm} onChange={onChange}>
           <option value={PostPerm.SpaceOwner}>Space Owner</option>
           <option value={PostPerm.ActiveMember}>Active Members</option>
+          <option value={PostPerm.ActiveMemberWithApproval}>Active Members With Approval</option>
         </Select>
         <FormHelperText>Choose who can make posts.</FormHelperText>
       </FormControl>
