@@ -25,7 +25,7 @@ import SpaceSkeleton from '@/components/sketeton/SpaceSkeleton';
 import SpaceAvatar from '@/components/space/SpaceAvatar';
 import useMotherContract from '@/hooks/contracts/useMotherContract';
 import useContractState from '@/hooks/useContractState';
-import PendingPostsButton from '@/pages/plugins/Posts/PendingPosts/PendingPostsButton';
+import PendingPostsButton from '@/pages/plugins/Posts/0.2.x/PendingPosts/PendingPostsButton';
 import CancelRequestButton from '@/pages/space/actions/CancelRequestButton';
 import JoinButton from '@/pages/space/actions/JoinButton';
 import LeaveSpaceButton from '@/pages/space/actions/LeaveSpaceButton';
@@ -70,7 +70,9 @@ function SpaceContent() {
 
   const showPendingMembers = config?.registration === RegistrationType.RequestToJoin && isOwner;
 
-  const showPendingPosts = plugins?.find((plugin) => plugin.id === PLUGIN_POSTS);
+  // TODO fix this!
+  const postPlugin = plugins?.find((plugin) => plugin.id === PLUGIN_POSTS);
+  const showPendingPosts = postPlugin?.version === '0.2.0' && postPlugin?.disabled === false;
 
   useEffect(() => {
     if (!plugins) return;
@@ -163,7 +165,7 @@ function SpaceContent() {
           direction='column'
           display={{ base: 'none', md: 'flex' }}>
           <Flex flexDir='column' position='sticky' top={4} width={220}>
-            {showPendingPosts && <PendingPostsButton info={showPendingPosts} />}
+            {showPendingPosts && <PendingPostsButton info={postPlugin} />}
             {menuItems.map((one, index) => (
               <Button
                 key={one.name}

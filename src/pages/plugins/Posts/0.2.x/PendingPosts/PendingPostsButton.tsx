@@ -33,7 +33,7 @@ export default function PendingPostsButton({ info }: PendingPostsButtonProps) {
   const location = useLocation();
   const { isOwner } = useSpaceContext();
   const { selectedAccount } = useWalletContext();
-  const contract = usePostsContract(info);
+  const { contract } = usePostsContract(info);
   const [pendingPostsCount, setPendingPostsCount] = useState<number>(0);
   const { state: postPerm } = useContractState<PostPerm>(contract, 'postPerm');
   const { state: pendingPostsCountResults } = useContractState<PendingPostsCountResult>(contract, 'pendingPostsCount');

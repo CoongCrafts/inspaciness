@@ -1,8 +1,8 @@
 import { Box, Text } from '@chakra-ui/react';
-import PendingPostsView from '@/pages/plugins/Posts/PendingPosts/PendingPostsView';
-import PostsProvider from '@/pages/plugins/Posts/PostsProvider';
 import { useSpaceContext } from '@/providers/SpaceProvider';
 import { PLUGIN_POSTS } from '@/utils/plugins';
+import PostsProvider from '../PostsProvider';
+import PendingPostsView from './PendingPostsView';
 
 export default function PendingPosts() {
   const { plugins } = useSpaceContext();

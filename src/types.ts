@@ -14,6 +14,10 @@ export interface Props {
   [prop: string]: any;
 }
 
+export interface PluginProps extends Props {
+  plugin: PluginInfo;
+}
+
 export enum ChainEnvironment {
   Development = 'Development',
   Testnet = 'Testnet',
@@ -108,6 +112,7 @@ export interface PluginInfo extends Plugin {
   chainId: ChainId;
   disabled: boolean;
   codeHash: string;
+  version?: string;
 }
 
 export interface OnChainPluginInfo {

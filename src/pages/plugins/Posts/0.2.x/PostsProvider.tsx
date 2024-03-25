@@ -1,4 +1,4 @@
-import { createContext, useContext } from 'react';
+import { createContext, useContext, useState } from 'react';
 import usePostsContract from '@/hooks/contracts/plugins/usePostsContract';
 import useContractState from '@/hooks/useContractState';
 import { useSpaceContext } from '@/providers/SpaceProvider';
@@ -12,6 +12,10 @@ interface PostsContextProps {
   postsCount?: number;
   postPerm?: PostPerm;
   canCreatePost: boolean;
+  nonce: number;
+  setNonce: (nonce: number) => void;
+
+  // >= v0.2.0
   shouldCreatePendingPost: boolean;
 }
 
@@ -35,12 +39,14 @@ export default function PostsProvider({ info, children }: PostsProviderProps) {
   const { isOwner, memberStatus } = useSpaceContext();
   const { state: postsCountStr } = useContractState<string>(contract, 'postsCount');
   const { state: postPerm } = useContractState<PostPerm>(contract, 'postPerm');
+  const postsCount = stringToNum(postsCountStr);
+  const [nonce, setNonce] = useState<number>(postsCount!);
 
   let canCreatePost = false;
   if (postPerm === PostPerm.SpaceOwner) {
     canCreatePost = isOwner;
   } else if (postPerm === PostPerm.ActiveMember || postPerm === PostPerm.ActiveMemberWithApproval) {
-    canCreatePost = memberStatus === MemberStatus.Active;
+    canCreatePost = memberStatus == MemberStatus.Active;
   }
 
   let shouldCreatePendingPost = postPerm === PostPerm.ActiveMemberWithApproval && canCreatePost && !isOwner;
@@ -53,11 +59,13 @@ export default function PostsProvider({ info, children }: PostsProviderProps) {
     <PostsContext.Provider
       value={{
         info,
-        postsCount: stringToNum(postsCountStr),
+        postsCount,
         contract,
         postPerm,
         canCreatePost,
         shouldCreatePendingPost,
+        nonce,
+        setNonce,
       }}>
       {children}
     </PostsContext.Provider>

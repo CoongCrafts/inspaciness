@@ -2,11 +2,11 @@ import { MenuItem } from '@chakra-ui/react';
 import { toast } from 'react-toastify';
 import useCurrentFreeBalance from '@/hooks/space/useCurrentFreeBalance';
 import { useTx } from '@/hooks/useink/useTx';
-import { usePostsContext } from '@/pages/plugins/Posts/PostsProvider';
 import { Props } from '@/types';
 import { messages } from '@/utils/messages';
 import { notifyTxStatus } from '@/utils/notifications';
 import { DeleteIcon } from '@chakra-ui/icons';
+import { usePostsContext } from '../PostsProvider';
 
 interface CancelPendingPostButtonProps extends Props {
   postId: number;

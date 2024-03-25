@@ -2,13 +2,13 @@ import { Box, Flex, IconButton, Menu, MenuButton, MenuList, Text } from '@chakra
 import { Identicon } from '@polkadot/react-identicon';
 import { RiMore2Fill } from 'react-icons/ri';
 import useContractState from '@/hooks/useContractState';
-import CancelPendingPostButton from '@/pages/plugins/Posts/PendingPosts/CancelPendingPostButton';
-import UpdatePendingPostButton from '@/pages/plugins/Posts/PendingPosts/UpdatePendingPostButton';
 import { useSpaceContext } from '@/providers/SpaceProvider';
 import { MemberInfo, PostContent, PostRecord, Props } from '@/types';
 import { fromNow } from '@/utils/date';
 import { renderMd } from '@/utils/mdrenderer';
 import { shortenAddress } from '@/utils/string';
+import CancelPendingPostButton from './CancelPendingPostButton';
+import UpdatePendingPostButton from './UpdatePendingPostButton';
 
 interface PendingPostCardProps extends Props {
   postRecord: PostRecord;

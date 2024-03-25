@@ -11,7 +11,7 @@ import UploadContracts from '@/pages/UploadContracts';
 import Flipper from '@/pages/plugins/Flipper';
 import Polls from '@/pages/plugins/Polls';
 import Posts from '@/pages/plugins/Posts';
-import PendingPosts from '@/pages/plugins/Posts/PendingPosts';
+import PendingPosts from '@/pages/plugins/Posts/0.2.x/PendingPosts';
 import Members from '@/pages/space/Members';
 import PendingMembers from '@/pages/space/PendingMembers';
 import Settings from '@/pages/space/Settings';

@@ -19,50 +19,48 @@ import {
   Tabs,
   TabList,
   Tab,
+  IconButton,
   Link,
-  MenuItem,
 } from '@chakra-ui/react';
 import { FormEvent, useEffect } from 'react';
 import { toast } from 'react-toastify';
+import { useEffectOnce } from 'react-use';
 import { useTx } from '@/hooks/useink/useTx';
-import { usePostsContext } from '@/pages/plugins/Posts/PostsProvider';
-import { postValidationScheme } from '@/pages/plugins/Posts/actions/NewPostButton';
 import { Props } from '@/types';
+import { eventEmitter, EventName } from '@/utils/eventemitter';
 import { renderMd } from '@/utils/mdrenderer';
 import { messages } from '@/utils/messages';
 import { notifyTxStatus } from '@/utils/notifications';
-import { EditIcon } from '@chakra-ui/icons';
+import { AddIcon } from '@chakra-ui/icons';
 import { useFormik } from 'formik';
 import { shouldDisableStrict } from 'useink/utils';
+import * as yup from 'yup';
+import { usePostsContext } from '../PostsProvider';
 
-interface UpdatePostButtonProps extends Props {
-  postId: number;
-  defaultValue: string;
-  // onPostUpdated: (content: any, postId: number) => void;
-  disabled?: boolean;
+export const postValidationScheme = yup.object().shape({
+  content: yup.string().required().max(500, 'Content must be at most 500 characters'),
+});
+
+interface NewPostButtonProps extends Props {
+  onPostCreated: () => void;
 }
 
-export default function UpdatePendingPostButton({
-  postId,
-  defaultValue,
-  // onPostUpdated,
-  disabled = false,
-}: UpdatePostButtonProps) {
-  const { contract } = usePostsContext();
-  const updatePostTx = useTx<number>(contract, 'updatePendingPost');
+export default function NewPostButton({ onPostCreated }: NewPostButtonProps) {
+  const { contract, shouldCreatePendingPost } = usePostsContext();
+  const newPostTx = useTx<number>(contract, 'newPost');
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const formik = useFormik({
     initialValues: {
-      content: defaultValue,
+      content: '',
     },
     validationSchema: postValidationScheme,
     onSubmit: (values, formikHelpers) => {
       const { content } = values;
       const postContent = { Raw: content };
-      updatePostTx.signAndSend([postId, postContent], {}, (result) => {
+      newPostTx.signAndSend([postContent], undefined, (result) => {
         if (!result) {
-          updatePostTx.resetState(formikHelpers);
+          newPostTx.resetState(formikHelpers);
           return;
         }
 
@@ -72,13 +70,16 @@ export default function UpdatePendingPostButton({
           if (result.dispatchError) {
             toast.error(messages.txError);
           } else {
-            toast.success('Post updated');
+            toast.success(
+              shouldCreatePendingPost
+                ? 'Your post will be show up after being reviewed by space owner'
+                : 'New post created',
+            );
 
-            // Set current content by updated content
-            // onPostUpdated(postContent, postId);
+            onPostCreated();
           }
 
-          updatePostTx.resetState(formikHelpers);
+          newPostTx.resetState(formikHelpers);
           onClose();
         }
       });
@@ -86,21 +87,44 @@ export default function UpdatePendingPostButton({
   });
 
   useEffect(() => {
-    updatePostTx.resetState();
+    newPostTx.resetState();
     formik.resetForm();
   }, [isOpen]);
 
-  const processing = shouldDisableStrict(updatePostTx);
+  useEffectOnce(() => {
+    const showPopup = () => onOpen();
+    eventEmitter.on(EventName.SHOW_NEW_POST_POPUP, showPopup);
+
+    return () => {
+      eventEmitter.off(EventName.SHOW_NEW_POST_POPUP, showPopup);
+    };
+  });
+
+  const processing = shouldDisableStrict(newPostTx);
 
   return (
     <>
-      <MenuItem icon={<EditIcon />} isDisabled={disabled} onClick={onOpen}>
-        Edit
-      </MenuItem>
+      <Button
+        variant='outline'
+        colorScheme='primary'
+        size='sm'
+        onClick={onOpen}
+        display={{ base: 'none', md: 'block' }}>
+        New
+      </Button>
+      <IconButton
+        aria-label={'New post'}
+        colorScheme='primary'
+        variant='outline'
+        size='sm'
+        onClick={onOpen}
+        icon={<AddIcon />}
+        display={{ base: 'block', md: 'none' }}
+      />
       <Modal isOpen={isOpen} onClose={onClose} size={{ base: 'full', md: '3xl' }} closeOnOverlayClick={false}>
         <ModalOverlay />
         <ModalContent as='form' onSubmit={(e) => formik.handleSubmit(e as FormEvent<HTMLFormElement>)}>
-          <ModalHeader>Edit Post #{postId}</ModalHeader>
+          <ModalHeader>New Post</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Tabs variant='enclosed' borderStyle='solid' borderWidth={1} borderRadius={4} size='sm'>
@@ -155,9 +179,9 @@ export default function UpdatePendingPostButton({
                 type='submit'
                 width={100}
                 isLoading={processing}
-                loadingText='Saving...'
+                loadingText='Posting...'
                 isDisabled={processing || !formik.isValid}>
-                Save
+                Post
               </Button>
             </Flex>
           </ModalFooter>

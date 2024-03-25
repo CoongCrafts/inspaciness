@@ -4,13 +4,13 @@ import { toast } from 'react-toastify';
 import useCurrentFreeBalance from '@/hooks/space/useCurrentFreeBalance';
 import usePagination from '@/hooks/usePagination';
 import { useTx } from '@/hooks/useink/useTx';
-import PendingPostCardWithApprovalSelect from '@/pages/plugins/Posts/PendingPosts/PendingPostCardWithApprovalSelect';
-import { usePostsContext } from '@/pages/plugins/Posts/PostsProvider';
 import { PendingPostApproval, PostRecord } from '@/types';
 import { messages } from '@/utils/messages';
 import { notifyTxStatus } from '@/utils/notifications';
 import { AddIcon, ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { shouldDisableStrict } from 'useink/utils';
+import { usePostsContext } from '../PostsProvider';
+import PendingPostCardWithApprovalSelect from './PendingPostCardWithApprovalSelect';
 
 export default function SpaceOwnerPendingPostsView() {
   const { contract } = usePostsContext();

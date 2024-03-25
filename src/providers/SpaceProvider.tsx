@@ -17,7 +17,7 @@ import {
   SpaceInfo,
 } from '@/types';
 import { findNetwork } from '@/utils/networks';
-import { findPlugin } from '@/utils/plugins';
+import { findPlugin, findPluginVersion } from '@/utils/plugins';
 import { equalAddresses } from '@/utils/string';
 import { ChainContract, useApi } from 'useink';
 
@@ -76,11 +76,13 @@ export default function SpaceProvider({ space, motherContract, children }: Space
   const { api } = useApi(space.chainId) || {};
 
   const isOwner = equalAddresses(selectedAccount?.address, ownerId);
-  const plugins = installedPlugins?.map((plugin) => ({
-    ...plugin,
-    ...findPlugin(plugin.id)!, // TODO filter-out unsupported plugins
-    chainId: space.chainId,
-  }));
+  const plugins: PluginInfo[] | undefined = installedPlugins
+    ?.map((plugin) => ({
+      ...plugin,
+      ...findPlugin(plugin.id)!, // TODO filter-out unsupported plugins
+      chainId: space.chainId,
+    }))
+    .map((plugin) => ({ ...plugin, version: findPluginVersion(plugin) }));
 
   return (
     <SpaceContext.Provider

@@ -1,5 +1,5 @@
 import { FlipperMetadatas, PollsMetadatas, PostsMetadatas } from '@/metadata';
-import { Plugin, PluginInfo } from '@/types';
+import { ContractMetadata, Plugin, PluginInfo } from '@/types';
 
 export const PLUGIN_POSTS = 'POST';
 export const PLUGIN_FLIPPER = 'FLIP';
@@ -27,7 +27,7 @@ export const findPlugin = (id: string): Plugin | undefined => {
   return REGISTERED_PLUGINS.find((p) => p.id === id);
 };
 
-export const findPluginMetadata = (plugin: PluginInfo) => {
+export const findPluginMetadata = (plugin: PluginInfo): ContractMetadata | undefined => {
   const { id, codeHash } = plugin;
 
   if (id === PLUGIN_POSTS) {
@@ -37,6 +37,10 @@ export const findPluginMetadata = (plugin: PluginInfo) => {
   } else if (id === PLUGIN_POLLS) {
     return PollsMetadatas.find((m) => m.hash === codeHash);
   }
+};
+
+export const findPluginVersion = (plugin: PluginInfo): string | undefined => {
+  return findPluginMetadata(plugin)?.version;
 };
 
 export default REGISTERED_PLUGINS;

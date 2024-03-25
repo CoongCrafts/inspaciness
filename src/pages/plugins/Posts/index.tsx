@@ -1,8 +1,10 @@
 import { Box, Text } from '@chakra-ui/react';
-import PostsProvider from '@/pages/plugins/Posts/PostsProvider';
-import PostsView from '@/pages/plugins/Posts/PostsView';
+import React, { Suspense } from 'react';
 import { useSpaceContext } from '@/providers/SpaceProvider';
 import { PLUGIN_POSTS } from '@/utils/plugins';
+
+const Posts_V0_1_X = React.lazy(() => import(`./0.1.x/index`));
+const Posts_V0_2_X = React.lazy(() => import(`./0.2.x/index`));
 
 export default function Posts() {
   const { plugins } = useSpaceContext();
@@ -19,9 +21,12 @@ export default function Posts() {
     );
   }
 
+  const { version = '0.1.0' } = postPlugin;
+
   return (
-    <PostsProvider info={postPlugin}>
-      <PostsView />
-    </PostsProvider>
+    <Suspense fallback={<div>Loading...</div>}>
+      {version.startsWith('0.1.') && <Posts_V0_1_X plugin={postPlugin} />}
+      {version.startsWith('0.2.') && <Posts_V0_2_X plugin={postPlugin} />}
+    </Suspense>
   );
 }

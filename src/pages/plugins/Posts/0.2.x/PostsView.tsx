@@ -4,22 +4,17 @@ import { useWindowScroll } from 'react-use';
 import PostsCardSkeleton from '@/components/sketeton/PostsCardSkeleton';
 import useContractState from '@/hooks/useContractState';
 import usePagination from '@/hooks/usePagination';
-import PostCard from '@/pages/plugins/Posts/PostCard';
-import { usePostsContext } from '@/pages/plugins/Posts/PostsProvider';
-import NewPostButton from '@/pages/plugins/Posts/actions/NewPostButton';
-import { PostRecord, Props } from '@/types';
+import { PostRecord } from '@/types';
 import { eventEmitter, EventName } from '@/utils/eventemitter';
 import pluralize from 'pluralize';
+import PostCard from './PostCard';
+import { usePostsContext } from './PostsProvider';
+import NewPostButton from './actions/NewPostButton';
 
 const RECORD_PER_PAGE = 4;
 
-interface PostsContentProps extends Props {
-  nonce: number;
-  setNonce: (nonce: number) => void;
-}
-
-function PostsContent({ nonce, setNonce }: PostsContentProps) {
-  const { contract, postsCount, canCreatePost } = usePostsContext();
+function PostsContent() {
+  const { contract, postsCount, canCreatePost, nonce, setNonce } = usePostsContext();
   const { state: pinnedPosts } = useContractState<PostRecord[]>(contract, 'listPinnedPosts');
   const [posts, setPosts] = useState<PostRecord[]>();
   const [onLoad, setOnLoad] = useState(true);
@@ -141,8 +136,7 @@ function PostsContent({ nonce, setNonce }: PostsContentProps) {
 }
 
 export default function PostsView() {
-  const { postsCount } = usePostsContext();
-  const [nonce, setNonce] = useState<number>(postsCount!);
+  const { nonce } = usePostsContext();
 
-  return <PostsContent key={nonce} nonce={nonce} setNonce={setNonce} />;
+  return <PostsContent key={nonce} />;
 }

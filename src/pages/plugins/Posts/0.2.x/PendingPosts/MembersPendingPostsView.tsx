@@ -1,10 +1,10 @@
 import { Box, Flex, Tag, Text } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import useContractState from '@/hooks/useContractState';
-import PendingPostCard from '@/pages/plugins/Posts/PendingPosts/PendingPostCard';
-import { usePostsContext } from '@/pages/plugins/Posts/PostsProvider';
 import { useWalletContext } from '@/providers/WalletProvider';
 import { PostRecord } from '@/types';
+import { usePostsContext } from '../PostsProvider';
+import PendingPostCard from './PendingPostCard';
 
 interface PendingPostsByAuthorResult {
   Ok?: PostRecord[];
