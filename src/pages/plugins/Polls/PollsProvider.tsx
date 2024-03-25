@@ -28,7 +28,7 @@ interface PollsProviderProps extends Props {
 }
 
 export default function PollsProvider({ info, children }: PollsProviderProps) {
-  const contract = usePollsContract(info);
+  const { contract } = usePollsContract(info);
   const { state: pollsCountStr = '0' } = useContractState<string>(contract, 'pollsCount');
   const pollsCount = parseInt(pollsCountStr);
 

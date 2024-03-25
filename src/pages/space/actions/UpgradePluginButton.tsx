@@ -36,7 +36,7 @@ export default function UpgradePluginButton({
   latestCodeHash,
   buttonProps = {},
 }: UpgradePluginButtonProps) {
-  const pluginContract = usePluginContract(pluginInfo);
+  const { contract: pluginContract } = usePluginContract(pluginInfo);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const setCodeHashTx = useTx(pluginContract, 'setCodeHash');
   const freeBalance = useCurrentFreeBalance();

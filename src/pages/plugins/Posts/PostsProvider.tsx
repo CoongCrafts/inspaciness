@@ -30,7 +30,7 @@ interface PostsProviderProps extends Props {
 }
 
 export default function PostsProvider({ info, children }: PostsProviderProps) {
-  const contract = usePostsContract(info);
+  const { contract } = usePostsContract(info);
   const { isOwner, memberStatus } = useSpaceContext();
   const { state: postsCountStr } = useContractState<string>(contract, 'postsCount');
   const { state: postPerm } = useContractState<PostPerm>(contract, 'postPerm');

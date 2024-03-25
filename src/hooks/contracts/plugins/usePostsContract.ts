@@ -1,7 +1,12 @@
-import posts from '@/metadata/posts.json';
+import { PostsMetadatas } from '@/metadata';
 import { PluginInfo } from '@/types';
 import { useContract } from 'useink';
 
 export default function usePostsContract(plugin: PluginInfo) {
-  return useContract(plugin.address, posts, plugin.chainId);
+  const metadata = PostsMetadatas.find((m) => m.hash === plugin.codeHash);
+
+  return {
+    contract: metadata && useContract(plugin.address, metadata.metadata, plugin.chainId),
+    metadata,
+  };
 }

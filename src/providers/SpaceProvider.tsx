@@ -1,6 +1,5 @@
 import { createContext, useContext } from 'react';
 import { ApiPromise } from '@polkadot/api';
-import useMotherContract from '@/hooks/contracts/useMotherContract';
 import useSpaceContract from '@/hooks/contracts/useSpaceContract';
 import useContractState from '@/hooks/useContractState';
 import useSpace from '@/hooks/useSpace';
@@ -54,11 +53,11 @@ export const useSpaceContext = () => {
 
 interface SpaceProviderProps extends Props {
   space: OnChainSpace;
+  motherContract?: ChainContract;
 }
 
-export default function SpaceProvider({ space, children }: SpaceProviderProps) {
-  const motherContract = useMotherContract(space.chainId);
-  const contract = useSpaceContract(space);
+export default function SpaceProvider({ space, motherContract, children }: SpaceProviderProps) {
+  const { contract } = useSpaceContract(space);
   const { selectedAccount } = useWalletContext();
 
   const { state: installedPlugins } = useContractState<OnChainPluginInfo[]>(contract, 'plugins');
@@ -77,11 +76,10 @@ export default function SpaceProvider({ space, children }: SpaceProviderProps) {
   const { api } = useApi(space.chainId) || {};
 
   const isOwner = equalAddresses(selectedAccount?.address, ownerId);
-  const plugins = installedPlugins?.map(({ id, address, disabled }) => ({
-    ...findPlugin(id)!, // TODO filter-out unsupported plugins
-    address,
+  const plugins = installedPlugins?.map((plugin) => ({
+    ...plugin,
+    ...findPlugin(plugin.id)!, // TODO filter-out unsupported plugins
     chainId: space.chainId,
-    disabled,
   }));
 
   return (

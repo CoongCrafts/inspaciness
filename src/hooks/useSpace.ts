@@ -5,22 +5,20 @@ import { MemberInfo, MembershipRequest, MemberStatus, OnChainSpace, SpaceConfig,
 import { stringToNum } from '@/utils/number';
 
 export default function useSpace(space: OnChainSpace) {
-  const spaceContract = useSpaceContract(space);
+  const { contract } = useSpaceContract(space);
   const { selectedAccount } = useWalletContext();
 
-  const { state: info } = useContractState<SpaceInfo>(spaceContract, 'info');
-  const { state: membersCountStr } = useContractState<string>(spaceContract, 'membersCount');
-  const { state: memberStatus } = useContractState<MemberStatus>(spaceContract, 'memberStatus', [
+  const { state: info } = useContractState<SpaceInfo>(contract, 'spaceProfile::info');
+  const { state: membersCountStr } = useContractState<string>(contract, 'membersCount');
+  const { state: memberStatus } = useContractState<MemberStatus>(contract, 'memberStatus', [selectedAccount?.address]);
+  const { state: config } = useContractState<SpaceConfig>(contract, 'spaceProfile::config');
+  const { state: codeHash } = useContractState<string>(contract, 'codeHash::codeHash');
+  const { state: ownerId } = useContractState<string>(contract, 'ownable::owner');
+  const { state: memberInfo } = useContractState<MemberInfo>(contract, 'memberInfo', [selectedAccount?.address]);
+  const { state: pendingRequest } = useContractState<MembershipRequest>(contract, 'pendingRequestFor', [
     selectedAccount?.address,
   ]);
-  const { state: config } = useContractState<SpaceConfig>(spaceContract, 'config');
-  const { state: codeHash } = useContractState<string>(spaceContract, 'upgradeable::codeHash');
-  const { state: ownerId } = useContractState<string>(spaceContract, 'ownerId');
-  const { state: memberInfo } = useContractState<MemberInfo>(spaceContract, 'memberInfo', [selectedAccount?.address]);
-  const { state: pendingRequest } = useContractState<MembershipRequest>(spaceContract, 'pendingRequestFor', [
-    selectedAccount?.address,
-  ]);
-  const { state: pendingRequestsCountStr } = useContractState<string>(spaceContract, 'pendingRequestsCount');
+  const { state: pendingRequestsCountStr } = useContractState<string>(contract, 'pendingRequestsCount');
 
   return {
     info,
