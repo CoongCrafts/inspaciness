@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react';
+import { ChainContract } from 'useink';
 import { Chain, ChainId } from 'useink/chains';
 
 export type MenuItemType = {
@@ -16,6 +17,11 @@ export interface Props {
 
 export interface PluginProps extends Props {
   plugin: PluginInfo;
+}
+
+export interface SpaceProps extends Props {
+  motherContract?: ChainContract;
+  space: OnChainSpace;
 }
 
 export enum ChainEnvironment {

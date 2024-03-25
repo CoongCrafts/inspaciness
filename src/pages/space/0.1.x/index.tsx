@@ -19,26 +19,23 @@ import {
 import { useEffect, useState } from 'react';
 import { MdFlip } from 'react-icons/md';
 import { RiChatPollLine, RiFileTextLine, RiSettings4Line, RiTeamLine, RiUserFollowLine } from 'react-icons/ri';
-import { Link as LinkRouter, Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Link as LinkRouter, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import SpaceSkeleton from '@/components/sketeton/SpaceSkeleton';
 import SpaceAvatar from '@/components/space/SpaceAvatar';
-import useMotherContract from '@/hooks/contracts/useMotherContract';
-import useContractState from '@/hooks/useContractState';
 import PendingPostsButton from '@/pages/plugins/Posts/0.2.x/PendingPosts/PendingPostsButton';
-import CancelRequestButton from '@/pages/space/actions/CancelRequestButton';
-import JoinButton from '@/pages/space/actions/JoinButton';
-import LeaveSpaceButton from '@/pages/space/actions/LeaveSpaceButton';
-import UpdateDisplayNameButton from '@/pages/space/actions/UpdateDisplayNameButton';
-import SpaceProvider, { useSpaceContext } from '@/providers/SpaceProvider';
-import { CodeHash, MemberStatus, MenuItemType, RegistrationType } from '@/types';
+import SpaceProvider, { useSpaceContext } from '@/pages/space/0.1.x/SpaceProvider';
+import CancelRequestButton from '@/pages/space/0.1.x/actions/CancelRequestButton';
+import JoinButton from '@/pages/space/0.1.x/actions/JoinButton';
+import LeaveSpaceButton from '@/pages/space/0.1.x/actions/LeaveSpaceButton';
+import UpdateDisplayNameButton from '@/pages/space/0.1.x/actions/UpdateDisplayNameButton';
+import { MemberStatus, MenuItemType, RegistrationType, SpaceProps } from '@/types';
 import { renderMd } from '@/utils/mdrenderer';
 import { PLUGIN_FLIPPER, PLUGIN_POLLS, PLUGIN_POSTS } from '@/utils/plugins';
 import { shortenAddress } from '@/utils/string';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import { compare } from 'compare-versions';
 import pluralize from 'pluralize';
-import { ChainId } from 'useink/chains';
 
 export enum SpacePath {
   Members = 'members',
@@ -74,7 +71,6 @@ function SpaceContent() {
   // TODO fix this!
   const postPlugin = plugins?.find((plugin) => plugin.id === PLUGIN_POSTS);
   const showPendingPosts = compare(postPlugin?.version || '0.1.0', '0.2.0', '>=') && postPlugin?.disabled === false;
-  console.log('showPendingPosts', showPendingPosts);
 
   useEffect(() => {
     if (!plugins) return;
@@ -239,25 +235,9 @@ function SpaceContent() {
   );
 }
 
-export default function Space() {
-  const { chainId, spaceAddress } = useParams();
-  const motherContract = useMotherContract(chainId as ChainId);
-  const { state: codeHash } = useContractState<{ Ok: CodeHash; Err: string }>(motherContract, 'spaceCodeHash', [
-    spaceAddress!,
-  ]);
-
-  if (!codeHash) {
-    return <SpaceSkeleton />;
-  }
-
-  if (codeHash.Err) {
-    // TODO handle error
-  }
-
+export default function Space_V0_1_X({ space, motherContract }: SpaceProps) {
   return (
-    <SpaceProvider
-      space={{ address: spaceAddress!, chainId: chainId as ChainId, codeHash: codeHash.Ok }}
-      motherContract={motherContract}>
+    <SpaceProvider space={space} motherContract={motherContract}>
       <SpaceContent />
     </SpaceProvider>
   );

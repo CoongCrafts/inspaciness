@@ -1,7 +1,7 @@
 import { Button } from '@chakra-ui/react';
 import { toast } from 'react-toastify';
 import { useTx } from '@/hooks/useink/useTx';
-import { usePollsContext } from '@/pages/plugins/Polls/PollsProvider';
+import { usePollsContext } from '@/pages/plugins/Polls/0.1.x/PollsProvider';
 import { Props } from '@/types';
 import { messages } from '@/utils/messages';
 import { notifyTxStatus } from '@/utils/notifications';

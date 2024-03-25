@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import useCurrentFreeBalance from '@/hooks/space/useCurrentFreeBalance';
 import usePagination from '@/hooks/usePagination';
 import { useTx } from '@/hooks/useink/useTx';
-import { useSpaceContext } from '@/providers/SpaceProvider';
+import { useSpaceContext } from '@/pages/space/0.1.x/SpaceProvider';
 import { MembershipRequest, RequestApproval } from '@/types';
 import { fromNow } from '@/utils/date';
 import { messages } from '@/utils/messages';

@@ -1,5 +1,5 @@
 import { Box, Text } from '@chakra-ui/react';
-import { useSpaceContext } from '@/providers/SpaceProvider';
+import { useSpaceContext } from '@/pages/space/0.1.x/SpaceProvider';
 import { MemberStatus, PostPerm } from '@/types';
 import { usePostsContext } from '../PostsProvider';
 import MembersPendingPostsView from './MembersPendingPostsView';

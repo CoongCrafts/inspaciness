@@ -16,7 +16,7 @@ import { toast } from 'react-toastify';
 import SpaceAvatar from '@/components/space/SpaceAvatar';
 import useCurrentFreeBalance from '@/hooks/space/useCurrentFreeBalance';
 import { useTx } from '@/hooks/useink/useTx';
-import { useSpaceContext } from '@/providers/SpaceProvider';
+import { useSpaceContext } from '@/pages/space/0.1.x/SpaceProvider';
 import { useWalletContext } from '@/providers/WalletProvider';
 import { MemberStatus, Pricing, RegistrationType } from '@/types';
 import { eventEmitter, EventName } from '@/utils/eventemitter';

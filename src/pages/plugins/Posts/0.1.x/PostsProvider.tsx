@@ -1,7 +1,7 @@
 import { createContext, useContext } from 'react';
 import usePostsContract from '@/hooks/contracts/plugins/usePostsContract';
 import useContractState from '@/hooks/useContractState';
-import { useSpaceContext } from '@/providers/SpaceProvider';
+import { useSpaceContext } from '@/pages/space/0.1.x/SpaceProvider';
 import { MemberStatus, PluginInfo, PostPerm, Props } from '@/types';
 import { stringToNum } from '@/utils/number';
 import { ChainContract } from 'useink';

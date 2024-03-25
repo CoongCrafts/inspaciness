@@ -15,7 +15,7 @@ import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 import useCurrentFreeBalance from '@/hooks/space/useCurrentFreeBalance';
 import { useTx } from '@/hooks/useink/useTx';
-import { useSpaceContext } from '@/providers/SpaceProvider';
+import { useSpaceContext } from '@/pages/space/0.1.x/SpaceProvider';
 import { Props } from '@/types';
 import { messages } from '@/utils/messages';
 import { notifyTxStatus } from '@/utils/notifications';

@@ -1,9 +1,9 @@
 import { Box, Flex, Link, Tag, Text } from '@chakra-ui/react';
 import PollsCardSkeleton from '@/components/sketeton/PollsCardSkeleton';
-import PollCard from '@/pages/plugins/Polls/PollCard';
-import { usePollsContext } from '@/pages/plugins/Polls/PollsProvider';
-import NewPollButton from '@/pages/plugins/Polls/actions/NewPollButton';
-import { useSpaceContext } from '@/providers/SpaceProvider';
+import PollCard from '@/pages/plugins/Polls/0.1.x/PollCard';
+import { usePollsContext } from '@/pages/plugins/Polls/0.1.x/PollsProvider';
+import NewPollButton from '@/pages/plugins/Polls/0.1.x/actions/NewPollButton';
+import { useSpaceContext } from '@/pages/space/0.1.x/SpaceProvider';
 import { eventEmitter, EventName } from '@/utils/eventemitter';
 
 export default function PollsView() {

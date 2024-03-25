@@ -2,11 +2,11 @@ import { Box, Flex, IconButton, Menu, MenuButton, MenuList, Text } from '@chakra
 import { useEffect, useState } from 'react';
 import { RiMore2Fill } from 'react-icons/ri';
 import useContractState from '@/hooks/useContractState';
-import { usePollsContext } from '@/pages/plugins/Polls/PollsProvider';
-import EditPollButton from '@/pages/plugins/Polls/actions/EditPollButton';
-import UnvoteButton from '@/pages/plugins/Polls/actions/UnvoteButton';
-import VoteButton from '@/pages/plugins/Polls/actions/VoteButton';
-import { useSpaceContext } from '@/providers/SpaceProvider';
+import { usePollsContext } from '@/pages/plugins/Polls/0.1.x/PollsProvider';
+import EditPollButton from '@/pages/plugins/Polls/0.1.x/actions/EditPollButton';
+import UnvoteButton from '@/pages/plugins/Polls/0.1.x/actions/UnvoteButton';
+import VoteButton from '@/pages/plugins/Polls/0.1.x/actions/VoteButton';
+import { useSpaceContext } from '@/pages/space/0.1.x/SpaceProvider';
 import { MemberStatus, Poll, PollVotes, Props } from '@/types';
 import { fromNow, now, timestampToDate } from '@/utils/date';
 import { stringToNum } from '@/utils/number';

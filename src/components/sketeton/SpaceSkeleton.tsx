@@ -2,7 +2,7 @@ import { Box, Flex, SimpleGrid, Skeleton, SkeletonCircle } from '@chakra-ui/reac
 import { useLocation } from 'react-router-dom';
 import MemberCardSkeleton from '@/components/sketeton/MemberCardSkeleton';
 import PostsCardSkeleton from '@/components/sketeton/PostsCardSkeleton';
-import { SpacePath } from '@/pages/Space';
+import { SpacePath } from '@/pages/space/0.1.x';
 
 export default function SpaceSkeleton() {
   const location = useLocation();

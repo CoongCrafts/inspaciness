@@ -1,9 +1,9 @@
 import { Box, Flex, IconButton, SimpleGrid, Tag, Text } from '@chakra-ui/react';
 import MemberCardSkeleton from '@/components/sketeton/MemberCardSkeleton';
 import usePagination from '@/hooks/usePagination';
-import MemberCard from '@/pages/space/MemberCard';
-import InviteMemberButton from '@/pages/space/actions/InviteMemberButton';
-import { useSpaceContext } from '@/providers/SpaceProvider';
+import MemberCard from '@/pages/space/0.1.x/MemberCard';
+import { useSpaceContext } from '@/pages/space/0.1.x/SpaceProvider';
+import InviteMemberButton from '@/pages/space/0.1.x/actions/InviteMemberButton';
 import { MemberRecord } from '@/types';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 

@@ -1,7 +1,7 @@
 import { Box, Flex, IconButton, Text, Tooltip } from '@chakra-ui/react';
 import { Identicon } from '@polkadot/react-identicon';
 import useContractState from '@/hooks/useContractState';
-import { useSpaceContext } from '@/providers/SpaceProvider';
+import { useSpaceContext } from '@/pages/space/0.1.x/SpaceProvider';
 import { MemberInfo, PendingPostApproval, PostContent, PostRecord, Props } from '@/types';
 import { fromNow } from '@/utils/date';
 import { renderMd } from '@/utils/mdrenderer';

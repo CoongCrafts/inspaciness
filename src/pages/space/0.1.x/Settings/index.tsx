@@ -1,10 +1,10 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
-import DangerZone from '@/pages/space/Settings/DangerZone';
-import Membership from '@/pages/space/Settings/Membership';
-import Plugins from '@/pages/space/Settings/Plugins';
-import SpaceInfo from '@/pages/space/Settings/SpaceInfo';
-import UpgradeVersion from '@/pages/space/Settings/UpgradeVersion';
-import { useSpaceContext } from '@/providers/SpaceProvider';
+import DangerZone from '@/pages/space/0.1.x/Settings/DangerZone';
+import Membership from '@/pages/space/0.1.x/Settings/Membership';
+import Plugins from '@/pages/space/0.1.x/Settings/Plugins';
+import SpaceInfo from '@/pages/space/0.1.x/Settings/SpaceInfo';
+import UpgradeVersion from '@/pages/space/0.1.x/Settings/UpgradeVersion';
+import { useSpaceContext } from '@/pages/space/0.1.x/SpaceProvider';
 
 export default function Settings() {
   const { isOwner } = useSpaceContext();

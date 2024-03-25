@@ -51,6 +51,11 @@ export const useSpaceContext = () => {
   return context;
 };
 
+export const useSpacePlugin = (pluginId: string) => {
+  const { plugins } = useSpaceContext();
+  return plugins?.find((plugin) => plugin.id === pluginId);
+};
+
 interface SpaceProviderProps extends Props {
   space: OnChainSpace;
   motherContract?: ChainContract;

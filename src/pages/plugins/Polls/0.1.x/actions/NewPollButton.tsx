@@ -5,6 +5,7 @@ import {
   FormErrorMessage,
   FormHelperText,
   FormLabel,
+  IconButton,
   Input,
   Modal,
   ModalBody,
@@ -15,46 +16,54 @@ import {
   ModalOverlay,
   Textarea,
   useDisclosure,
-  MenuItem,
 } from '@chakra-ui/react';
 import { FormEvent, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import { useEffectOnce } from 'react-use';
 import { useTx } from '@/hooks/useink/useTx';
-import { usePollsContext } from '@/pages/plugins/Polls/PollsProvider';
-import { pollValidationScheme } from '@/pages/plugins/Polls/actions/NewPollButton';
-import { Poll, Props } from '@/types';
-import { formatDate } from '@/utils/date';
+import { usePollsContext } from '@/pages/plugins/Polls/0.1.x/PollsProvider';
+import { eventEmitter, EventName } from '@/utils/eventemitter';
 import { messages } from '@/utils/messages';
 import { notifyTxStatus } from '@/utils/notifications';
-import { EditIcon } from '@chakra-ui/icons';
+import { AddIcon } from '@chakra-ui/icons';
 import { useFormik } from 'formik';
 import { shouldDisableStrict } from 'useink/utils';
+import * as yup from 'yup';
 
-interface EditPollButtonProps extends Props {
-  poll: Poll;
-}
+const DEFAULT_NUM_OF_OPTION = 3;
 
-export default function EditPollButton({ poll }: EditPollButtonProps) {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+export const pollValidationScheme = yup.object({
+  question: yup.string().max(300).required('Question is required'),
+  options: yup
+    .array()
+    .test(
+      'at_least_two_option',
+      'A poll need at least two options',
+      (options) => options && options.filter((one) => !!one).length >= 2,
+    ),
+});
+
+export default function NewPollButton() {
   const { contract } = usePollsContext();
-  const updatePollTx = useTx(contract, 'updatePoll');
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const newPollTx = useTx(contract, 'newPoll');
 
-  const [numOfOption, setNumOfOption] = useState(poll.options.length + 1);
+  const [numOfOption, setNumOfOption] = useState(DEFAULT_NUM_OF_OPTION);
 
   const formik = useFormik({
     initialValues: {
-      question: poll.title,
-      options: poll.options,
-      expiredAt: poll.expiredAt ? formatDate(poll.expiredAt) : '',
+      question: '',
+      options: Array(numOfOption) as string[],
+      expiredAt: '',
     },
     validationSchema: pollValidationScheme,
-    onSubmit: ({ question, options, expiredAt }, formikHelpers) => {
+    onSubmit: ({ question, expiredAt, options }, formikHelpers) => {
       options = options.filter((one) => !!one);
       expiredAt = expiredAt ? Date.parse(expiredAt).toString() : '';
 
-      updatePollTx.signAndSend([poll.id, question, null, options, expiredAt || null], undefined, (result) => {
+      newPollTx.signAndSend([question, null, options, expiredAt || null], undefined, (result) => {
         if (!result) {
-          updatePollTx.resetState(formikHelpers);
+          newPollTx.resetState(formikHelpers);
           return;
         }
 
@@ -64,18 +73,27 @@ export default function EditPollButton({ poll }: EditPollButtonProps) {
           if (result.dispatchError) {
             toast.error(messages.txError);
           } else {
-            toast.success(`Poll #${poll.id} updated`);
+            toast.success('New poll created');
           }
 
           onClose();
-          updatePollTx.resetState(formikHelpers);
+          newPollTx.resetState(formikHelpers);
         }
       });
     },
   });
 
+  useEffectOnce(() => {
+    const showPopup = () => onOpen();
+    eventEmitter.on(EventName.SHOW_NEW_POLL_POPUP, showPopup);
+
+    return () => {
+      eventEmitter.off(EventName.SHOW_NEW_POLL_POPUP, showPopup);
+    };
+  });
+
   useEffect(() => {
-    if (!formik.values.options.at(numOfOption - 1)) {
+    if (!formik.values.options[numOfOption - 1]) {
       return;
     }
 
@@ -84,29 +102,40 @@ export default function EditPollButton({ poll }: EditPollButtonProps) {
 
   useEffect(() => {
     formik.resetForm();
-    formik.setValues({
-      question: poll.title,
-      options: poll.options,
-      expiredAt: poll.expiredAt ? formatDate(poll.expiredAt) : '',
-    });
-    updatePollTx.resetState();
+    newPollTx.resetState();
+    setNumOfOption(DEFAULT_NUM_OF_OPTION);
   }, [isOpen]);
 
-  const processing = shouldDisableStrict(updatePollTx);
+  const processing = shouldDisableStrict(newPollTx);
 
   return (
     <>
-      <MenuItem icon={<EditIcon />} onClick={onOpen}>
-        Edit
-      </MenuItem>
+      <Button
+        variant='outline'
+        colorScheme='primary'
+        size='sm'
+        onClick={onOpen}
+        display={{ base: 'none', md: 'block' }}>
+        New
+      </Button>
+      <IconButton
+        aria-label={'New poll'}
+        colorScheme='primary'
+        variant='outline'
+        size='sm'
+        onClick={onOpen}
+        icon={<AddIcon />}
+        display={{ base: 'block', md: 'none' }}
+      />
+
       <Modal isOpen={isOpen} onClose={onClose} size={{ base: 'full', md: '3xl' }}>
         <ModalOverlay />
         <ModalContent as='form' onSubmit={(e) => formik.handleSubmit(e as FormEvent<HTMLFormElement>)}>
-          <ModalHeader>Edit poll #{poll.id}</ModalHeader>
+          <ModalHeader>New poll</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Flex flexDir='column' gap={4}>
-              <FormControl isInvalid={!!formik.errors.question} isRequired>
+              <FormControl isInvalid={formik.touched.question && !!formik.errors.question} isRequired>
                 <FormLabel>Question</FormLabel>
                 <Textarea
                   value={formik.values.question}
@@ -115,7 +144,7 @@ export default function EditPollButton({ poll }: EditPollButtonProps) {
                   maxLength={300}
                   placeholder='Got a poll topic in mind?'
                 />
-                {!!formik.errors.question ? (
+                {formik.touched.question && !!formik.errors.question ? (
                   <FormErrorMessage>{formik.errors.question}</FormErrorMessage>
                 ) : (
                   <FormHelperText>Maximum 300 characters</FormHelperText>
@@ -127,13 +156,12 @@ export default function EditPollButton({ poll }: EditPollButtonProps) {
                   {[...Array(numOfOption)].map((_, idx) => (
                     <Input
                       maxLength={200}
-                      key={`${poll.id}${idx}`}
+                      key={idx}
                       value={formik.values.options[idx]}
                       onChange={(e) =>
                         formik.setFieldValue('options', formik.values.options.toSpliced(idx, 1, e.currentTarget.value))
                       }
                       placeholder={`Option ${idx + 1}`}
-                      isDisabled={idx < poll.options.length}
                     />
                   ))}
                 </Flex>
@@ -160,9 +188,9 @@ export default function EditPollButton({ poll }: EditPollButtonProps) {
               colorScheme='primary'
               size='sm'
               isLoading={processing}
-              loadingText='Updating...'
+              loadingText='Creating...'
               isDisabled={processing || !formik.isValid}>
-              Update
+              Create
             </Button>
           </ModalFooter>
         </ModalContent>

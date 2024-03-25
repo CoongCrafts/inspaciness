@@ -23,7 +23,7 @@ import { isAddress } from '@polkadot/util-crypto';
 import useCurrentFreeBalance from '@/hooks/space/useCurrentFreeBalance';
 import { useCall } from '@/hooks/useink/useCall';
 import { useTx } from '@/hooks/useink/useTx';
-import { useSpaceContext } from '@/providers/SpaceProvider';
+import { useSpaceContext } from '@/pages/space/0.1.x/SpaceProvider';
 import { MemberStatus } from '@/types';
 import { messages } from '@/utils/messages';
 import { notifyTxStatus } from '@/utils/notifications';

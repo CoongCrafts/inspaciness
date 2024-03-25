@@ -1,6 +1,6 @@
 import { Box, Button, Divider, Flex, Text } from '@chakra-ui/react';
 import { toast } from 'react-toastify';
-import TransferOwnershipButton from '@/pages/space/actions/TransferOwnershipButton';
+import TransferOwnershipButton from '@/pages/space/0.1.x/actions/TransferOwnershipButton';
 
 export default function DangerZone() {
   const comingSoon = (message: string = '') => {

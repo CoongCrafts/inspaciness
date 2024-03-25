@@ -1,5 +1,5 @@
 import { Box, Text } from '@chakra-ui/react';
-import { useSpaceContext } from '@/providers/SpaceProvider';
+import { useSpaceContext } from '@/pages/space/0.1.x/SpaceProvider';
 import { PLUGIN_POSTS } from '@/utils/plugins';
 import PostsProvider from '../PostsProvider';
 import PendingPostsView from './PendingPostsView';

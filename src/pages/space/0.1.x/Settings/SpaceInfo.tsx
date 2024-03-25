@@ -15,7 +15,7 @@ import NetworkSelection from '@/components/shared/NetworkSelection';
 import useCurrentFreeBalance from '@/hooks/space/useCurrentFreeBalance';
 import { useTx } from '@/hooks/useink/useTx';
 import { step1Schema } from '@/pages/SpaceLauncher';
-import { useSpaceContext } from '@/providers/SpaceProvider';
+import { useSpaceContext } from '@/pages/space/0.1.x/SpaceProvider';
 import { messages } from '@/utils/messages';
 import { notifyTxStatus } from '@/utils/notifications';
 import { useFormik } from 'formik';

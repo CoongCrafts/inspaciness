@@ -2,7 +2,7 @@ import { Box, Flex, IconButton, Menu, MenuButton, MenuList, Text } from '@chakra
 import { Identicon } from '@polkadot/react-identicon';
 import { RiMore2Fill } from 'react-icons/ri';
 import useContractState from '@/hooks/useContractState';
-import { useSpaceContext } from '@/providers/SpaceProvider';
+import { useSpaceContext } from '@/pages/space/0.1.x/SpaceProvider';
 import { useWalletContext } from '@/providers/WalletProvider';
 import { MemberInfo, MemberStatus, PostContent, PostRecord, Props } from '@/types';
 import { fromNow } from '@/utils/date';
