@@ -3,8 +3,8 @@ import { RiPushpinLine } from 'react-icons/ri';
 import { toast } from 'react-toastify';
 import useCurrentFreeBalance from '@/hooks/space/useCurrentFreeBalance';
 import { useTx } from '@/hooks/useink/useTx';
-import { usePostsContext } from '@/pages/plugins/Posts/PostsProvider';
 import { messages } from '@/utils/messages';
+import { usePostsContext } from '../PostsProvider';
 
 interface PinPostButtonProps {
   postId: number;

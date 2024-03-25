@@ -20,6 +20,7 @@ import { useTx } from '@/hooks/useink/useTx';
 import { PluginInfo, Props } from '@/types';
 import { messages } from '@/utils/messages';
 import { notifyTxStatus } from '@/utils/notifications';
+import { findPluginVersion } from '@/utils/plugins';
 import { shortenAddress } from '@/utils/string';
 import { shouldDisableStrict } from 'useink/utils';
 
@@ -38,7 +39,7 @@ export default function UpgradePluginButton({
 }: UpgradePluginButtonProps) {
   const { contract: pluginContract } = usePluginContract(pluginInfo);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const setCodeHashTx = useTx(pluginContract, 'setCodeHash');
+  const setCodeHashTx = useTx(pluginContract, 'pluginBase::setCodeHash');
   const freeBalance = useCurrentFreeBalance();
 
   const doUpgrade = async () => {
@@ -72,6 +73,9 @@ export default function UpgradePluginButton({
     setCodeHashTx.resetState();
   }, [isOpen]);
 
+  const currentVersion = findPluginVersion({ ...pluginInfo, codeHash: currentCodeHash });
+  const latestVersion = findPluginVersion({ ...pluginInfo, codeHash: latestCodeHash });
+
   return (
     <>
       <Button onClick={onOpen} size='xs' variant='outline' colorScheme='red' {...buttonProps}>
@@ -89,13 +93,13 @@ export default function UpgradePluginButton({
             <Text mb={2}>
               Current Version:{' '}
               <Tag variant='solid' colorScheme='gray'>
-                {shortenAddress(currentCodeHash)}
+                v{currentVersion} - {shortenAddress(currentCodeHash)}
               </Tag>
             </Text>
             <Text>
               Latest Version:{' '}
               <Tag variant='solid' colorScheme='green'>
-                {shortenAddress(latestCodeHash)}
+                v{latestVersion} - {shortenAddress(latestCodeHash)}
               </Tag>
             </Text>
           </ModalBody>

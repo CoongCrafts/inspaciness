@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext } from 'react';
 import usePostsContract from '@/hooks/contracts/plugins/usePostsContract';
 import useContractState from '@/hooks/useContractState';
 import { useSpaceContext } from '@/providers/SpaceProvider';
@@ -12,11 +12,6 @@ interface PostsContextProps {
   postsCount?: number;
   postPerm?: PostPerm;
   canCreatePost: boolean;
-  nonce: number;
-  setNonce: (nonce: number) => void;
-
-  // >= v0.2.0
-  shouldCreatePendingPost: boolean;
 }
 
 export const PostsContext = createContext<PostsContextProps>(null!);
@@ -39,38 +34,20 @@ export default function PostsProvider({ info, children }: PostsProviderProps) {
   const { isOwner, memberStatus } = useSpaceContext();
   const { state: postsCountStr } = useContractState<string>(contract, 'postsCount');
   const { state: postPerm } = useContractState<PostPerm>(contract, 'postPerm');
-  const [nonce, setNonce] = useState<number>(0);
-
-  const postsCount = stringToNum(postsCountStr) || 0;
-  useEffect(() => {
-    setNonce(postsCount);
-  }, [postsCount]);
 
   let canCreatePost = false;
   if (postPerm === PostPerm.SpaceOwner) {
     canCreatePost = isOwner;
-  } else if (postPerm === PostPerm.ActiveMember || postPerm === PostPerm.ActiveMemberWithApproval) {
-    canCreatePost = memberStatus == MemberStatus.Active;
+  } else if (postPerm === PostPerm.ActiveMember) {
+    canCreatePost = memberStatus === MemberStatus.Active;
   }
-
-  let shouldCreatePendingPost = postPerm === PostPerm.ActiveMemberWithApproval && canCreatePost && !isOwner;
 
   if (!postsCountStr) {
     return null;
   }
 
   return (
-    <PostsContext.Provider
-      value={{
-        info,
-        postsCount,
-        contract,
-        postPerm,
-        canCreatePost,
-        shouldCreatePendingPost,
-        nonce,
-        setNonce,
-      }}>
+    <PostsContext.Provider value={{ info, postsCount: stringToNum(postsCountStr), contract, postPerm, canCreatePost }}>
       {children}
     </PostsContext.Provider>
   );

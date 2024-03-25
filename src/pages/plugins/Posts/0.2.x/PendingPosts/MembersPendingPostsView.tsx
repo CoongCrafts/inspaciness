@@ -6,28 +6,18 @@ import { PostRecord } from '@/types';
 import { usePostsContext } from '../PostsProvider';
 import PendingPostCard from './PendingPostCard';
 
-interface PendingPostsByAuthorResult {
-  Ok?: PostRecord[];
-  Err?: {
-    NotActiveMember: string;
-    UnAuthorized: string;
-  };
-}
-
 export default function MembersPendingPostsView() {
   const { selectedAccount } = useWalletContext();
   const { contract } = usePostsContext();
   const [pendingPosts, setPendingPosts] = useState<PostRecord[]>();
-  const { state: pendingPostsByAuthorResult } = useContractState<PendingPostsByAuthorResult>(
-    contract,
-    'pendingPostsByAuthor',
-    [selectedAccount?.address],
-  );
+  const { state: pendingPostsByAuthorResult } = useContractState<PostRecord[]>(contract, 'pendingPostsByAuthor', [
+    selectedAccount?.address,
+  ]);
 
   useEffect(() => {
-    if (!pendingPostsByAuthorResult?.Ok) return;
+    if (!pendingPostsByAuthorResult) return;
 
-    setPendingPosts(pendingPostsByAuthorResult.Ok);
+    setPendingPosts(pendingPostsByAuthorResult);
   }, [pendingPostsByAuthorResult]);
 
   const pendingPostsCount = pendingPosts?.length || 0;

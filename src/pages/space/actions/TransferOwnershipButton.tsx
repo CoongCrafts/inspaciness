@@ -36,7 +36,7 @@ export default function TransferOwnershipButton() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { contract, ownerAddress } = useSpaceContext();
   const memberStatusCall = useCall<MemberStatus>(contract, 'memberStatus');
-  const transferOwnershipTx = useTx(contract, 'transferOwnership');
+  const transferOwnershipTx = useTx(contract, 'ownable::transferOwnership');
   const freeBalance = useCurrentFreeBalance();
 
   const formikInviteMember = useFormik({

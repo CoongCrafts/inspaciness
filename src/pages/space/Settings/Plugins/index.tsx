@@ -1,4 +1,4 @@
-import { Badge, Box, Button, Divider, Flex, Text } from '@chakra-ui/react';
+import { Box, Button, Divider, Flex, Tag, Text } from '@chakra-ui/react';
 import { toast } from 'react-toastify';
 import useCurrentFreeBalance from '@/hooks/space/useCurrentFreeBalance';
 import useContractState from '@/hooks/useContractState';
@@ -104,13 +104,14 @@ function Plugin({ info }: PluginProp) {
         gap={4}
         direction={{ base: 'column', sm: 'row' }}>
         <Box>
-          <Flex gap={2} wrap='wrap'>
+          <Flex gap={2} wrap='wrap' alignItems='center'>
             <Text fontSize='lg'>{info.name}</Text>
+            <Box>
+              <Tag>v{info.version}</Tag>
+            </Box>
             {info.disabled && (
               <Box>
-                <Badge size='xs' variant='solid' colorScheme='red'>
-                  Disabled
-                </Badge>
+                <Tag colorScheme='red'>Disabled</Tag>
               </Box>
             )}
           </Flex>

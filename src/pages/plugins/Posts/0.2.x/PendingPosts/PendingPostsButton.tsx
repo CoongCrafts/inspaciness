@@ -10,21 +10,6 @@ import { useWalletContext } from '@/providers/WalletProvider';
 import { PluginInfo, PostPerm, Props } from '@/types';
 import { stringToNum } from '@/utils/number';
 
-interface PendingPostsCountByAuthorResult {
-  Ok?: string;
-  Err?: {
-    NotActiveMember: string;
-    UnAuthorized: string;
-  };
-}
-
-interface PendingPostsCountResult {
-  Ok?: string;
-  Err?: {
-    NotSpaceOwner: string;
-  };
-}
-
 interface PendingPostsButtonProps extends Props {
   info: PluginInfo;
 }
@@ -36,20 +21,18 @@ export default function PendingPostsButton({ info }: PendingPostsButtonProps) {
   const { contract } = usePostsContract(info);
   const [pendingPostsCount, setPendingPostsCount] = useState<number>(0);
   const { state: postPerm } = useContractState<PostPerm>(contract, 'postPerm');
-  const { state: pendingPostsCountResults } = useContractState<PendingPostsCountResult>(contract, 'pendingPostsCount');
-  const { state: pendingPostsCountByAuthorResult } = useContractState<PendingPostsCountByAuthorResult>(
-    contract,
-    'pendingPostsCountByAuthor',
-    [selectedAccount?.address],
-  );
+  const { state: pendingPostsCountResults } = useContractState<string>(contract, 'pendingPostsCount');
+  const { state: pendingPostsCountByAuthorResult } = useContractState<string>(contract, 'pendingPostsCountByAuthor', [
+    selectedAccount?.address,
+  ]);
 
   useEffect(() => {
     if (isOwner) {
-      if (!pendingPostsCountResults?.Ok) return;
-      setPendingPostsCount(stringToNum(pendingPostsCountResults.Ok)!);
+      if (!pendingPostsCountResults) return;
+      setPendingPostsCount(stringToNum(pendingPostsCountResults)!);
     } else {
-      if (!pendingPostsCountByAuthorResult?.Ok) return;
-      setPendingPostsCount(stringToNum(pendingPostsCountByAuthorResult.Ok)!);
+      if (!pendingPostsCountByAuthorResult) return;
+      setPendingPostsCount(stringToNum(pendingPostsCountByAuthorResult)!);
     }
   }, [pendingPostsCountResults, pendingPostsCountByAuthorResult]);
 

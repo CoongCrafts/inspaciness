@@ -36,6 +36,7 @@ import { renderMd } from '@/utils/mdrenderer';
 import { PLUGIN_FLIPPER, PLUGIN_POLLS, PLUGIN_POSTS } from '@/utils/plugins';
 import { shortenAddress } from '@/utils/string';
 import { ChevronDownIcon } from '@chakra-ui/icons';
+import { compare } from 'compare-versions';
 import pluralize from 'pluralize';
 import { ChainId } from 'useink/chains';
 
@@ -72,7 +73,8 @@ function SpaceContent() {
 
   // TODO fix this!
   const postPlugin = plugins?.find((plugin) => plugin.id === PLUGIN_POSTS);
-  const showPendingPosts = postPlugin?.version === '0.2.0' && postPlugin?.disabled === false;
+  const showPendingPosts = compare(postPlugin?.version || '0.1.0', '0.2.0', '>=') && postPlugin?.disabled === false;
+  console.log('showPendingPosts', showPendingPosts);
 
   useEffect(() => {
     if (!plugins) return;

@@ -10,6 +10,7 @@ import { PluginInfo, PostPerm, Props } from '@/types';
 import { messages } from '@/utils/messages';
 import { notifyTxStatus } from '@/utils/notifications';
 import { PLUGIN_POSTS } from '@/utils/plugins';
+import { compare } from 'compare-versions';
 import { shouldDisableStrict } from 'useink/utils';
 
 interface PostConfigProps extends Props {
@@ -68,7 +69,9 @@ export default function PostConfig({ pluginInfo }: PostConfigProps) {
         <Select size='sm' isReadOnly={!isOwner} isDisabled={!isOwner} value={postPerm} onChange={onChange}>
           <option value={PostPerm.SpaceOwner}>Space Owner</option>
           <option value={PostPerm.ActiveMember}>Active Members</option>
-          <option value={PostPerm.ActiveMemberWithApproval}>Active Members With Approval</option>
+          {compare(pluginInfo.version || '0.1.0', '0.2.0', '>=') && (
+            <option value={PostPerm.ActiveMemberWithApproval}>Active Members With Approval</option>
+          )}
         </Select>
         <FormHelperText>Choose who can make posts.</FormHelperText>
       </FormControl>
