@@ -2,6 +2,8 @@ import { Box, Flex, IconButton, Menu, MenuButton, MenuList, Text } from '@chakra
 import { Identicon } from '@polkadot/react-identicon';
 import { RiMore2Fill } from 'react-icons/ri';
 import useContractState from '@/hooks/useContractState';
+import PinPostButton from '@/pages/plugins/Posts/actions/PinPostButton';
+import UnpinPostButton from '@/pages/plugins/Posts/actions/UnpinPostButton';
 import UpdatePostButton from '@/pages/plugins/Posts/actions/UpdatePostButton';
 import { useSpaceContext } from '@/providers/SpaceProvider';
 import { useWalletContext } from '@/providers/WalletProvider';
@@ -12,10 +14,11 @@ import { shortenAddress } from '@/utils/string';
 
 interface PostCardProps extends Props {
   postRecord: PostRecord;
+  isPinned?: boolean;
   onPostUpdated: (content: any, postId: number) => void;
 }
 
-export default function PostCard({ postRecord: { post, postId }, onPostUpdated }: PostCardProps) {
+export default function PostCard({ postRecord: { post, postId }, onPostUpdated, isPinned }: PostCardProps) {
   const { contract, memberStatus, isOwner } = useSpaceContext();
   const { state: authorInfo } = useContractState<MemberInfo>(contract, 'memberInfo', [post.author]);
   const { selectedAccount } = useWalletContext();
@@ -73,6 +76,7 @@ export default function PostCard({ postRecord: { post, postId }, onPostUpdated }
                     defaultValue={post.content.Raw}
                     onPostUpdated={onPostUpdated}
                   />
+                  {isOwner && (isPinned ? <UnpinPostButton postId={postId} /> : <PinPostButton postId={postId} />)}
                 </MenuList>
               </Menu>
             )}

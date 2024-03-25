@@ -1,6 +1,6 @@
 {
   "source": {
-    "hash": "0x8e617da4d7eab25c8df699be5414c7c49628360aa9b790c826f650ccafe8584c",
+    "hash": "0x2cccfec55addbce7ba6c5174c503c0c1ec33c1598cdd7b201cf7f5042bde0cf0",
     "language": "ink! 4.3.0",
     "compiler": "rustc 1.77.0-nightly",
     "build_info": {
@@ -69,7 +69,7 @@
         "displayName": [
           "Balance"
         ],
-        "type": 43
+        "type": 44
       },
       "blockNumber": {
         "displayName": [
@@ -81,13 +81,13 @@
         "displayName": [
           "ChainExtension"
         ],
-        "type": 44
+        "type": 45
       },
       "hash": {
         "displayName": [
           "Hash"
         ],
-        "type": 41
+        "type": 42
       },
       "maxEventTopics": 4,
       "timestamp": {
@@ -323,6 +323,74 @@
         "selector": "0x7c1758e8"
       },
       {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "list_pinned_posts",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 31
+        },
+        "selector": "0x8f2140c3"
+      },
+      {
+        "args": [
+          {
+            "label": "post_id",
+            "type": {
+              "displayName": [
+                "PostId"
+              ],
+              "type": 5
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "pin_post",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 29
+        },
+        "selector": "0xb3ed623d"
+      },
+      {
+        "args": [
+          {
+            "label": "post_id",
+            "type": {
+              "displayName": [
+                "PostId"
+              ],
+              "type": 5
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "unpin_post",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 29
+        },
+        "selector": "0xd459e0f7"
+      },
+      {
         "args": [
           {
             "label": "id",
@@ -383,7 +451,7 @@
               "displayName": [
                 "Ordering"
               ],
-              "type": 31
+              "type": 32
             }
           }
         ],
@@ -423,7 +491,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 32
+          "type": 33
         },
         "selector": "0xcc4bbab7"
       },
@@ -449,7 +517,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 34
+          "type": 35
         },
         "selector": "0xfdc92818"
       },
@@ -465,7 +533,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 37
+          "type": 38
         },
         "selector": "0xb0e11074"
       },
@@ -477,7 +545,7 @@
               "displayName": [
                 "PostPerm"
               ],
-              "type": 38
+              "type": 39
             }
           }
         ],
@@ -507,7 +575,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 39
+          "type": 40
         },
         "selector": "0x0a76d095"
       },
@@ -525,7 +593,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 40
+          "type": 41
         },
         "selector": "0xe1b64803"
       },
@@ -543,7 +611,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 40
+          "type": 41
         },
         "selector": "0x80306c84"
       },
@@ -555,7 +623,7 @@
               "displayName": [
                 "Hash"
               ],
-              "type": 41
+              "type": 42
             }
           }
         ],
@@ -587,7 +655,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 42
+          "type": 43
         },
         "selector": "0xbd69cea7"
       }
@@ -883,6 +951,20 @@
                 }
               },
               "name": "pending_posts_nonce"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "leaf": {
+                      "key": "0x5285e4f6",
+                      "ty": 6
+                    }
+                  },
+                  "root_key": "0x5285e4f6"
+                }
+              },
+              "name": "pinned_posts"
             },
             {
               "layout": {
@@ -1770,33 +1852,9 @@
           "variant": {
             "variants": [
               {
-                "index": 0,
-                "name": "Descending"
-              },
-              {
-                "index": 1,
-                "name": "Ascending"
-              }
-            ]
-          }
-        },
-        "path": [
-          "posts",
-          "posts",
-          "Ordering"
-        ]
-      }
-    },
-    {
-      "id": 32,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
                 "fields": [
                   {
-                    "type": 33
+                    "type": 19
                   }
                 ],
                 "index": 0,
@@ -1817,7 +1875,7 @@
         "params": [
           {
             "name": "T",
-            "type": 33
+            "type": 19
           },
           {
             "name": "E",
@@ -1830,7 +1888,73 @@
       }
     },
     {
+      "id": 32,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 0,
+                "name": "Descending"
+              },
+              {
+                "index": 1,
+                "name": "Ascending"
+              }
+            ]
+          }
+        },
+        "path": [
+          "posts",
+          "posts",
+          "Ordering"
+        ]
+      }
+    },
+    {
       "id": 33,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 34
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 9
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 34
+          },
+          {
+            "name": "E",
+            "type": 9
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 34,
       "type": {
         "def": {
           "variant": {
@@ -1863,7 +1987,7 @@
       }
     },
     {
-      "id": 34,
+      "id": 35,
       "type": {
         "def": {
           "variant": {
@@ -1871,7 +1995,7 @@
               {
                 "fields": [
                   {
-                    "type": 35
+                    "type": 36
                   }
                 ],
                 "index": 0,
@@ -1892,7 +2016,7 @@
         "params": [
           {
             "name": "T",
-            "type": 35
+            "type": 36
           },
           {
             "name": "E",
@@ -1905,23 +2029,12 @@
       }
     },
     {
-      "id": 35,
-      "type": {
-        "def": {
-          "sequence": {
-            "type": 36
-          }
-        }
-      }
-    },
-    {
       "id": 36,
       "type": {
         "def": {
-          "tuple": [
-            5,
-            33
-          ]
+          "sequence": {
+            "type": 37
+          }
         }
       }
     },
@@ -1929,12 +2042,23 @@
       "id": 37,
       "type": {
         "def": {
+          "tuple": [
+            5,
+            34
+          ]
+        }
+      }
+    },
+    {
+      "id": 38,
+      "type": {
+        "def": {
           "variant": {
             "variants": [
               {
                 "fields": [
                   {
-                    "type": 38
+                    "type": 39
                   }
                 ],
                 "index": 0,
@@ -1955,7 +2079,7 @@
         "params": [
           {
             "name": "T",
-            "type": 38
+            "type": 39
           },
           {
             "name": "E",
@@ -1968,7 +2092,7 @@
       }
     },
     {
-      "id": 38,
+      "id": 39,
       "type": {
         "def": {
           "variant": {
@@ -1996,7 +2120,7 @@
       }
     },
     {
-      "id": 39,
+      "id": 40,
       "type": {
         "def": {
           "variant": {
@@ -2038,7 +2162,7 @@
       }
     },
     {
-      "id": 40,
+      "id": 41,
       "type": {
         "def": {
           "variant": {
@@ -2080,7 +2204,7 @@
       }
     },
     {
-      "id": 41,
+      "id": 42,
       "type": {
         "def": {
           "composite": {
@@ -2100,7 +2224,7 @@
       }
     },
     {
-      "id": 42,
+      "id": 43,
       "type": {
         "def": {
           "variant": {
@@ -2108,7 +2232,7 @@
               {
                 "fields": [
                   {
-                    "type": 41
+                    "type": 42
                   }
                 ],
                 "index": 0,
@@ -2129,7 +2253,7 @@
         "params": [
           {
             "name": "T",
-            "type": 41
+            "type": 42
           },
           {
             "name": "E",
@@ -2142,7 +2266,7 @@
       }
     },
     {
-      "id": 43,
+      "id": 44,
       "type": {
         "def": {
           "primitive": "u128"
@@ -2150,7 +2274,7 @@
       }
     },
     {
-      "id": 44,
+      "id": 45,
       "type": {
         "def": {
           "variant": {}
