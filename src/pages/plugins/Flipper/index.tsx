@@ -16,7 +16,7 @@ interface FlipperContentProps extends Props {
 }
 function FlipperContent({ info }: FlipperContentProps) {
   const { memberStatus } = useSpaceContext();
-  const contract = useFlipperContract(info);
+  const { contract } = useFlipperContract(info);
   const { state: value } = useContractState<boolean>(contract, 'get');
   const flipTx = useTx(contract, 'flip');
   const freeBalance = useCurrentFreeBalance();

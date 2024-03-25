@@ -1,7 +1,12 @@
-import flipper from '@/metadata/flipper.json';
+import { FlipperMetadatas } from '@/metadata';
 import { PluginInfo } from '@/types';
 import { useContract } from 'useink';
 
 export default function useFlipperContract(plugin: PluginInfo) {
-  return useContract(plugin.address, flipper, plugin.chainId);
+  const metadata = FlipperMetadatas.find((m) => m.hash === plugin.codeHash);
+
+  return {
+    contract: metadata && useContract(plugin.address, metadata.metadata, plugin.chainId),
+    metadata,
+  };
 }

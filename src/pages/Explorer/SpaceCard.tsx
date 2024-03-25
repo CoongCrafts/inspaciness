@@ -5,18 +5,17 @@ import useSpace from '@/hooks/useSpace';
 import CancelRequestButton from '@/pages/space/actions/CancelRequestButton';
 import JoinButton from '@/pages/space/actions/JoinButton';
 import SpaceProvider from '@/providers/SpaceProvider';
-import { OnChainSpace, Props, RegistrationType, SpaceId } from '@/types';
+import { OnChainSpace, Props, RegistrationType } from '@/types';
 import pluralize from 'pluralize';
-import { ChainId } from 'useink/chains';
+import { ChainContract } from 'useink';
 
 interface SpaceCardProps extends Props {
-  spaceId: SpaceId;
-  chainId: ChainId;
+  space: OnChainSpace;
+  motherContract?: ChainContract;
 }
 
-export default function SpaceCard({ spaceId, chainId }: SpaceCardProps) {
+export default function SpaceCard({ space, motherContract }: SpaceCardProps) {
   const navigate = useNavigate();
-  const space = { address: spaceId, chainId } as OnChainSpace;
   const { info, config, membersCount, pendingRequest } = useSpace(space);
 
   const showJoinButton = config?.registration !== RegistrationType.InviteOnly;
@@ -24,7 +23,7 @@ export default function SpaceCard({ spaceId, chainId }: SpaceCardProps) {
   if (!info) return null;
 
   return (
-    <SpaceProvider space={space}>
+    <SpaceProvider space={space} motherContract={motherContract}>
       <Flex
         flexDir='column'
         alignItems='center'

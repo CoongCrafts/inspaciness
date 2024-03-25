@@ -6,7 +6,7 @@ import SpaceCardSkeleton from '@/components/sketeton/SpaceCardSkeleton';
 import useMotherContract from '@/hooks/contracts/useMotherContract';
 import usePagination from '@/hooks/usePagination';
 import SpaceCard from '@/pages/Explorer/SpaceCard';
-import { NetworkInfo, SpaceId } from '@/types';
+import { CodeHash, NetworkInfo, SpaceId } from '@/types';
 import env from '@/utils/env';
 import { findNetwork } from '@/utils/networks';
 import pluralize from 'pluralize';
@@ -24,14 +24,14 @@ export function ChainExplorer({ chainId, setChainId }: ChainExplorerProps) {
   const contract = useMotherContract(network.id);
   const [loadMore, toggleLoadMore] = useToggle(false);
   const [onLoad, setOnLoad] = useToggle(true);
-  const [spaceIds, setSpaceIds] = useState<SpaceId[]>();
+  const [spaceIds, setSpaceIds] = useState<[SpaceId, CodeHash][]>();
   const {
     items,
     setPageIndex,
     pageIndex,
     total: numberOfSpace,
     hasNextPage = false,
-  } = usePagination<SpaceId>(contract, 'listSpaces', RECORD_PER_PAGE);
+  } = usePagination<[SpaceId, CodeHash]>(contract, 'listSpaces', RECORD_PER_PAGE);
   const { y } = useWindowScroll();
 
   useEffect(() => {
@@ -84,8 +84,14 @@ export function ChainExplorer({ chainId, setChainId }: ChainExplorerProps) {
 
       <SimpleGrid columns={{ base: 1, sm: 2, md: 3, lg: 4 }} spacing={4}>
         {spaceIds
-          ? spaceIds.map((spaceId) => (
-              <SpaceCard class='space-card' key={spaceId} spaceId={spaceId} chainId={network.id} />
+          ? spaceIds.map(([spaceId, codeHash]) => (
+              <SpaceCard
+                class='space-card'
+                key={spaceId}
+                space={{ address: spaceId, chainId, codeHash }}
+                chainId={network.id}
+                motherContract={contract}
+              />
             ))
           : [...Array(12)].map((_, idx) => <SpaceCardSkeleton key={idx} />)}
       </SimpleGrid>

@@ -8,34 +8,42 @@ const FEATURED_SPACES: OnChainSpace[] = [
   {
     chainId: AlephTestnet.id,
     address: '5HmQUVoD4WfWMoRifYaTGeQaBdKJznvoNLUsRLzQLU6Voijb',
+    version: '0.1.0',
   },
   {
     chainId: AlephTestnet.id,
     address: '5HkJzUvS85WpxJZtbj2rmTFcJfosHgrHsyHLb4YquP2xiDPM',
+    version: '0.1.0',
   },
   {
     chainId: AlephTestnet.id,
     address: '5CGMt8gYoTU23wsWS9aUvKRUZNjysh6Zr6LW39bu1bDYgLwD',
+    version: '0.1.0',
   },
   {
     chainId: AlephTestnet.id,
     address: '5FysFYUP1j11FmfviBpj6CwvpwN5XW1k9u5wA9cyoXSyFuW4',
+    version: '0.1.0',
   },
   {
     chainId: AlephTestnet.id,
     address: '5HrBR1UY579LZHTNdk3m667qVSxmkTMpiDQ6Sp4QrbPaUFEu',
+    version: '0.1.0',
   },
   {
     chainId: AlephTestnet.id,
     address: '5C9XMtrkEfYSmBJJvKMacuCkcJdLAUeAuS4pyLzdke3bEYic',
+    version: '0.1.0',
   },
   {
     chainId: AlephTestnet.id,
     address: '5Ek9RhiUMi3SsKBgR4Mipb19yRsz1P9upNufcep2TYAaSsng',
+    version: '0.1.0',
   },
   {
     chainId: AlephTestnet.id,
     address: '5DPMZj3uu5yxHJYG8CrB4osGWS5rDWko8Wt4Rvf3EX5NU6bt',
+    version: '0.1.0',
   },
 ];
 
@@ -108,8 +116,8 @@ function About() {
       </Flex>
       <Box my={8}>
         <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
-          {FEATURES.map((one) => (
-            <Box borderWidth='1px' borderColor='primary.100' borderRadius={4} p={4}>
+          {FEATURES.map((one, idx) => (
+            <Box key={idx} borderWidth='1px' borderColor='primary.100' borderRadius={4} p={4}>
               <Text fontSize='lg' fontWeight='semibold'>
                 {one.title}
               </Text>
@@ -126,7 +134,7 @@ function About() {
         <Box my={6}>
           <SimpleGrid columns={{ base: 1, sm: 2, md: 3, lg: 4 }} spacing={4}>
             {FEATURED_SPACES.map((space) => (
-              <SpaceCard space={space} />
+              <SpaceCard key={space.address} space={space} />
             ))}
           </SimpleGrid>
         </Box>

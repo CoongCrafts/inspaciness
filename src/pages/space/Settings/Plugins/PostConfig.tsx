@@ -18,7 +18,7 @@ interface PostConfigProps extends Props {
 
 export default function PostConfig({ pluginInfo }: PostConfigProps) {
   const { isOwner } = useSpaceContext();
-  const postContract = usePluginContract(pluginInfo);
+  const { contract: postContract } = usePluginContract(pluginInfo);
   const { state: currentPostPerm } = useContractState<PostPerm>(postContract, 'postPerm');
   const [postPerm, setPostPerm] = useState<PostPerm>();
   const freeBalance = useCurrentFreeBalance();

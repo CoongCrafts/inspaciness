@@ -25,9 +25,6 @@ function Plugin({ info }: PluginProp) {
     'latestPluginCode',
     [info.id],
   );
-  const { state: currentHashCodeResult } = useContractState<RustResult<string, any>>(contract, 'pluginCodeHash', [
-    info.id,
-  ]);
 
   const disablePluginTx = useTx(contract, 'disablePlugin');
   const enablePluginTx = useTx(contract, 'enablePlugin');
@@ -36,8 +33,8 @@ function Plugin({ info }: PluginProp) {
     return null;
   }
 
+  const currentHashCode = info.codeHash;
   const { Ok: latestHashCode } = latestHashCodeResult || {};
-  const { Ok: currentHashCode } = currentHashCodeResult || {};
 
   const hasNewVersion = !!latestHashCode && !!currentHashCode && latestHashCode !== currentHashCode;
 

@@ -66,6 +66,8 @@ export interface SpaceConfig {
 export interface OnChainSpace {
   address: string;
   chainId: ChainId;
+  codeHash?: string;
+  version?: string;
 }
 
 export interface MemberRecord {
@@ -105,12 +107,14 @@ export interface PluginInfo extends Plugin {
   address: string;
   chainId: ChainId;
   disabled: boolean;
+  codeHash: string;
 }
 
 export interface OnChainPluginInfo {
   id: string;
   address: string;
   disabled: boolean;
+  codeHash: string;
 }
 
 export interface PostRecord {
@@ -140,6 +144,7 @@ export interface MembershipRequest {
 export type RequestApproval = [string, boolean];
 
 export type SpaceId = string;
+export type CodeHash = string;
 
 export enum Ordering {
   Ascending = 'Ascending',
@@ -167,6 +172,12 @@ export interface PollVotes {
   totalVotes: string;
   votesByOptions: [string, string][];
   votedOption: string | null;
+}
+
+export interface ContractMetadata {
+  version: string;
+  hash: string;
+  metadata: Record<string, unknown>;
 }
 
 export type PendingPostApproval = [number, boolean];

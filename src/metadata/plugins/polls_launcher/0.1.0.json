@@ -1,11 +1,11 @@
 {
   "source": {
-    "hash": "0xdbd541fb228790c5e0970b4ea5312a43af039d9ad5c196d7cbe8d6be5b2af48f",
+    "hash": "0x463c1edd14d32f7c01efe71e4eb77710b60149acb32609ddd8a6cc71d493295d",
     "language": "ink! 4.3.0",
-    "compiler": "rustc 1.77.0-nightly",
+    "compiler": "rustc 1.78.0-nightly",
     "build_info": {
       "build_mode": "Debug",
-      "cargo_contract_version": "3.2.0",
+      "cargo_contract_version": "4.0.0-alpha",
       "rust_toolchain": "nightly-aarch64-apple-darwin",
       "wasm_opt_settings": {
         "keep_debug_symbols": false,
@@ -14,12 +14,13 @@
     }
   },
   "contract": {
-    "name": "posts_launcher",
+    "name": "polls_launcher",
     "version": "0.1.0",
     "authors": [
       "Thang X. Vu <thang@coongcrafts.io>"
     ]
   },
+  "image": null,
   "spec": {
     "constructors": [
       {
@@ -78,7 +79,7 @@
         "displayName": [
           "Balance"
         ],
-        "type": 19
+        "type": 26
       },
       "blockNumber": {
         "displayName": [
@@ -90,7 +91,7 @@
         "displayName": [
           "ChainExtension"
         ],
-        "type": 21
+        "type": 28
       },
       "hash": {
         "displayName": [
@@ -103,7 +104,7 @@
         "displayName": [
           "Timestamp"
         ],
-        "type": 20
+        "type": 27
       }
     },
     "events": [],
@@ -119,7 +120,7 @@
         "args": [],
         "default": false,
         "docs": [],
-        "label": "latest_plugin_code",
+        "label": "CodeHash::code_hash",
         "mutates": false,
         "payable": false,
         "returnType": {
@@ -129,26 +130,14 @@
           ],
           "type": 8
         },
-        "selector": "0xfd3ed8a2"
+        "selector": "0x71bb126a"
       },
       {
-        "args": [
-          {
-            "label": "new_code_hash",
-            "type": {
-              "displayName": [
-                "Hash"
-              ],
-              "type": 4
-            }
-          }
-        ],
+        "args": [],
         "default": false,
-        "docs": [
-          " For now, we can only upgrade plugin code via motherspace"
-        ],
-        "label": "upgrade_plugin_code",
-        "mutates": true,
+        "docs": [],
+        "label": "PluginLauncher::motherspace_id",
+        "mutates": false,
         "payable": false,
         "returnType": {
           "displayName": [
@@ -157,23 +146,40 @@
           ],
           "type": 9
         },
-        "selector": "0xb13942d9"
+        "selector": "0xb32e0529"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "PluginLauncher::latest_plugin_code",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 8
+        },
+        "selector": "0xb3b8b2b3"
       },
       {
         "args": [
           {
-            "label": "space_id",
+            "label": "new_code_hash",
             "type": {
               "displayName": [
-                "AccountId"
+                "pluginlauncher_external",
+                "UpgradePluginCodeInput1"
               ],
-              "type": 0
+              "type": 4
             }
           }
         ],
         "default": false,
         "docs": [],
-        "label": "launch",
+        "label": "PluginLauncher::upgrade_plugin_code",
         "mutates": true,
         "payable": false,
         "returnType": {
@@ -181,15 +187,15 @@
             "ink",
             "MessageResult"
           ],
-          "type": 13
+          "type": 10
         },
-        "selector": "0xc7df852f"
+        "selector": "0xec905589"
       },
       {
         "args": [],
         "default": false,
         "docs": [],
-        "label": "launches_count",
+        "label": "PluginLauncher::launches_count",
         "mutates": false,
         "payable": false,
         "returnType": {
@@ -199,57 +205,24 @@
           ],
           "type": 15
         },
-        "selector": "0x181c1a7a"
-      },
-      {
-        "args": [],
-        "default": false,
-        "docs": [],
-        "label": "motherspace_id",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 16
-        },
-        "selector": "0x0e200f7d"
-      },
-      {
-        "args": [],
-        "default": false,
-        "docs": [],
-        "label": "owner_id",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 16
-        },
-        "selector": "0xeef02b02"
+        "selector": "0x4d07b7d2"
       },
       {
         "args": [
           {
-            "label": "code_hash",
+            "label": "space_id",
             "type": {
               "displayName": [
-                "Hash"
+                "pluginlauncher_external",
+                "LaunchInput1"
               ],
-              "type": 4
+              "type": 0
             }
           }
         ],
         "default": false,
-        "docs": [
-          " Upgradeable"
-        ],
-        "label": "set_code_hash",
+        "docs": [],
+        "label": "PluginLauncher::launch",
         "mutates": true,
         "payable": false,
         "returnType": {
@@ -257,15 +230,42 @@
             "ink",
             "MessageResult"
           ],
-          "type": 17
+          "type": 16
         },
-        "selector": "0x9e5c5758"
+        "selector": "0xdc09637d"
+      },
+      {
+        "args": [
+          {
+            "label": "new_owner",
+            "type": {
+              "displayName": [
+                "ownable_external",
+                "TransferOwnershipInput1"
+              ],
+              "type": 18
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "Ownable::transfer_ownership",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 19
+        },
+        "selector": "0x11f43efd"
       },
       {
         "args": [],
         "default": false,
         "docs": [],
-        "label": "code_hash",
+        "label": "Ownable::owner",
         "mutates": false,
         "payable": false,
         "returnType": {
@@ -273,9 +273,52 @@
             "ink",
             "MessageResult"
           ],
-          "type": 8
+          "type": 21
         },
-        "selector": "0xbd69cea7"
+        "selector": "0x4fa43c8c"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "Ownable::renounce_ownership",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 19
+        },
+        "selector": "0x5e228753"
+      },
+      {
+        "args": [
+          {
+            "label": "new_code_hash",
+            "type": {
+              "displayName": [
+                "upgradeable_external",
+                "SetCodeHashInput1"
+              ],
+              "type": 4
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "Upgradeable::set_code_hash",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 22
+        },
+        "selector": "0x1700ae80"
       }
     ]
   },
@@ -286,76 +329,116 @@
           "fields": [
             {
               "layout": {
-                "root": {
-                  "layout": {
-                    "leaf": {
-                      "key": "0xa08c0907",
-                      "ty": 0
+                "struct": {
+                  "fields": [
+                    {
+                      "layout": {
+                        "root": {
+                          "layout": {
+                            "enum": {
+                              "dispatchKey": "0x6f713913",
+                              "name": "Option",
+                              "variants": {
+                                "0": {
+                                  "fields": [],
+                                  "name": "None"
+                                },
+                                "1": {
+                                  "fields": [
+                                    {
+                                      "layout": {
+                                        "leaf": {
+                                          "key": "0x6f713913",
+                                          "ty": 0
+                                        }
+                                      },
+                                      "name": "0"
+                                    }
+                                  ],
+                                  "name": "Some"
+                                }
+                              }
+                            }
+                          },
+                          "root_key": "0x6f713913"
+                        }
+                      },
+                      "name": "owner"
                     }
-                  },
-                  "root_key": "0xa08c0907"
+                  ],
+                  "name": "Data"
                 }
               },
-              "name": "motherspace_id"
+              "name": "ownable"
             },
             {
               "layout": {
-                "root": {
-                  "layout": {
-                    "leaf": {
-                      "key": "0x8367c714",
-                      "ty": 0
+                "struct": {
+                  "fields": [
+                    {
+                      "layout": {
+                        "root": {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x8feb1c8d",
+                              "ty": 0
+                            }
+                          },
+                          "root_key": "0x8feb1c8d"
+                        }
+                      },
+                      "name": "motherspace_id"
+                    },
+                    {
+                      "layout": {
+                        "root": {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xe3f44f18",
+                              "ty": 3
+                            }
+                          },
+                          "root_key": "0xe3f44f18"
+                        }
+                      },
+                      "name": "plugin_codes_nonce"
+                    },
+                    {
+                      "layout": {
+                        "root": {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x5ab31eb8",
+                              "ty": 4
+                            }
+                          },
+                          "root_key": "0x5ab31eb8"
+                        }
+                      },
+                      "name": "plugin_codes"
+                    },
+                    {
+                      "layout": {
+                        "root": {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xd6e59eca",
+                              "ty": 3
+                            }
+                          },
+                          "root_key": "0xd6e59eca"
+                        }
+                      },
+                      "name": "launches_count"
                     }
-                  },
-                  "root_key": "0x8367c714"
+                  ],
+                  "name": "Data"
                 }
               },
-              "name": "owner_id"
-            },
-            {
-              "layout": {
-                "root": {
-                  "layout": {
-                    "leaf": {
-                      "key": "0xc59a52bf",
-                      "ty": 3
-                    }
-                  },
-                  "root_key": "0xc59a52bf"
-                }
-              },
-              "name": "plugin_codes_nonce"
-            },
-            {
-              "layout": {
-                "root": {
-                  "layout": {
-                    "leaf": {
-                      "key": "0xf98c2227",
-                      "ty": 4
-                    }
-                  },
-                  "root_key": "0xf98c2227"
-                }
-              },
-              "name": "plugin_codes"
-            },
-            {
-              "layout": {
-                "root": {
-                  "layout": {
-                    "leaf": {
-                      "key": "0xd5670368",
-                      "ty": 3
-                    }
-                  },
-                  "root_key": "0xd5670368"
-                }
-              },
-              "name": "launches_count"
+              "name": "launcher"
             }
           ],
-          "name": "PostsLauncher"
+          "name": "PollsLauncher"
         }
       },
       "root_key": "0x00000000"
@@ -549,7 +632,7 @@
               {
                 "fields": [
                   {
-                    "type": 10
+                    "type": 0
                   }
                 ],
                 "index": 0,
@@ -570,7 +653,7 @@
         "params": [
           {
             "name": "T",
-            "type": 10
+            "type": 0
           },
           {
             "name": "E",
@@ -591,87 +674,7 @@
               {
                 "fields": [
                   {
-                    "type": 3
-                  }
-                ],
-                "index": 0,
-                "name": "Ok"
-              },
-              {
-                "fields": [
-                  {
                     "type": 11
-                  }
-                ],
-                "index": 1,
-                "name": "Err"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 3
-          },
-          {
-            "name": "E",
-            "type": 11
-          }
-        ],
-        "path": [
-          "Result"
-        ]
-      }
-    },
-    {
-      "id": 11,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "fields": [
-                  {
-                    "type": 12,
-                    "typeName": "String"
-                  }
-                ],
-                "index": 0,
-                "name": "Custom"
-              },
-              {
-                "index": 1,
-                "name": "UnAuthorized"
-              }
-            ]
-          }
-        },
-        "path": [
-          "posts_launcher",
-          "posts_launcher",
-          "Error"
-        ]
-      }
-    },
-    {
-      "id": 12,
-      "type": {
-        "def": {
-          "primitive": "str"
-        }
-      }
-    },
-    {
-      "id": 13,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "fields": [
-                  {
-                    "type": 14
                   }
                 ],
                 "index": 0,
@@ -692,7 +695,7 @@
         "params": [
           {
             "name": "T",
-            "type": 14
+            "type": 11
           },
           {
             "name": "E",
@@ -705,7 +708,7 @@
       }
     },
     {
-      "id": 14,
+      "id": 11,
       "type": {
         "def": {
           "variant": {
@@ -713,7 +716,7 @@
               {
                 "fields": [
                   {
-                    "type": 0
+                    "type": 3
                   }
                 ],
                 "index": 0,
@@ -722,7 +725,7 @@
               {
                 "fields": [
                   {
-                    "type": 11
+                    "type": 12
                   }
                 ],
                 "index": 1,
@@ -734,15 +737,90 @@
         "params": [
           {
             "name": "T",
-            "type": 0
+            "type": 3
           },
           {
             "name": "E",
-            "type": 11
+            "type": 12
           }
         ],
         "path": [
           "Result"
+        ]
+      }
+    },
+    {
+      "id": 12,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 13,
+                    "typeName": "String"
+                  }
+                ],
+                "index": 0,
+                "name": "Custom"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 14,
+                    "typeName": "OwnableError"
+                  }
+                ],
+                "index": 1,
+                "name": "OwnableError"
+              },
+              {
+                "index": 2,
+                "name": "UnAuthorized"
+              }
+            ]
+          }
+        },
+        "path": [
+          "shared",
+          "traits",
+          "plugin_launcher",
+          "LauncherError"
+        ]
+      }
+    },
+    {
+      "id": 13,
+      "type": {
+        "def": {
+          "primitive": "str"
+        }
+      }
+    },
+    {
+      "id": 14,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 0,
+                "name": "CallerIsNotOwner"
+              },
+              {
+                "index": 1,
+                "name": "NewOwnerIsNotSet"
+              }
+            ]
+          }
+        },
+        "path": [
+          "openbrush_contracts",
+          "traits",
+          "errors",
+          "ownable",
+          "OwnableError"
         ]
       }
     },
@@ -797,7 +875,7 @@
               {
                 "fields": [
                   {
-                    "type": 0
+                    "type": 17
                   }
                 ],
                 "index": 0,
@@ -818,7 +896,7 @@
         "params": [
           {
             "name": "T",
-            "type": 0
+            "type": 17
           },
           {
             "name": "E",
@@ -832,6 +910,165 @@
     },
     {
       "id": 17,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 0
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 12
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 0
+          },
+          {
+            "name": "E",
+            "type": 12
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 18,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 0,
+                "name": "None"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 0
+                  }
+                ],
+                "index": 1,
+                "name": "Some"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 0
+          }
+        ],
+        "path": [
+          "Option"
+        ]
+      }
+    },
+    {
+      "id": 19,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 20
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 7
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 20
+          },
+          {
+            "name": "E",
+            "type": 7
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 20,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 6
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 14
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 6
+          },
+          {
+            "name": "E",
+            "type": 14
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 21,
       "type": {
         "def": {
           "variant": {
@@ -873,7 +1110,49 @@
       }
     },
     {
-      "id": 18,
+      "id": 22,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 23
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 7
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 23
+          },
+          {
+            "name": "E",
+            "type": 7
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 23,
       "type": {
         "def": {
           "variant": {
@@ -890,7 +1169,7 @@
               {
                 "fields": [
                   {
-                    "type": 11
+                    "type": 24
                   }
                 ],
                 "index": 1,
@@ -906,7 +1185,7 @@
           },
           {
             "name": "E",
-            "type": 11
+            "type": 24
           }
         ],
         "path": [
@@ -915,7 +1194,89 @@
       }
     },
     {
-      "id": 19,
+      "id": 24,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 13,
+                    "typeName": "String"
+                  }
+                ],
+                "index": 0,
+                "name": "Custom"
+              },
+              {
+                "index": 1,
+                "name": "SetCodeHashFailed"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 14,
+                    "typeName": "OwnableError"
+                  }
+                ],
+                "index": 2,
+                "name": "OwnableError"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 25,
+                    "typeName": "AccessControlError"
+                  }
+                ],
+                "index": 3,
+                "name": "AccessControlError"
+              }
+            ]
+          }
+        },
+        "path": [
+          "openbrush_contracts",
+          "traits",
+          "errors",
+          "upgradeable",
+          "UpgradeableError"
+        ]
+      }
+    },
+    {
+      "id": 25,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 0,
+                "name": "InvalidCaller"
+              },
+              {
+                "index": 1,
+                "name": "MissingRole"
+              },
+              {
+                "index": 2,
+                "name": "RoleRedundant"
+              }
+            ]
+          }
+        },
+        "path": [
+          "openbrush_contracts",
+          "traits",
+          "errors",
+          "access_control",
+          "AccessControlError"
+        ]
+      }
+    },
+    {
+      "id": 26,
       "type": {
         "def": {
           "primitive": "u128"
@@ -923,7 +1284,7 @@
       }
     },
     {
-      "id": 20,
+      "id": 27,
       "type": {
         "def": {
           "primitive": "u64"
@@ -931,7 +1292,7 @@
       }
     },
     {
-      "id": 21,
+      "id": 28,
       "type": {
         "def": {
           "variant": {}

@@ -9,9 +9,9 @@ import { pickDecoded } from 'useink/utils';
 
 export default function useSpaces(chainId: ChainId): OnChainSpace[] | undefined {
   const { selectedAccount } = useWalletContext();
-  const [spaces, setSpaces] = useState<string[]>();
+  const [spaces, setSpaces] = useState<[string, string][]>(); // space address, code hash
   const motherContract = useMotherContract(chainId);
-  const memberSpacesCall = useCall<string[]>(motherContract, 'memberSpaces');
+  const memberSpacesCall = useCall<[string, string][]>(motherContract, 'memberSpaces');
   const memberAddress = selectedAccount?.address;
 
   useEffect(() => {
@@ -27,5 +27,5 @@ export default function useSpaces(chainId: ChainId): OnChainSpace[] | undefined 
     }
   }, [memberAddress, memberSpacesCall.send]);
 
-  return spaces?.map((one) => ({ address: one, chainId }));
+  return spaces?.map(([spaceId, codeHash]) => ({ address: spaceId, chainId, codeHash }));
 }

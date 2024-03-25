@@ -24,7 +24,7 @@ import { shouldDisableStrict } from 'useink/utils';
 export default function SpaceInfo() {
   const { network, info, isOwner, contract } = useSpaceContext();
   const freeBalance = useCurrentFreeBalance();
-  const updateInfoTx = useTx(contract, 'updateInfo');
+  const updateInfoTx = useTx(contract, 'spaceProfile::updateInfo');
 
   const formik = useFormik({
     initialValues: {

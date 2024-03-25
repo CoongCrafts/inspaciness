@@ -1,4 +1,4 @@
-import motherspace from '@/metadata/motherspace.json';
+import { MotherspaceMetadataLatest } from '@/metadata';
 import { findNetwork } from '@/utils/networks';
 import { useContract } from 'useink';
 import { ChainId } from 'useink/chains';
@@ -10,5 +10,5 @@ export default function useMotherContract(chainId: ChainId) {
     throw new Error('Missing MotherAddress!');
   }
 
-  return useContract(motherAddress, motherspace, chainId);
+  return useContract(motherAddress, MotherspaceMetadataLatest.metadata, chainId);
 }
