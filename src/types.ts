@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react';
+import { ChainContract } from 'useink';
 import { Chain, ChainId } from 'useink/chains';
 
 export type MenuItemType = {
@@ -12,6 +13,15 @@ export interface Props {
   children?: ReactNode;
 
   [prop: string]: any;
+}
+
+export interface PluginProps extends Props {
+  plugin: PluginInfo;
+}
+
+export interface SpaceProps extends Props {
+  motherContract?: ChainContract;
+  space: OnChainSpace;
 }
 
 export enum ChainEnvironment {
@@ -108,6 +118,7 @@ export interface PluginInfo extends Plugin {
   chainId: ChainId;
   disabled: boolean;
   codeHash: string;
+  version?: string;
 }
 
 export interface OnChainPluginInfo {
@@ -154,6 +165,7 @@ export enum Ordering {
 export enum PostPerm {
   SpaceOwner = 'SpaceOwner',
   ActiveMember = 'ActiveMember',
+  ActiveMemberWithApproval = 'ActiveMemberWithApproval',
 }
 
 export interface Poll {
@@ -178,3 +190,5 @@ export interface ContractMetadata {
   hash: string;
   metadata: Record<string, unknown>;
 }
+
+export type PendingPostApproval = [number, boolean];

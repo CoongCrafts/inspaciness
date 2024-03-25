@@ -1,17 +1,17 @@
 import { Box, Text } from '@chakra-ui/react';
-import PollsProvider from '@/pages/plugins/Polls/PollsProvider';
-import PollsView from '@/pages/plugins/Polls/PollsView';
-import { useSpaceContext } from '@/providers/SpaceProvider';
+import React, { Suspense } from 'react';
+import { useSpacePlugin } from '@/pages/space/0.1.x/SpaceProvider';
 import { PLUGIN_POLLS } from '@/utils/plugins';
 
+const Polls_V0_1_X = React.lazy(() => import(`./0.1.x/index`));
+
 export default function Polls() {
-  const { plugins } = useSpaceContext();
-  const pollsPlugin = plugins?.find((one) => one.id === PLUGIN_POLLS);
-  if (!pollsPlugin) {
+  const plugin = useSpacePlugin(PLUGIN_POLLS);
+  if (!plugin) {
     return null;
   }
 
-  if (pollsPlugin.disabled) {
+  if (plugin.disabled) {
     return (
       <Box>
         <Text>This feature is disabled</Text>
@@ -20,8 +20,8 @@ export default function Polls() {
   }
 
   return (
-    <PollsProvider info={pollsPlugin}>
-      <PollsView />
-    </PollsProvider>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Polls_V0_1_X plugin={plugin} />
+    </Suspense>
   );
 }

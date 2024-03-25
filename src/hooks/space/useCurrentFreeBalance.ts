@@ -1,5 +1,5 @@
 import useFreeBalance from '@/hooks/useFreeBalance';
-import { useSpaceContext } from '@/providers/SpaceProvider';
+import { useSpaceContext } from '@/pages/space/0.1.x/SpaceProvider';
 import { useWalletContext } from '@/providers/WalletProvider';
 import { stringToNum } from '@/utils/number';
 
