@@ -1,7 +1,5 @@
-import flipperMetadata from '@/metadata/flipper.json';
-import pollsMetadata from '@/metadata/polls.json';
-import postsMetadata from '@/metadata/posts.json';
-import { Plugin } from '@/types';
+import { FlipperMetadatas, PollsMetadatas, PostsMetadatas } from '@/metadata';
+import { Plugin, PluginInfo } from '@/types';
 
 export const PLUGIN_POSTS = 'POST';
 export const PLUGIN_FLIPPER = 'FLIP';
@@ -29,13 +27,15 @@ export const findPlugin = (id: string): Plugin | undefined => {
   return REGISTERED_PLUGINS.find((p) => p.id === id);
 };
 
-export const findPluginMetadata = (id: string) => {
+export const findPluginMetadata = (plugin: PluginInfo) => {
+  const { id, codeHash } = plugin;
+
   if (id === PLUGIN_POSTS) {
-    return postsMetadata;
+    return PostsMetadatas.find((m) => m.hash === codeHash);
   } else if (id === PLUGIN_FLIPPER) {
-    return flipperMetadata;
+    return FlipperMetadatas.find((m) => m.hash === codeHash);
   } else if (id === PLUGIN_POLLS) {
-    return pollsMetadata;
+    return PollsMetadatas.find((m) => m.hash === codeHash);
   }
 };
 

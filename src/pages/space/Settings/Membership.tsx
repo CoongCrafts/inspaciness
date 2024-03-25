@@ -31,7 +31,7 @@ import { shouldDisableStrict } from 'useink/utils';
 export default function Membership() {
   const { network, config, isOwner, contract } = useSpaceContext();
   const freeBalance = useCurrentFreeBalance();
-  const updateConfigTx = useTx(contract, 'updateConfig');
+  const updateConfigTx = useTx(contract, 'spaceProfile::updateConfig');
 
   const readOnly = !isOwner;
 

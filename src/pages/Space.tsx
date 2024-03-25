@@ -23,12 +23,14 @@ import { Link as LinkRouter, Outlet, useLocation, useNavigate, useParams } from 
 import { toast } from 'react-toastify';
 import SpaceSkeleton from '@/components/sketeton/SpaceSkeleton';
 import SpaceAvatar from '@/components/space/SpaceAvatar';
+import useMotherContract from '@/hooks/contracts/useMotherContract';
+import useContractState from '@/hooks/useContractState';
 import CancelRequestButton from '@/pages/space/actions/CancelRequestButton';
 import JoinButton from '@/pages/space/actions/JoinButton';
 import LeaveSpaceButton from '@/pages/space/actions/LeaveSpaceButton';
 import UpdateDisplayNameButton from '@/pages/space/actions/UpdateDisplayNameButton';
 import SpaceProvider, { useSpaceContext } from '@/providers/SpaceProvider';
-import { MemberStatus, MenuItemType, RegistrationType } from '@/types';
+import { CodeHash, MemberStatus, MenuItemType, RegistrationType } from '@/types';
 import { renderMd } from '@/utils/mdrenderer';
 import { PLUGIN_FLIPPER, PLUGIN_POLLS, PLUGIN_POSTS } from '@/utils/plugins';
 import { shortenAddress } from '@/utils/string';
@@ -230,9 +232,23 @@ function SpaceContent() {
 
 export default function Space() {
   const { chainId, spaceAddress } = useParams();
+  const motherContract = useMotherContract(chainId as ChainId);
+  const { state: codeHash } = useContractState<{ Ok: CodeHash; Err: string }>(motherContract, 'spaceCodeHash', [
+    spaceAddress!,
+  ]);
+
+  if (!codeHash) {
+    return <SpaceSkeleton />;
+  }
+
+  if (codeHash.Err) {
+    // TODO handle error
+  }
 
   return (
-    <SpaceProvider space={{ address: spaceAddress!, chainId: chainId as ChainId }}>
+    <SpaceProvider
+      space={{ address: spaceAddress!, chainId: chainId as ChainId, codeHash: codeHash.Ok }}
+      motherContract={motherContract}>
       <SpaceContent />
     </SpaceProvider>
   );
