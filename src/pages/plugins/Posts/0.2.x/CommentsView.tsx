@@ -76,6 +76,7 @@ export default function CommentsView({ comments, postId }: CommentsViewProps) {
         onClick={() => setIsOpenComment((pre) => !pre)}
         alignSelf='end'
         _hover={{ textDecoration: 'underline' }}
+        userSelect='none'
         cursor='pointer'
         fontWeight='semibold'
         fontSize='0.9rem'
