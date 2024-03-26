@@ -1,11 +1,11 @@
 {
   "source": {
-    "hash": "0x5d2ec89d3be24eaf21b89cfd50400f2a30d24549b6c1f8604110618a52be5688",
+    "hash": "0x87fbc6f82b4462d5de8b3204bbd743b867c11708c9ae0a24b0a4c041f9bc6129",
     "language": "ink! 4.3.0",
-    "compiler": "rustc 1.78.0-nightly",
+    "compiler": "rustc 1.77.0-nightly",
     "build_info": {
       "build_mode": "Debug",
-      "cargo_contract_version": "4.0.0-alpha",
+      "cargo_contract_version": "3.2.0",
       "rust_toolchain": "nightly-aarch64-apple-darwin",
       "wasm_opt_settings": {
         "keep_debug_symbols": false,
@@ -20,7 +20,6 @@
       "Thang X. Vu <thang@coongcrafts.io>"
     ]
   },
-  "image": null,
   "spec": {
     "constructors": [
       {
@@ -147,8 +146,10 @@
       {
         "args": [],
         "default": false,
-        "docs": [],
-        "label": "CodeHash::code_hash",
+        "docs": [
+          " Get space id"
+        ],
+        "label": "space_id",
         "mutates": false,
         "payable": false,
         "returnType": {
@@ -158,24 +159,43 @@
           ],
           "type": 12
         },
-        "selector": "0x71bb126a"
+        "selector": "0xe1b64803"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [
+          " Get launcher id"
+        ],
+        "label": "launcher_id",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 12
+        },
+        "selector": "0x80306c84"
       },
       {
         "args": [
           {
-            "label": "new_code_hash",
+            "label": "code_hash",
             "type": {
               "displayName": [
-                "pluginbase_external",
-                "SetCodeHashInput1"
+                "Hash"
               ],
               "type": 13
             }
           }
         ],
         "default": false,
-        "docs": [],
-        "label": "PluginBase::set_code_hash",
+        "docs": [
+          " Upgradeable"
+        ],
+        "label": "set_code_hash",
         "mutates": true,
         "payable": false,
         "returnType": {
@@ -185,13 +205,13 @@
           ],
           "type": 7
         },
-        "selector": "0xc19cec53"
+        "selector": "0x9e5c5758"
       },
       {
         "args": [],
         "default": false,
         "docs": [],
-        "label": "PluginBase::space_id",
+        "label": "code_hash",
         "mutates": false,
         "payable": false,
         "returnType": {
@@ -201,23 +221,7 @@
           ],
           "type": 14
         },
-        "selector": "0xd8b69738"
-      },
-      {
-        "args": [],
-        "default": false,
-        "docs": [],
-        "label": "PluginBase::launcher_id",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 14
-        },
-        "selector": "0x6f18cd4c"
+        "selector": "0xbd69cea7"
       }
     ]
   },
@@ -228,41 +232,31 @@
           "fields": [
             {
               "layout": {
-                "struct": {
-                  "fields": [
-                    {
-                      "layout": {
-                        "root": {
-                          "layout": {
-                            "leaf": {
-                              "key": "0x2c0004e1",
-                              "ty": 0
-                            }
-                          },
-                          "root_key": "0x2c0004e1"
-                        }
-                      },
-                      "name": "space_id"
-                    },
-                    {
-                      "layout": {
-                        "root": {
-                          "layout": {
-                            "leaf": {
-                              "key": "0xc3303c3b",
-                              "ty": 0
-                            }
-                          },
-                          "root_key": "0xc3303c3b"
-                        }
-                      },
-                      "name": "launcher_id"
+                "root": {
+                  "layout": {
+                    "leaf": {
+                      "key": "0xd6542907",
+                      "ty": 0
                     }
-                  ],
-                  "name": "Data"
+                  },
+                  "root_key": "0xd6542907"
                 }
               },
-              "name": "base"
+              "name": "space_id"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "leaf": {
+                      "key": "0xb88e2288",
+                      "ty": 0
+                    }
+                  },
+                  "root_key": "0xb88e2288"
+                }
+              },
+              "name": "launcher_id"
             },
             {
               "layout": {
@@ -508,19 +502,14 @@
               {
                 "index": 3,
                 "name": "NotSpaceOwner"
-              },
-              {
-                "index": 4,
-                "name": "SetCodeHashFailed"
               }
             ]
           }
         },
         "path": [
-          "shared",
-          "traits",
-          "plugin_base",
-          "PluginError"
+          "flipper",
+          "flipper",
+          "Error"
         ]
       }
     },
@@ -583,7 +572,7 @@
               {
                 "fields": [
                   {
-                    "type": 13
+                    "type": 0
                   }
                 ],
                 "index": 0,
@@ -604,7 +593,7 @@
         "params": [
           {
             "name": "T",
-            "type": 13
+            "type": 0
           },
           {
             "name": "E",
@@ -645,7 +634,7 @@
               {
                 "fields": [
                   {
-                    "type": 0
+                    "type": 13
                   }
                 ],
                 "index": 0,
@@ -666,7 +655,7 @@
         "params": [
           {
             "name": "T",
-            "type": 0
+            "type": 13
           },
           {
             "name": "E",

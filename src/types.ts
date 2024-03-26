@@ -145,6 +145,14 @@ export interface Post {
   updatedAt: number | null;
 }
 
+export interface Comment {
+  postId: number;
+  author: string;
+  content: string;
+  createdAt: number;
+  updatedAt: number | null;
+}
+
 export interface MembershipRequest {
   who: string;
   paid: number;
