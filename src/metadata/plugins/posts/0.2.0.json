@@ -1,11 +1,11 @@
 {
   "source": {
-    "hash": "0xd751358eb2eaaa635359de9feb97dffdc3f5272b0bf936c67fc8b214b6c3f35b",
+    "hash": "0x7c1dcb8fb9765f29a3be8e9998eda6c0b33e21f771fac45f7acda20f6e55b1ad",
     "language": "ink! 4.3.0",
-    "compiler": "rustc 1.78.0-nightly",
+    "compiler": "rustc 1.77.0-nightly",
     "build_info": {
       "build_mode": "Debug",
-      "cargo_contract_version": "4.0.0-alpha",
+      "cargo_contract_version": "3.2.0",
       "rust_toolchain": "nightly-aarch64-apple-darwin",
       "wasm_opt_settings": {
         "keep_debug_symbols": false,
@@ -20,7 +20,6 @@
       "Thang X. Vu <thang@coongcrafts.io>"
     ]
   },
-  "image": null,
   "spec": {
     "constructors": [
       {
@@ -70,7 +69,7 @@
         "displayName": [
           "Balance"
         ],
-        "type": 47
+        "type": 53
       },
       "blockNumber": {
         "displayName": [
@@ -82,13 +81,13 @@
         "displayName": [
           "ChainExtension"
         ],
-        "type": 48
+        "type": 54
       },
       "hash": {
         "displayName": [
           "Hash"
         ],
-        "type": 43
+        "type": 49
       },
       "maxEventTopics": 4,
       "timestamp": {
@@ -394,6 +393,154 @@
       {
         "args": [
           {
+            "label": "post_id",
+            "type": {
+              "displayName": [
+                "PostId"
+              ],
+              "type": 5
+            }
+          },
+          {
+            "label": "content",
+            "type": {
+              "displayName": [
+                "String"
+              ],
+              "type": 3
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "new_comment",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 34
+        },
+        "selector": "0x0c8fda8a"
+      },
+      {
+        "args": [
+          {
+            "label": "id",
+            "type": {
+              "displayName": [
+                "CommentId"
+              ],
+              "type": 5
+            }
+          },
+          {
+            "label": "content",
+            "type": {
+              "displayName": [
+                "String"
+              ],
+              "type": 3
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "update_comment",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 32
+        },
+        "selector": "0x1a1dd215"
+      },
+      {
+        "args": [
+          {
+            "label": "id",
+            "type": {
+              "displayName": [
+                "CommentId"
+              ],
+              "type": 5
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "delete_comment",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 32
+        },
+        "selector": "0x5aca5635"
+      },
+      {
+        "args": [
+          {
+            "label": "id",
+            "type": {
+              "displayName": [
+                "CommentId"
+              ],
+              "type": 5
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "comment_by_id",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 36
+        },
+        "selector": "0x78b24ca7"
+      },
+      {
+        "args": [
+          {
+            "label": "post_id",
+            "type": {
+              "displayName": [
+                "PostId"
+              ],
+              "type": 5
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "comments_by_post",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 39
+        },
+        "selector": "0x8acc9e2c"
+      },
+      {
+        "args": [
+          {
             "label": "id",
             "type": {
               "displayName": [
@@ -452,7 +599,7 @@
               "displayName": [
                 "Ordering"
               ],
-              "type": 34
+              "type": 40
             }
           }
         ],
@@ -492,7 +639,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 35
+          "type": 41
         },
         "selector": "0xcc4bbab7"
       },
@@ -518,7 +665,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 37
+          "type": 43
         },
         "selector": "0xfdc92818"
       },
@@ -534,7 +681,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 40
+          "type": 46
         },
         "selector": "0xb0e11074"
       },
@@ -546,7 +693,7 @@
               "displayName": [
                 "PostPerm"
               ],
-              "type": 41
+              "type": 47
             }
           }
         ],
@@ -592,25 +739,9 @@
             "ink",
             "MessageResult"
           ],
-          "type": 42
+          "type": 48
         },
         "selector": "0x71bb126a"
-      },
-      {
-        "args": [],
-        "default": false,
-        "docs": [],
-        "label": "PluginBase::launcher_id",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 44
-        },
-        "selector": "0x6f18cd4c"
       },
       {
         "args": [
@@ -621,7 +752,7 @@
                 "pluginbase_external",
                 "SetCodeHashInput1"
               ],
-              "type": 43
+              "type": 49
             }
           }
         ],
@@ -635,9 +766,25 @@
             "ink",
             "MessageResult"
           ],
-          "type": 45
+          "type": 50
         },
         "selector": "0xc19cec53"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "PluginBase::launcher_id",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 52
+        },
+        "selector": "0x6f18cd4c"
       },
       {
         "args": [],
@@ -651,7 +798,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 44
+          "type": 52
         },
         "selector": "0xd8b69738"
       }
@@ -814,6 +961,114 @@
                 }
               },
               "name": "posts_nonce"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xd203387a",
+                              "ty": 5
+                            }
+                          },
+                          "name": "post_id"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xd203387a",
+                              "ty": 3
+                            }
+                          },
+                          "name": "content"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xd203387a",
+                              "ty": 0
+                            }
+                          },
+                          "name": "author"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xd203387a",
+                              "ty": 4
+                            }
+                          },
+                          "name": "created_at"
+                        },
+                        {
+                          "layout": {
+                            "enum": {
+                              "dispatchKey": "0xd203387a",
+                              "name": "Option",
+                              "variants": {
+                                "0": {
+                                  "fields": [],
+                                  "name": "None"
+                                },
+                                "1": {
+                                  "fields": [
+                                    {
+                                      "layout": {
+                                        "leaf": {
+                                          "key": "0xd203387a",
+                                          "ty": 4
+                                        }
+                                      },
+                                      "name": "0"
+                                    }
+                                  ],
+                                  "name": "Some"
+                                }
+                              }
+                            }
+                          },
+                          "name": "updated_at"
+                        }
+                      ],
+                      "name": "Comment"
+                    }
+                  },
+                  "root_key": "0xd203387a"
+                }
+              },
+              "name": "comments"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "leaf": {
+                      "key": "0xc5e31004",
+                      "ty": 6
+                    }
+                  },
+                  "root_key": "0xc5e31004"
+                }
+              },
+              "name": "post_to_comments"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "leaf": {
+                      "key": "0xbcb650fb",
+                      "ty": 5
+                    }
+                  },
+                  "root_key": "0xbcb650fb"
+                }
+              },
+              "name": "comments_nonce"
             },
             {
               "layout": {
@@ -1334,6 +1589,10 @@
               {
                 "index": 2,
                 "name": "PostNotExisted"
+              },
+              {
+                "index": 3,
+                "name": "CommentNotExisted"
               }
             ]
           }
@@ -1934,33 +2193,9 @@
           "variant": {
             "variants": [
               {
-                "index": 0,
-                "name": "Descending"
-              },
-              {
-                "index": 1,
-                "name": "Ascending"
-              }
-            ]
-          }
-        },
-        "path": [
-          "posts",
-          "posts",
-          "Ordering"
-        ]
-      }
-    },
-    {
-      "id": 35,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
                 "fields": [
                   {
-                    "type": 36
+                    "type": 35
                   }
                 ],
                 "index": 0,
@@ -1981,7 +2216,7 @@
         "params": [
           {
             "name": "T",
-            "type": 36
+            "type": 35
           },
           {
             "name": "E",
@@ -1994,7 +2229,273 @@
       }
     },
     {
+      "id": 35,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 5
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 15
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 5
+          },
+          {
+            "name": "E",
+            "type": 15
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
       "id": 36,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 37
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 9
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 37
+          },
+          {
+            "name": "E",
+            "type": 9
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 37,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 0,
+                "name": "None"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 38
+                  }
+                ],
+                "index": 1,
+                "name": "Some"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 38
+          }
+        ],
+        "path": [
+          "Option"
+        ]
+      }
+    },
+    {
+      "id": 38,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "post_id",
+                "type": 5,
+                "typeName": "PostId"
+              },
+              {
+                "name": "content",
+                "type": 3,
+                "typeName": "String"
+              },
+              {
+                "name": "author",
+                "type": 0,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "created_at",
+                "type": 4,
+                "typeName": "Timestamp"
+              },
+              {
+                "name": "updated_at",
+                "type": 21,
+                "typeName": "Option<Timestamp>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "posts",
+          "posts",
+          "Comment"
+        ]
+      }
+    },
+    {
+      "id": 39,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 6
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 9
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 6
+          },
+          {
+            "name": "E",
+            "type": 9
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 40,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 0,
+                "name": "Descending"
+              },
+              {
+                "index": 1,
+                "name": "Ascending"
+              }
+            ]
+          }
+        },
+        "path": [
+          "posts",
+          "posts",
+          "Ordering"
+        ]
+      }
+    },
+    {
+      "id": 41,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 42
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 9
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 42
+          },
+          {
+            "name": "E",
+            "type": 9
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 42,
       "type": {
         "def": {
           "variant": {
@@ -2027,7 +2528,7 @@
       }
     },
     {
-      "id": 37,
+      "id": 43,
       "type": {
         "def": {
           "variant": {
@@ -2035,7 +2536,7 @@
               {
                 "fields": [
                   {
-                    "type": 38
+                    "type": 44
                   }
                 ],
                 "index": 0,
@@ -2056,7 +2557,7 @@
         "params": [
           {
             "name": "T",
-            "type": 38
+            "type": 44
           },
           {
             "name": "E",
@@ -2069,28 +2570,28 @@
       }
     },
     {
-      "id": 38,
+      "id": 44,
       "type": {
         "def": {
           "sequence": {
-            "type": 39
+            "type": 45
           }
         }
       }
     },
     {
-      "id": 39,
+      "id": 45,
       "type": {
         "def": {
           "tuple": [
             5,
-            36
+            42
           ]
         }
       }
     },
     {
-      "id": 40,
+      "id": 46,
       "type": {
         "def": {
           "variant": {
@@ -2098,7 +2599,7 @@
               {
                 "fields": [
                   {
-                    "type": 41
+                    "type": 47
                   }
                 ],
                 "index": 0,
@@ -2119,7 +2620,7 @@
         "params": [
           {
             "name": "T",
-            "type": 41
+            "type": 47
           },
           {
             "name": "E",
@@ -2132,7 +2633,7 @@
       }
     },
     {
-      "id": 41,
+      "id": 47,
       "type": {
         "def": {
           "variant": {
@@ -2160,7 +2661,7 @@
       }
     },
     {
-      "id": 42,
+      "id": 48,
       "type": {
         "def": {
           "variant": {
@@ -2168,7 +2669,7 @@
               {
                 "fields": [
                   {
-                    "type": 43
+                    "type": 49
                   }
                 ],
                 "index": 0,
@@ -2189,7 +2690,7 @@
         "params": [
           {
             "name": "T",
-            "type": 43
+            "type": 49
           },
           {
             "name": "E",
@@ -2202,7 +2703,7 @@
       }
     },
     {
-      "id": 43,
+      "id": 49,
       "type": {
         "def": {
           "composite": {
@@ -2222,7 +2723,7 @@
       }
     },
     {
-      "id": 44,
+      "id": 50,
       "type": {
         "def": {
           "variant": {
@@ -2230,7 +2731,7 @@
               {
                 "fields": [
                   {
-                    "type": 0
+                    "type": 51
                   }
                 ],
                 "index": 0,
@@ -2251,7 +2752,7 @@
         "params": [
           {
             "name": "T",
-            "type": 0
+            "type": 51
           },
           {
             "name": "E",
@@ -2264,49 +2765,7 @@
       }
     },
     {
-      "id": 45,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "fields": [
-                  {
-                    "type": 46
-                  }
-                ],
-                "index": 0,
-                "name": "Ok"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 9
-                  }
-                ],
-                "index": 1,
-                "name": "Err"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 46
-          },
-          {
-            "name": "E",
-            "type": 9
-          }
-        ],
-        "path": [
-          "Result"
-        ]
-      }
-    },
-    {
-      "id": 46,
+      "id": 51,
       "type": {
         "def": {
           "variant": {
@@ -2348,7 +2807,49 @@
       }
     },
     {
-      "id": 47,
+      "id": 52,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 0
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 9
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 0
+          },
+          {
+            "name": "E",
+            "type": 9
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 53,
       "type": {
         "def": {
           "primitive": "u128"
@@ -2356,7 +2857,7 @@
       }
     },
     {
-      "id": 48,
+      "id": 54,
       "type": {
         "def": {
           "variant": {}
