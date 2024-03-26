@@ -1,11 +1,11 @@
 {
   "source": {
-    "hash": "0x7c1dcb8fb9765f29a3be8e9998eda6c0b33e21f771fac45f7acda20f6e55b1ad",
+    "hash": "0x3b5f79587e6cc42378dd8c67d297d2229c2dffdcc0ffaed8a36e92dc3662de42",
     "language": "ink! 4.3.0",
-    "compiler": "rustc 1.77.0-nightly",
+    "compiler": "rustc 1.78.0-nightly",
     "build_info": {
       "build_mode": "Debug",
-      "cargo_contract_version": "3.2.0",
+      "cargo_contract_version": "4.0.2",
       "rust_toolchain": "nightly-aarch64-apple-darwin",
       "wasm_opt_settings": {
         "keep_debug_symbols": false,
@@ -20,6 +20,7 @@
       "Thang X. Vu <thang@coongcrafts.io>"
     ]
   },
+  "image": null,
   "spec": {
     "constructors": [
       {
@@ -744,6 +745,22 @@
         "selector": "0x71bb126a"
       },
       {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "PluginBase::space_id",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 50
+        },
+        "selector": "0xd8b69738"
+      },
+      {
         "args": [
           {
             "label": "new_code_hash",
@@ -766,7 +783,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 50
+          "type": 51
         },
         "selector": "0xc19cec53"
       },
@@ -782,25 +799,9 @@
             "ink",
             "MessageResult"
           ],
-          "type": 52
+          "type": 50
         },
         "selector": "0x6f18cd4c"
-      },
-      {
-        "args": [],
-        "default": false,
-        "docs": [],
-        "label": "PluginBase::space_id",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 52
-        },
-        "selector": "0xd8b69738"
       }
     ]
   },
@@ -2731,7 +2732,7 @@
               {
                 "fields": [
                   {
-                    "type": 51
+                    "type": 0
                   }
                 ],
                 "index": 0,
@@ -2752,7 +2753,7 @@
         "params": [
           {
             "name": "T",
-            "type": 51
+            "type": 0
           },
           {
             "name": "E",
@@ -2766,6 +2767,48 @@
     },
     {
       "id": 51,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 52
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 9
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 52
+          },
+          {
+            "name": "E",
+            "type": 9
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 52,
       "type": {
         "def": {
           "variant": {
@@ -2799,48 +2842,6 @@
           {
             "name": "E",
             "type": 16
-          }
-        ],
-        "path": [
-          "Result"
-        ]
-      }
-    },
-    {
-      "id": 52,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "fields": [
-                  {
-                    "type": 0
-                  }
-                ],
-                "index": 0,
-                "name": "Ok"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 9
-                  }
-                ],
-                "index": 1,
-                "name": "Err"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 0
-          },
-          {
-            "name": "E",
-            "type": 9
           }
         ],
         "path": [
