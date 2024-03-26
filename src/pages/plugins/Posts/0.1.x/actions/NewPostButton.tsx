@@ -46,7 +46,7 @@ interface NewPostButtonProps extends Props {
 }
 
 export default function NewPostButton({ onPostCreated }: NewPostButtonProps) {
-  const { contract, shouldCreatePendingPost } = usePostsContext();
+  const { contract } = usePostsContext();
   const newPostTx = useTx<number>(contract, 'newPost');
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -70,11 +70,7 @@ export default function NewPostButton({ onPostCreated }: NewPostButtonProps) {
           if (result.dispatchError) {
             toast.error(messages.txError);
           } else {
-            toast.success(
-              shouldCreatePendingPost
-                ? 'Your post will be show up after being reviewed by space owner'
-                : 'New post created',
-            );
+            toast.success('New post created');
 
             onPostCreated();
           }

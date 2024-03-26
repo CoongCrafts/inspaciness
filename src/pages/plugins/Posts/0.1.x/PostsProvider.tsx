@@ -12,7 +12,6 @@ interface PostsContextProps {
   postsCount?: number;
   postPerm?: PostPerm;
   canCreatePost: boolean;
-  shouldCreatePendingPost: boolean;
 }
 
 export const PostsContext = createContext<PostsContextProps>(null!);
@@ -39,26 +38,16 @@ export default function PostsProvider({ info, children }: PostsProviderProps) {
   let canCreatePost = false;
   if (postPerm === PostPerm.SpaceOwner) {
     canCreatePost = isOwner;
-  } else if (postPerm === PostPerm.ActiveMember || postPerm === PostPerm.ActiveMemberWithApproval) {
+  } else if (postPerm === PostPerm.ActiveMember) {
     canCreatePost = memberStatus === MemberStatus.Active;
   }
-
-  let shouldCreatePendingPost = postPerm === PostPerm.ActiveMemberWithApproval && canCreatePost && !isOwner;
 
   if (!postsCountStr) {
     return null;
   }
 
   return (
-    <PostsContext.Provider
-      value={{
-        info,
-        postsCount: stringToNum(postsCountStr),
-        contract,
-        postPerm,
-        canCreatePost,
-        shouldCreatePendingPost,
-      }}>
+    <PostsContext.Provider value={{ info, postsCount: stringToNum(postsCountStr), contract, postPerm, canCreatePost }}>
       {children}
     </PostsContext.Provider>
   );
