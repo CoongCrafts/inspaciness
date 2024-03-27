@@ -90,7 +90,7 @@ export default function PostCard({ postRecord: { post, postId }, onPostUpdated, 
           className='post-content'
           mt={2}
           dangerouslySetInnerHTML={{ __html: renderMd(post.content.Raw || '') }}></Box>
-        {comments && <CommentsView comments={comments} postId={postId} />}
+        {comments && <CommentsView comments={comments.toReversed()} postId={postId} />}
       </Box>
     </>
   );

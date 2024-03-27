@@ -1,11 +1,11 @@
 {
   "source": {
-    "hash": "0xc5db91de3768f6c5eeb61c022d9d1b36fc94d5857a702bf78d25e66aed1f4b16",
+    "hash": "0x1361fc7ab9db5b2c09f88b39452f73c9c3b2c77b9e5869344a0f3636c3fa5c70",
     "language": "ink! 4.3.0",
-    "compiler": "rustc 1.78.0-nightly",
+    "compiler": "rustc 1.76.0-nightly",
     "build_info": {
       "build_mode": "Debug",
-      "cargo_contract_version": "4.0.0-alpha",
+      "cargo_contract_version": "3.2.0",
       "rust_toolchain": "nightly-aarch64-apple-darwin",
       "wasm_opt_settings": {
         "keep_debug_symbols": false,
@@ -20,7 +20,6 @@
       "Thang X. Vu <thang@coongcrafts.io>"
     ]
   },
-  "image": null,
   "spec": {
     "constructors": [
       {
@@ -683,6 +682,22 @@
         "selector": "0x71bb126a"
       },
       {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "SpaceProfile::config",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 61
+        },
+        "selector": "0x55f65bf4"
+      },
+      {
         "args": [
           {
             "label": "config",
@@ -712,8 +727,10 @@
       {
         "args": [],
         "default": false,
-        "docs": [],
-        "label": "SpaceProfile::config",
+        "docs": [
+          " Get space info"
+        ],
+        "label": "SpaceProfile::info",
         "mutates": false,
         "payable": false,
         "returnType": {
@@ -721,9 +738,9 @@
             "ink",
             "MessageResult"
           ],
-          "type": 61
+          "type": 62
         },
-        "selector": "0x55f65bf4"
+        "selector": "0xa08406ef"
       },
       {
         "args": [
@@ -753,56 +770,6 @@
         "selector": "0x39c4f165"
       },
       {
-        "args": [],
-        "default": false,
-        "docs": [
-          " Get space info"
-        ],
-        "label": "SpaceProfile::info",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 62
-        },
-        "selector": "0xa08406ef"
-      },
-      {
-        "args": [],
-        "default": false,
-        "docs": [],
-        "label": "Ownable::owner",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 63
-        },
-        "selector": "0x4fa43c8c"
-      },
-      {
-        "args": [],
-        "default": false,
-        "docs": [],
-        "label": "Ownable::renounce_ownership",
-        "mutates": true,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 64
-        },
-        "selector": "0x5e228753"
-      },
-      {
         "args": [
           {
             "label": "new_owner",
@@ -825,9 +792,41 @@
             "ink",
             "MessageResult"
           ],
-          "type": 64
+          "type": 63
         },
         "selector": "0x11f43efd"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "Ownable::owner",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 65
+        },
+        "selector": "0x4fa43c8c"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "Ownable::renounce_ownership",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 63
+        },
+        "selector": "0x5e228753"
       },
       {
         "args": [
@@ -3277,7 +3276,7 @@
               {
                 "fields": [
                   {
-                    "type": 40
+                    "type": 64
                   }
                 ],
                 "index": 0,
@@ -3298,7 +3297,7 @@
         "params": [
           {
             "name": "T",
-            "type": 40
+            "type": 64
           },
           {
             "name": "E",
@@ -3312,48 +3311,6 @@
     },
     {
       "id": 64,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "fields": [
-                  {
-                    "type": 65
-                  }
-                ],
-                "index": 0,
-                "name": "Ok"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 24
-                  }
-                ],
-                "index": 1,
-                "name": "Err"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 65
-          },
-          {
-            "name": "E",
-            "type": 24
-          }
-        ],
-        "path": [
-          "Result"
-        ]
-      }
-    },
-    {
-      "id": 65,
       "type": {
         "def": {
           "variant": {
@@ -3387,6 +3344,48 @@
           {
             "name": "E",
             "type": 23
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 65,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 40
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 24
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 40
+          },
+          {
+            "name": "E",
+            "type": 24
           }
         ],
         "path": [

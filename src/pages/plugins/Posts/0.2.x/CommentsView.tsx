@@ -41,7 +41,9 @@ export default function CommentsView({ comments, postId }: CommentsViewProps) {
       return;
     }
 
-    newCommentTx.signAndSend([postId, comment], {}, (result) => {
+    const commentContentRaw = { Raw: comment };
+
+    newCommentTx.signAndSend([postId, commentContentRaw], {}, (result) => {
       if (!result) {
         newCommentTx.resetState();
         return;

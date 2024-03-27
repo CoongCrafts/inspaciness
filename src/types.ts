@@ -143,14 +143,7 @@ export interface Post {
   content: { [PostContent.Raw]: string } | { [PostContent.IpfsCid]: string };
   createdAt: number;
   updatedAt: number | null;
-}
-
-export interface Comment {
-  postId: number;
-  author: string;
-  content: string;
-  createdAt: number;
-  updatedAt: number | null;
+  parentId: number | null;
 }
 
 export interface MembershipRequest {
