@@ -1,14 +1,18 @@
-import { Box, Button, Collapse, Flex, Text, Textarea } from '@chakra-ui/react';
+import { Box, Button, Collapse, Divider, Flex, Text, Textarea, Tooltip } from '@chakra-ui/react';
+import { Identicon } from '@polkadot/react-identicon';
 import { useEffect, useState } from 'react';
+import ResizeTextarea from 'react-textarea-autosize';
 import { toast } from 'react-toastify';
 import useCurrentFreeBalance from '@/hooks/space/useCurrentFreeBalance';
 import { useTx } from '@/hooks/useink/useTx';
 import CommentCard from '@/pages/plugins/Posts/0.2.x/CommentCard';
 import { usePostsContext } from '@/pages/plugins/Posts/0.2.x/PostsProvider';
 import { useSpaceContext } from '@/pages/space/0.1.x/SpaceProvider';
+import { useWalletContext } from '@/providers/WalletProvider';
 import { MemberStatus, PostRecord, Props } from '@/types';
 import { messages } from '@/utils/messages';
 import { notifyTxStatus } from '@/utils/notifications';
+import { shortenAddress } from '@/utils/string';
 import pluralize from 'pluralize';
 import { shouldDisableStrict } from 'useink/utils';
 
@@ -18,7 +22,8 @@ interface CommentsViewProps extends Props {
 }
 
 export default function CommentsView({ comments, postId }: CommentsViewProps) {
-  const { memberStatus } = useSpaceContext();
+  const { selectedAccount } = useWalletContext();
+  const { memberStatus, memberInfo } = useSpaceContext();
   const { contract } = usePostsContext();
   const newCommentTx = useTx(contract, 'newComment');
   const freeBalance = useCurrentFreeBalance();
@@ -76,7 +81,7 @@ export default function CommentsView({ comments, postId }: CommentsViewProps) {
   };
 
   return (
-    <Flex flexDir='column' gap={2} width='100%' mt={4}>
+    <Flex flexDir='column' gap={2} width='100%' mt={2}>
       <Text
         onClick={() => setIsOpenComment((pre) => !pre)}
         alignSelf='end'
@@ -84,15 +89,26 @@ export default function CommentsView({ comments, postId }: CommentsViewProps) {
         userSelect='none'
         cursor='pointer'
         fontWeight='semibold'
-        fontSize='0.9rem'
+        fontSize='xs'
         color='gray.500'>
         {numberOfComments} {pluralize('comments', numberOfComments)}
       </Text>
       <Collapse in={isOpenComment} animateOpacity>
         <Box p={1}>
           {isActiveMember && (
-            <Flex gap={2}>
+            <Flex gap={2} alignItems='center'>
+              <Tooltip label={memberInfo?.name || shortenAddress(selectedAccount?.address)} placement='top'>
+                <Box>
+                  <Identicon value={selectedAccount?.address} size={22} theme='polkadot' />
+                </Box>
+              </Tooltip>
               <Textarea
+                minH='unset'
+                overflow='hidden'
+                w='100%'
+                resize='none'
+                minRows={1}
+                as={ResizeTextarea}
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
                 placeholder='Write a comment'
@@ -108,7 +124,16 @@ export default function CommentsView({ comments, postId }: CommentsViewProps) {
               </Button>
             </Flex>
           )}
-          <Flex flexDir='column' gap={8} mt={4}>
+          {viewingComments.length == 0 && (
+            <Box mt={4}>
+              <Text fontSize='xs' color='gray.500' textAlign='center'>
+                No comments
+              </Text>
+            </Box>
+          )}
+
+          {viewingComments.length > 0 && <Divider mb={4} mt={isActiveMember ? 4 : 0} />}
+          <Flex flexDir='column' gap={5}>
             {viewingComments.map((commentId) => {
               const commentRecord = comments.find((one) => one.postId === commentId);
 

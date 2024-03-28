@@ -104,7 +104,7 @@ export default function CommentCard({ commentRecord: { postId: commentId, post: 
     <Flex flexDir='column' w='100%'>
       <Flex justifyContent='space-between'>
         <Flex gap={2} mb={1} alignItems='start'>
-          <Identicon value={comment.author} size={25} theme='polkadot' />
+          <Identicon value={comment.author} size={26} theme='polkadot' />
           <Flex direction='column'>
             <Flex
               align='center'
@@ -118,7 +118,7 @@ export default function CommentCard({ commentRecord: { postId: commentId, post: 
               <Text lineHeight={1}>{authorInfo.name || shortenAddress(comment.author)}</Text>
               {authorInfo.name && (
                 <Text fontSize='sm' lineHeight={1} color='gray.500' mt='1px'>
-                  {shortenAddress(comment.author)}
+                  - {shortenAddress(comment.author)}
                 </Text>
               )}
             </Flex>
@@ -168,6 +168,7 @@ export default function CommentCard({ commentRecord: { postId: commentId, post: 
       ) : (
         <Box
           className='post-content'
+          fontSize='sm'
           mt={2}
           dangerouslySetInnerHTML={{ __html: renderMd(comment?.content.Raw || '') }}></Box>
       )}

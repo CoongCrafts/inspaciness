@@ -37,7 +37,7 @@ export default function PostCard({ postRecord: { post, postId }, onPostUpdated, 
 
   return (
     <>
-      <Box key={postId} border='1px' borderColor='chakra-border-color' p={4} borderRadius={4} mb={2}>
+      <Box key={postId} border='1px' borderColor='chakra-border-color' p={4} pb={2} borderRadius={4} mb={2}>
         <Flex justifyContent='space-between' alignItems='center'>
           <Flex gap={2} mb={1} alignItems='start'>
             <Identicon value={post.author} size={30} theme='polkadot' />
