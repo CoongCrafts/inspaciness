@@ -9,7 +9,7 @@ import { useTx } from '@/hooks/useink/useTx';
 import { usePostsContext } from '@/pages/plugins/Posts/0.2.x/PostsProvider';
 import { useSpaceContext } from '@/pages/space/0.1.x/SpaceProvider';
 import { useWalletContext } from '@/providers/WalletProvider';
-import { Comment, MemberInfo, MemberStatus, Props } from '@/types';
+import { MemberInfo, MemberStatus, Post, PostContent, Props } from '@/types';
 import { fromNow } from '@/utils/date';
 import { renderMd } from '@/utils/mdrenderer';
 import { messages } from '@/utils/messages';
@@ -25,7 +25,7 @@ export default function CommentCard({ commentId }: CommentCardProps) {
   const { contract: spaceContract } = useSpaceContext();
   const { isOwner, memberStatus } = useSpaceContext();
   const { contract } = usePostsContext();
-  const { state: comment } = useContractState<Comment>(contract, 'commentById', [commentId]);
+  const { state: comment } = useContractState<Post>(contract, 'commentById', [commentId]);
   const { state: authorInfo } = useContractState<MemberInfo>(spaceContract, 'memberInfo', [comment?.author]);
   const { selectedAccount } = useWalletContext();
   const [onEdit, setOnEdit] = useState<boolean>(false);
@@ -34,7 +34,7 @@ export default function CommentCard({ commentId }: CommentCardProps) {
   const deleteCommentTx = useTx(contract, 'deleteComment');
   const freeBalance = useCurrentFreeBalance();
 
-  if (!authorInfo || !comment) {
+  if (!authorInfo || !comment || !(PostContent.Raw in comment.content)) {
     return null;
   }
 
@@ -43,7 +43,7 @@ export default function CommentCard({ commentId }: CommentCardProps) {
 
   const switchEdit = () => {
     setOnEdit((pre) => !pre);
-    setCommentContent(comment.content || '');
+    setCommentContent((comment.content as { [PostContent.Raw]: string })[PostContent.Raw] || '');
   };
 
   const doChange = () => {
@@ -52,12 +52,14 @@ export default function CommentCard({ commentId }: CommentCardProps) {
       return;
     }
 
-    if (commentContent === comment.content) {
+    if (commentContent === (comment.content as { [PostContent.Raw]: string })[PostContent.Raw]) {
       switchEdit();
       return;
     }
 
-    updateCommentTx.signAndSend([commentId, commentContent], {}, (result) => {
+    const commentContentRaw = { Raw: commentContent };
+
+    updateCommentTx.signAndSend([commentId, commentContentRaw], {}, (result) => {
       if (!result) {
         updateCommentTx.resetState();
         return;
@@ -157,7 +159,7 @@ export default function CommentCard({ commentId }: CommentCardProps) {
             <Button
               onClick={doChange}
               size='sm'
-              isDisabled={commentContent === comment.content || updateProcessing}
+              isDisabled={commentContent === comment?.content.Raw || updateProcessing}
               colorScheme='primary'
               isLoading={updateProcessing}>
               Update
@@ -168,7 +170,7 @@ export default function CommentCard({ commentId }: CommentCardProps) {
         <Box
           className='post-content'
           mt={2}
-          dangerouslySetInnerHTML={{ __html: renderMd(comment.content || '') }}></Box>
+          dangerouslySetInnerHTML={{ __html: renderMd(comment?.content.Raw || '') }}></Box>
       )}
     </Flex>
   );
