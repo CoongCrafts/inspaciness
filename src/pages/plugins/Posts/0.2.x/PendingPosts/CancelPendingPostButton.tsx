@@ -6,6 +6,7 @@ import { Props } from '@/types';
 import { messages } from '@/utils/messages';
 import { notifyTxStatus } from '@/utils/notifications';
 import { DeleteIcon } from '@chakra-ui/icons';
+import { shouldDisableStrict } from 'useink/utils';
 import { usePostsContext } from '../PostsProvider';
 
 interface CancelPendingPostButtonProps extends Props {
@@ -41,8 +42,10 @@ export default function CancelPendingPostButton({ postId }: CancelPendingPostBut
     });
   };
 
+  const processing = shouldDisableStrict(cancelPendingRequestTx);
+
   return (
-    <MenuItem onClick={doCancel} icon={<DeleteIcon />}>
+    <MenuItem onClick={doCancel} icon={<DeleteIcon />} isDisabled={processing}>
       Cancel
     </MenuItem>
   );

@@ -158,7 +158,7 @@ export default function Plugins() {
       </Flex>
       <Box>
         {plugins?.map((one, index) => (
-          <Box key={one.id}>
+          <Box key={`${one.id}-${one.codeHash}`}>
             <Plugin info={one} />
             {index < plugins.length - 1 && <Divider />}
           </Box>

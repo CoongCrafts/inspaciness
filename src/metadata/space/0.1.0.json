@@ -1,11 +1,11 @@
 {
   "source": {
-    "hash": "0xc5db91de3768f6c5eeb61c022d9d1b36fc94d5857a702bf78d25e66aed1f4b16",
+    "hash": "0x122dcfaa6dc7e6da32aa928596a90be548c13dd69368219860cb76ca790e9686",
     "language": "ink! 4.3.0",
-    "compiler": "rustc 1.78.0-nightly",
+    "compiler": "rustc 1.76.0-nightly",
     "build_info": {
       "build_mode": "Debug",
-      "cargo_contract_version": "4.0.0-alpha",
+      "cargo_contract_version": "3.2.0",
       "rust_toolchain": "nightly-aarch64-apple-darwin",
       "wasm_opt_settings": {
         "keep_debug_symbols": false,
@@ -20,7 +20,6 @@
       "Thang X. Vu <thang@coongcrafts.io>"
     ]
   },
-  "image": null,
   "spec": {
     "constructors": [
       {
@@ -685,49 +684,6 @@
       {
         "args": [
           {
-            "label": "config",
-            "type": {
-              "displayName": [
-                "spaceprofile_external",
-                "UpdateConfigInput1"
-              ],
-              "type": 16
-            }
-          }
-        ],
-        "default": false,
-        "docs": [],
-        "label": "SpaceProfile::update_config",
-        "mutates": true,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 19
-        },
-        "selector": "0xe0045839"
-      },
-      {
-        "args": [],
-        "default": false,
-        "docs": [],
-        "label": "SpaceProfile::config",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 61
-        },
-        "selector": "0x55f65bf4"
-      },
-      {
-        "args": [
-          {
             "label": "info",
             "type": {
               "displayName": [
@@ -766,9 +722,52 @@
             "ink",
             "MessageResult"
           ],
-          "type": 62
+          "type": 61
         },
         "selector": "0xa08406ef"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "SpaceProfile::config",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 62
+        },
+        "selector": "0x55f65bf4"
+      },
+      {
+        "args": [
+          {
+            "label": "config",
+            "type": {
+              "displayName": [
+                "spaceprofile_external",
+                "UpdateConfigInput1"
+              ],
+              "type": 16
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "SpaceProfile::update_config",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 19
+        },
+        "selector": "0xe0045839"
       },
       {
         "args": [],
@@ -3193,48 +3192,6 @@
               {
                 "fields": [
                   {
-                    "type": 16
-                  }
-                ],
-                "index": 0,
-                "name": "Ok"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 24
-                  }
-                ],
-                "index": 1,
-                "name": "Err"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 16
-          },
-          {
-            "name": "E",
-            "type": 24
-          }
-        ],
-        "path": [
-          "Result"
-        ]
-      }
-    },
-    {
-      "id": 62,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "fields": [
-                  {
                     "type": 11
                   }
                 ],
@@ -3257,6 +3214,48 @@
           {
             "name": "T",
             "type": 11
+          },
+          {
+            "name": "E",
+            "type": 24
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 62,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 16
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 24
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 16
           },
           {
             "name": "E",

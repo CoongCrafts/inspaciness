@@ -143,6 +143,7 @@ export interface Post {
   content: { [PostContent.Raw]: string } | { [PostContent.IpfsCid]: string };
   createdAt: number;
   updatedAt: number | null;
+  parentId: number | null;
 }
 
 export interface MembershipRequest {
@@ -189,6 +190,7 @@ export interface ContractMetadata {
   version: string;
   hash: string;
   metadata: Record<string, unknown>;
+  changelog?: string;
 }
 
 export type PendingPostApproval = [number, boolean];

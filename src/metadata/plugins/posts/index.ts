@@ -12,5 +12,10 @@ export const PostsMetadatas: ContractMetadata[] = [
     version: v0_2_0.contract.version,
     hash: v0_2_0.source.hash,
     metadata: v0_2_0,
+    changelog: `
+    - Pending posts, pinned posts, comments <br/ >
+    - Space & plugins versioning <br/ >
+    - IPFS integration (longer post/comment content) <br/ >
+    `,
   },
 ];

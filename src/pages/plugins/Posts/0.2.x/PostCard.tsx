@@ -2,6 +2,8 @@ import { Box, Flex, IconButton, Menu, MenuButton, MenuList, Text } from '@chakra
 import { Identicon } from '@polkadot/react-identicon';
 import { RiMore2Fill } from 'react-icons/ri';
 import useContractState from '@/hooks/useContractState';
+import CommentsView from '@/pages/plugins/Posts/0.2.x/CommentsView';
+import { usePostsContext } from '@/pages/plugins/Posts/0.2.x/PostsProvider';
 import { useSpaceContext } from '@/pages/space/0.1.x/SpaceProvider';
 import { useWalletContext } from '@/providers/WalletProvider';
 import { MemberInfo, MemberStatus, PostContent, PostRecord, Props } from '@/types';
@@ -19,9 +21,11 @@ interface PostCardProps extends Props {
 }
 
 export default function PostCard({ postRecord: { post, postId }, onPostUpdated, isPinned }: PostCardProps) {
+  const { contract: postContract } = usePostsContext();
   const { contract, memberStatus, isOwner } = useSpaceContext();
   const { state: authorInfo } = useContractState<MemberInfo>(contract, 'memberInfo', [post.author]);
   const { selectedAccount } = useWalletContext();
+  const { state: comments } = useContractState<PostRecord[]>(postContract, 'commentsByPost', [postId]);
 
   // We have not supported PostContent.IpfsCid yet
   if (!authorInfo || !(PostContent.Raw in post.content)) {
@@ -33,7 +37,7 @@ export default function PostCard({ postRecord: { post, postId }, onPostUpdated, 
 
   return (
     <>
-      <Box key={postId} border='1px' borderColor='chakra-border-color' p={4} borderRadius={4} mb={2}>
+      <Box key={postId} border='1px' borderColor='chakra-border-color' p={4} pb={2} borderRadius={4} mb={2}>
         <Flex justifyContent='space-between' alignItems='center'>
           <Flex gap={2} mb={1} alignItems='start'>
             <Identicon value={post.author} size={30} theme='polkadot' />
@@ -86,6 +90,7 @@ export default function PostCard({ postRecord: { post, postId }, onPostUpdated, 
           className='post-content'
           mt={2}
           dangerouslySetInnerHTML={{ __html: renderMd(post.content.Raw || '') }}></Box>
+        {comments && <CommentsView comments={comments.toReversed()} postId={postId} />}
       </Box>
     </>
   );

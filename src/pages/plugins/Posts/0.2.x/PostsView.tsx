@@ -15,6 +15,7 @@ const RECORD_PER_PAGE = 4;
 
 function PostsContent() {
   const { contract, postsCount, canCreatePost, nonce, setNonce } = usePostsContext();
+  const [recentPosts, setRecentPosts] = useState<PostRecord[]>();
   const { state: pinnedPosts } = useContractState<PostRecord[]>(contract, 'listPinnedPosts');
   const [posts, setPosts] = useState<PostRecord[]>();
   const [onLoad, setOnLoad] = useState(true);
@@ -49,6 +50,10 @@ function PostsContent() {
     setNonce(postsCount! + 1);
   };
 
+  useEffect(() => {
+    setRecentPosts(posts?.filter((post) => !pinnedPosts?.some((pinnedPost) => pinnedPost.postId === post.postId)));
+  }, [pinnedPosts, posts]);
+
   const onPostUpdated = (content: any, postId: number) => {
     setPosts((prevState = []) => {
       const postIndex = prevState.findIndex((one) => one.postId === postId);
@@ -62,6 +67,7 @@ function PostsContent() {
 
   const newPostsCount = postsCount! - nonce;
   const numberOfPinnedPosts = pinnedPosts?.length || 0;
+  const numberOfRecentPosts = recentPosts?.length || 0;
 
   return (
     <>
@@ -93,43 +99,45 @@ function PostsContent() {
         </Flex>
       )}
       <Box>
-        {newPostsCount > 0 && (
-          <Button onClick={() => setNonce(postsCount!)} variant='outline' size='sm' width='full' mb={2}>
-            View {newPostsCount.toString().padStart(2, '0')} New {pluralize('Post', newPostsCount)}
-          </Button>
-        )}
-        {posts?.length === 0 &&
-          newPostsCount === 0 &&
-          (canCreatePost ? (
-            <Text>
-              There are no posts in this space,{' '}
-              <Link onClick={() => eventEmitter.emit(EventName.SHOW_NEW_POST_POPUP)} color='primary.500'>
-                create a new post
-              </Link>{' '}
-              now!
-            </Text>
-          ) : (
-            <Text>There are no posts in this space, check back later.</Text>
-          ))}
-        {
-          <Flex flexDir='column' mb={4} gap={2}>
+        <Flex flexDir='column' mb={4} gap={2}>
+          {numberOfRecentPosts > 0 && (
             <Flex gap={2} align='center'>
               <Text color='gray' fontWeight='semibold'>
                 Recent
               </Text>
               <Box>
-                <Tag>{numOfPost}</Tag>
+                <Tag>{numberOfRecentPosts}</Tag>
               </Box>
             </Flex>
-            <Box>
-              {posts
-                ? posts.map((postRecord) => (
-                    <PostCard key={postRecord.postId} postRecord={postRecord} onPostUpdated={onPostUpdated} />
-                  ))
-                : [...Array(5)].map((_, idx) => <PostsCardSkeleton key={idx} />)}
-            </Box>
-          </Flex>
-        }
+          )}
+          {newPostsCount > 0 && (
+            <Button onClick={() => setNonce(postsCount!)} variant='outline' size='sm' width='full' mb={2}>
+              View {newPostsCount.toString().padStart(2, '0')} New {pluralize('Post', newPostsCount)}
+            </Button>
+          )}
+          {numOfPost === 0 &&
+            newPostsCount === 0 &&
+            numberOfPinnedPosts === 0 &&
+            (canCreatePost ? (
+              <Text>
+                There are no posts in this space,{' '}
+                <Link onClick={() => eventEmitter.emit(EventName.SHOW_NEW_POST_POPUP)} color='primary.500'>
+                  create a new post
+                </Link>{' '}
+                now!
+              </Text>
+            ) : (
+              <Text>There are no posts in this space, check back later.</Text>
+            ))}
+
+          <Box>
+            {recentPosts
+              ? recentPosts.map((postRecord) => (
+                  <PostCard key={postRecord.postId} postRecord={postRecord} onPostUpdated={onPostUpdated} />
+                ))
+              : [...Array(5)].map((_, idx) => <PostsCardSkeleton key={idx} />)}
+          </Box>
+        </Flex>
       </Box>
     </>
   );

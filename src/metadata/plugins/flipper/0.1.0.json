@@ -1,11 +1,11 @@
 {
   "source": {
-    "hash": "0x5d2ec89d3be24eaf21b89cfd50400f2a30d24549b6c1f8604110618a52be5688",
+    "hash": "0x538ee1222b3afad7fd4197ac35b5d88585085983a4f0b83e68444efc2e9a92df",
     "language": "ink! 4.3.0",
-    "compiler": "rustc 1.78.0-nightly",
+    "compiler": "rustc 1.76.0-nightly",
     "build_info": {
       "build_mode": "Debug",
-      "cargo_contract_version": "4.0.0-alpha",
+      "cargo_contract_version": "3.2.0",
       "rust_toolchain": "nightly-aarch64-apple-darwin",
       "wasm_opt_settings": {
         "keep_debug_symbols": false,
@@ -20,7 +20,6 @@
       "Thang X. Vu <thang@coongcrafts.io>"
     ]
   },
-  "image": null,
   "spec": {
     "constructors": [
       {
@@ -161,6 +160,22 @@
         "selector": "0x71bb126a"
       },
       {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "PluginBase::launcher_id",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 14
+        },
+        "selector": "0x6f18cd4c"
+      },
+      {
         "args": [
           {
             "label": "new_code_hash",
@@ -202,22 +217,6 @@
           "type": 14
         },
         "selector": "0xd8b69738"
-      },
-      {
-        "args": [],
-        "default": false,
-        "docs": [],
-        "label": "PluginBase::launcher_id",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 14
-        },
-        "selector": "0x6f18cd4c"
       }
     ]
   },

@@ -36,11 +36,11 @@ export default function PendingPostsButton({ info }: PendingPostsButtonProps) {
     }
   }, [pendingPostsCountResults, pendingPostsCountByAuthorResult]);
 
-  if (postPerm !== PostPerm.ActiveMemberWithApproval || !pendingPostsCount) {
+  const onActive = location.pathname.split('/').at(-1) === SpacePath.PendingPosts;
+
+  if (!onActive && (postPerm !== PostPerm.ActiveMemberWithApproval || !pendingPostsCount)) {
     return null;
   }
-
-  const onActive = location.pathname.split('/').at(-1) === SpacePath.PendingPosts;
 
   return (
     <Button
@@ -60,9 +60,11 @@ export default function PendingPostsButton({ info }: PendingPostsButtonProps) {
       borderRadius={0}
       to={SpacePath.PendingPosts}>
       Pending Posts
-      <Tag size='sm' colorScheme='red' variant='solid'>
-        {pendingPostsCount}
-      </Tag>
+      {pendingPostsCount > 0 && (
+        <Tag size='sm' colorScheme='red' variant='solid'>
+          {pendingPostsCount}
+        </Tag>
+      )}
     </Button>
   );
 }
