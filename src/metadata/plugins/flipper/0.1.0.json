@@ -16,7 +16,9 @@
   "contract": {
     "name": "flipper",
     "version": "0.1.0",
-    "authors": ["Thang X. Vu <thang@coongcrafts.io>"]
+    "authors": [
+      "Thang X. Vu <thang@coongcrafts.io>"
+    ]
   },
   "spec": {
     "constructors": [
@@ -25,14 +27,18 @@
           {
             "label": "space_id",
             "type": {
-              "displayName": ["AccountId"],
+              "displayName": [
+                "AccountId"
+              ],
               "type": 0
             }
           },
           {
             "label": "launcher_id",
             "type": {
-              "displayName": ["AccountId"],
+              "displayName": [
+                "AccountId"
+              ],
               "type": 0
             }
           }
@@ -42,7 +48,10 @@
         "label": "new",
         "payable": false,
         "returnType": {
-          "displayName": ["ink_primitives", "ConstructorResult"],
+          "displayName": [
+            "ink_primitives",
+            "ConstructorResult"
+          ],
           "type": 4
         },
         "selector": "0x9bae9d5e"
@@ -51,46 +60,67 @@
     "docs": [],
     "environment": {
       "accountId": {
-        "displayName": ["AccountId"],
+        "displayName": [
+          "AccountId"
+        ],
         "type": 0
       },
       "balance": {
-        "displayName": ["Balance"],
+        "displayName": [
+          "Balance"
+        ],
         "type": 15
       },
       "blockNumber": {
-        "displayName": ["BlockNumber"],
+        "displayName": [
+          "BlockNumber"
+        ],
         "type": 17
       },
       "chainExtension": {
-        "displayName": ["ChainExtension"],
+        "displayName": [
+          "ChainExtension"
+        ],
         "type": 18
       },
       "hash": {
-        "displayName": ["Hash"],
+        "displayName": [
+          "Hash"
+        ],
         "type": 13
       },
       "maxEventTopics": 4,
       "timestamp": {
-        "displayName": ["Timestamp"],
+        "displayName": [
+          "Timestamp"
+        ],
         "type": 16
       }
     },
     "events": [],
     "lang_error": {
-      "displayName": ["ink", "LangError"],
+      "displayName": [
+        "ink",
+        "LangError"
+      ],
       "type": 6
     },
     "messages": [
       {
         "args": [],
         "default": false,
-        "docs": [" Flips the current value of the Flipper's boolean.", " Only active member can flip"],
+        "docs": [
+          " Flips the current value of the Flipper's boolean.",
+          " Only active member can flip"
+        ],
         "label": "flip",
         "mutates": true,
         "payable": false,
         "returnType": {
-          "displayName": ["ink", "MessageResult"],
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
           "type": 7
         },
         "selector": "0x633aa551"
@@ -98,12 +128,17 @@
       {
         "args": [],
         "default": false,
-        "docs": [" Returns the current value of the Flipper's boolean."],
+        "docs": [
+          " Returns the current value of the Flipper's boolean."
+        ],
         "label": "get",
         "mutates": false,
         "payable": false,
         "returnType": {
-          "displayName": ["ink", "MessageResult"],
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
           "type": 11
         },
         "selector": "0x2f865bd9"
@@ -116,7 +151,10 @@
         "mutates": false,
         "payable": false,
         "returnType": {
-          "displayName": ["ink", "MessageResult"],
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
           "type": 12
         },
         "selector": "0x71bb126a"
@@ -129,7 +167,10 @@
         "mutates": false,
         "payable": false,
         "returnType": {
-          "displayName": ["ink", "MessageResult"],
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
           "type": 14
         },
         "selector": "0x6f18cd4c"
@@ -139,7 +180,10 @@
           {
             "label": "new_code_hash",
             "type": {
-              "displayName": ["pluginbase_external", "SetCodeHashInput1"],
+              "displayName": [
+                "pluginbase_external",
+                "SetCodeHashInput1"
+              ],
               "type": 13
             }
           }
@@ -150,7 +194,10 @@
         "mutates": true,
         "payable": false,
         "returnType": {
-          "displayName": ["ink", "MessageResult"],
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
           "type": 7
         },
         "selector": "0xc19cec53"
@@ -163,7 +210,10 @@
         "mutates": false,
         "payable": false,
         "returnType": {
-          "displayName": ["ink", "MessageResult"],
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
           "type": 14
         },
         "selector": "0xd8b69738"
@@ -243,7 +293,11 @@
             ]
           }
         },
-        "path": ["ink_primitives", "types", "AccountId"]
+        "path": [
+          "ink_primitives",
+          "types",
+          "AccountId"
+        ]
       }
     },
     {
@@ -310,7 +364,9 @@
             "type": 6
           }
         ],
-        "path": ["Result"]
+        "path": [
+          "Result"
+        ]
       }
     },
     {
@@ -334,7 +390,10 @@
             ]
           }
         },
-        "path": ["ink_primitives", "LangError"]
+        "path": [
+          "ink_primitives",
+          "LangError"
+        ]
       }
     },
     {
@@ -374,7 +433,9 @@
             "type": 6
           }
         ],
-        "path": ["Result"]
+        "path": [
+          "Result"
+        ]
       }
     },
     {
@@ -414,7 +475,9 @@
             "type": 9
           }
         ],
-        "path": ["Result"]
+        "path": [
+          "Result"
+        ]
       }
     },
     {
@@ -452,7 +515,12 @@
             ]
           }
         },
-        "path": ["shared", "traits", "plugin_base", "PluginError"]
+        "path": [
+          "shared",
+          "traits",
+          "plugin_base",
+          "PluginError"
+        ]
       }
     },
     {
@@ -500,7 +568,9 @@
             "type": 6
           }
         ],
-        "path": ["Result"]
+        "path": [
+          "Result"
+        ]
       }
     },
     {
@@ -540,7 +610,9 @@
             "type": 6
           }
         ],
-        "path": ["Result"]
+        "path": [
+          "Result"
+        ]
       }
     },
     {
@@ -556,7 +628,11 @@
             ]
           }
         },
-        "path": ["ink_primitives", "types", "Hash"]
+        "path": [
+          "ink_primitives",
+          "types",
+          "Hash"
+        ]
       }
     },
     {
@@ -596,7 +672,9 @@
             "type": 6
           }
         ],
-        "path": ["Result"]
+        "path": [
+          "Result"
+        ]
       }
     },
     {
@@ -629,7 +707,11 @@
         "def": {
           "variant": {}
         },
-        "path": ["ink_env", "types", "NoChainExtension"]
+        "path": [
+          "ink_env",
+          "types",
+          "NoChainExtension"
+        ]
       }
     }
   ],

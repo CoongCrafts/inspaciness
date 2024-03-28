@@ -1,11 +1,11 @@
 {
   "source": {
-    "hash": "0x5468b5f5030564429a6e3903722d0a5c8bdd9bc5dc952840e7c8add134a03bd9",
+    "hash": "0x8229b4f65399feedf5d43257c01f950357a2c15f8af8bbac83958a2acdd85d4e",
     "language": "ink! 4.3.0",
-    "compiler": "rustc 1.78.0-nightly",
+    "compiler": "rustc 1.76.0-nightly",
     "build_info": {
       "build_mode": "Debug",
-      "cargo_contract_version": "4.0.0-alpha",
+      "cargo_contract_version": "3.2.0",
       "rust_toolchain": "nightly-aarch64-apple-darwin",
       "wasm_opt_settings": {
         "keep_debug_symbols": false,
@@ -16,9 +16,10 @@
   "contract": {
     "name": "posts",
     "version": "0.1.0",
-    "authors": ["Thang X. Vu <thang@coongcrafts.io>"]
+    "authors": [
+      "Thang X. Vu <thang@coongcrafts.io>"
+    ]
   },
-  "image": null,
   "spec": {
     "constructors": [
       {
@@ -26,14 +27,18 @@
           {
             "label": "space_id",
             "type": {
-              "displayName": ["AccountId"],
+              "displayName": [
+                "AccountId"
+              ],
               "type": 0
             }
           },
           {
             "label": "launcher_id",
             "type": {
-              "displayName": ["AccountId"],
+              "displayName": [
+                "AccountId"
+              ],
               "type": 0
             }
           }
@@ -43,7 +48,10 @@
         "label": "new",
         "payable": false,
         "returnType": {
-          "displayName": ["ink_primitives", "ConstructorResult"],
+          "displayName": [
+            "ink_primitives",
+            "ConstructorResult"
+          ],
           "type": 6
         },
         "selector": "0x9bae9d5e"
@@ -52,34 +60,49 @@
     "docs": [],
     "environment": {
       "accountId": {
-        "displayName": ["AccountId"],
+        "displayName": [
+          "AccountId"
+        ],
         "type": 0
       },
       "balance": {
-        "displayName": ["Balance"],
+        "displayName": [
+          "Balance"
+        ],
         "type": 38
       },
       "blockNumber": {
-        "displayName": ["BlockNumber"],
+        "displayName": [
+          "BlockNumber"
+        ],
         "type": 5
       },
       "chainExtension": {
-        "displayName": ["ChainExtension"],
+        "displayName": [
+          "ChainExtension"
+        ],
         "type": 39
       },
       "hash": {
-        "displayName": ["Hash"],
+        "displayName": [
+          "Hash"
+        ],
         "type": 34
       },
       "maxEventTopics": 4,
       "timestamp": {
-        "displayName": ["Timestamp"],
+        "displayName": [
+          "Timestamp"
+        ],
         "type": 4
       }
     },
     "events": [],
     "lang_error": {
-      "displayName": ["ink", "LangError"],
+      "displayName": [
+        "ink",
+        "LangError"
+      ],
       "type": 8
     },
     "messages": [
@@ -88,7 +111,9 @@
           {
             "label": "content",
             "type": {
-              "displayName": ["PostContent"],
+              "displayName": [
+                "PostContent"
+              ],
               "type": 9
             }
           }
@@ -99,7 +124,10 @@
         "mutates": true,
         "payable": false,
         "returnType": {
-          "displayName": ["ink", "MessageResult"],
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
           "type": 10
         },
         "selector": "0xdda55cf2"
@@ -109,14 +137,18 @@
           {
             "label": "id",
             "type": {
-              "displayName": ["PostId"],
+              "displayName": [
+                "PostId"
+              ],
               "type": 5
             }
           },
           {
             "label": "content",
             "type": {
-              "displayName": ["PostContent"],
+              "displayName": [
+                "PostContent"
+              ],
               "type": 9
             }
           }
@@ -127,7 +159,10 @@
         "mutates": true,
         "payable": false,
         "returnType": {
-          "displayName": ["ink", "MessageResult"],
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
           "type": 14
         },
         "selector": "0x7014aff6"
@@ -137,21 +172,27 @@
           {
             "label": "from",
             "type": {
-              "displayName": ["u32"],
+              "displayName": [
+                "u32"
+              ],
               "type": 5
             }
           },
           {
             "label": "per_page",
             "type": {
-              "displayName": ["u32"],
+              "displayName": [
+                "u32"
+              ],
               "type": 5
             }
           },
           {
             "label": "ordering",
             "type": {
-              "displayName": ["Ordering"],
+              "displayName": [
+                "Ordering"
+              ],
               "type": 16
             }
           }
@@ -162,7 +203,10 @@
         "mutates": false,
         "payable": false,
         "returnType": {
-          "displayName": ["ink", "MessageResult"],
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
           "type": 17
         },
         "selector": "0x9523bc9b"
@@ -172,7 +216,9 @@
           {
             "label": "id",
             "type": {
-              "displayName": ["PostId"],
+              "displayName": [
+                "PostId"
+              ],
               "type": 5
             }
           }
@@ -183,7 +229,10 @@
         "mutates": false,
         "payable": false,
         "returnType": {
-          "displayName": ["ink", "MessageResult"],
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
           "type": 24
         },
         "selector": "0xcc4bbab7"
@@ -193,7 +242,9 @@
           {
             "label": "ids",
             "type": {
-              "displayName": ["Vec"],
+              "displayName": [
+                "Vec"
+              ],
               "type": 26
             }
           }
@@ -204,7 +255,10 @@
         "mutates": false,
         "payable": false,
         "returnType": {
-          "displayName": ["ink", "MessageResult"],
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
           "type": 27
         },
         "selector": "0xfdc92818"
@@ -217,7 +271,10 @@
         "mutates": false,
         "payable": false,
         "returnType": {
-          "displayName": ["ink", "MessageResult"],
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
           "type": 30
         },
         "selector": "0xb0e11074"
@@ -227,7 +284,9 @@
           {
             "label": "new_perm",
             "type": {
-              "displayName": ["PostPerm"],
+              "displayName": [
+                "PostPerm"
+              ],
               "type": 31
             }
           }
@@ -238,7 +297,10 @@
         "mutates": true,
         "payable": false,
         "returnType": {
-          "displayName": ["ink", "MessageResult"],
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
           "type": 14
         },
         "selector": "0x86401b75"
@@ -251,7 +313,10 @@
         "mutates": false,
         "payable": false,
         "returnType": {
-          "displayName": ["ink", "MessageResult"],
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
           "type": 32
         },
         "selector": "0x0a76d095"
@@ -264,7 +329,10 @@
         "mutates": false,
         "payable": false,
         "returnType": {
-          "displayName": ["ink", "MessageResult"],
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
           "type": 33
         },
         "selector": "0x71bb126a"
@@ -273,21 +341,27 @@
         "args": [],
         "default": false,
         "docs": [],
-        "label": "PluginBase::space_id",
+        "label": "PluginBase::launcher_id",
         "mutates": false,
         "payable": false,
         "returnType": {
-          "displayName": ["ink", "MessageResult"],
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
           "type": 35
         },
-        "selector": "0xd8b69738"
+        "selector": "0x6f18cd4c"
       },
       {
         "args": [
           {
             "label": "new_code_hash",
             "type": {
-              "displayName": ["pluginbase_external", "SetCodeHashInput1"],
+              "displayName": [
+                "pluginbase_external",
+                "SetCodeHashInput1"
+              ],
               "type": 34
             }
           }
@@ -298,7 +372,10 @@
         "mutates": true,
         "payable": false,
         "returnType": {
-          "displayName": ["ink", "MessageResult"],
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
           "type": 36
         },
         "selector": "0xc19cec53"
@@ -307,14 +384,17 @@
         "args": [],
         "default": false,
         "docs": [],
-        "label": "PluginBase::launcher_id",
+        "label": "PluginBase::space_id",
         "mutates": false,
         "payable": false,
         "returnType": {
-          "displayName": ["ink", "MessageResult"],
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
           "type": 35
         },
-        "selector": "0x6f18cd4c"
+        "selector": "0xd8b69738"
       }
     ]
   },
@@ -521,7 +601,11 @@
             ]
           }
         },
-        "path": ["ink_primitives", "types", "AccountId"]
+        "path": [
+          "ink_primitives",
+          "types",
+          "AccountId"
+        ]
       }
     },
     {
@@ -604,7 +688,9 @@
             "type": 8
           }
         ],
-        "path": ["Result"]
+        "path": [
+          "Result"
+        ]
       }
     },
     {
@@ -628,7 +714,10 @@
             ]
           }
         },
-        "path": ["ink_primitives", "LangError"]
+        "path": [
+          "ink_primitives",
+          "LangError"
+        ]
       }
     },
     {
@@ -660,7 +749,11 @@
             ]
           }
         },
-        "path": ["posts", "posts", "PostContent"]
+        "path": [
+          "posts",
+          "posts",
+          "PostContent"
+        ]
       }
     },
     {
@@ -700,7 +793,9 @@
             "type": 8
           }
         ],
-        "path": ["Result"]
+        "path": [
+          "Result"
+        ]
       }
     },
     {
@@ -740,7 +835,9 @@
             "type": 12
           }
         ],
-        "path": ["Result"]
+        "path": [
+          "Result"
+        ]
       }
     },
     {
@@ -776,7 +873,11 @@
             ]
           }
         },
-        "path": ["posts", "posts", "PostError"]
+        "path": [
+          "posts",
+          "posts",
+          "PostError"
+        ]
       }
     },
     {
@@ -814,7 +915,12 @@
             ]
           }
         },
-        "path": ["shared", "traits", "plugin_base", "PluginError"]
+        "path": [
+          "shared",
+          "traits",
+          "plugin_base",
+          "PluginError"
+        ]
       }
     },
     {
@@ -854,7 +960,9 @@
             "type": 8
           }
         ],
-        "path": ["Result"]
+        "path": [
+          "Result"
+        ]
       }
     },
     {
@@ -894,7 +1002,9 @@
             "type": 12
           }
         ],
-        "path": ["Result"]
+        "path": [
+          "Result"
+        ]
       }
     },
     {
@@ -914,7 +1024,11 @@
             ]
           }
         },
-        "path": ["posts", "posts", "Ordering"]
+        "path": [
+          "posts",
+          "posts",
+          "Ordering"
+        ]
       }
     },
     {
@@ -954,7 +1068,9 @@
             "type": 8
           }
         ],
-        "path": ["Result"]
+        "path": [
+          "Result"
+        ]
       }
     },
     {
@@ -997,7 +1113,11 @@
             "type": 19
           }
         ],
-        "path": ["posts", "posts", "Pagination"]
+        "path": [
+          "posts",
+          "posts",
+          "Pagination"
+        ]
       }
     },
     {
@@ -1019,7 +1139,11 @@
             ]
           }
         },
-        "path": ["posts", "posts", "PostRecord"]
+        "path": [
+          "posts",
+          "posts",
+          "PostRecord"
+        ]
       }
     },
     {
@@ -1051,7 +1175,11 @@
             ]
           }
         },
-        "path": ["posts", "posts", "Post"]
+        "path": [
+          "posts",
+          "posts",
+          "Post"
+        ]
       }
     },
     {
@@ -1082,7 +1210,9 @@
             "type": 4
           }
         ],
-        "path": ["Option"]
+        "path": [
+          "Option"
+        ]
       }
     },
     {
@@ -1140,7 +1270,9 @@
             "type": 8
           }
         ],
-        "path": ["Result"]
+        "path": [
+          "Result"
+        ]
       }
     },
     {
@@ -1171,7 +1303,9 @@
             "type": 20
           }
         ],
-        "path": ["Option"]
+        "path": [
+          "Option"
+        ]
       }
     },
     {
@@ -1221,7 +1355,9 @@
             "type": 8
           }
         ],
-        "path": ["Result"]
+        "path": [
+          "Result"
+        ]
       }
     },
     {
@@ -1238,7 +1374,10 @@
       "id": 29,
       "type": {
         "def": {
-          "tuple": [5, 25]
+          "tuple": [
+            5,
+            25
+          ]
         }
       }
     },
@@ -1279,7 +1418,9 @@
             "type": 8
           }
         ],
-        "path": ["Result"]
+        "path": [
+          "Result"
+        ]
       }
     },
     {
@@ -1299,7 +1440,11 @@
             ]
           }
         },
-        "path": ["posts", "posts", "PostPerm"]
+        "path": [
+          "posts",
+          "posts",
+          "PostPerm"
+        ]
       }
     },
     {
@@ -1339,7 +1484,9 @@
             "type": 8
           }
         ],
-        "path": ["Result"]
+        "path": [
+          "Result"
+        ]
       }
     },
     {
@@ -1379,7 +1526,9 @@
             "type": 8
           }
         ],
-        "path": ["Result"]
+        "path": [
+          "Result"
+        ]
       }
     },
     {
@@ -1395,7 +1544,11 @@
             ]
           }
         },
-        "path": ["ink_primitives", "types", "Hash"]
+        "path": [
+          "ink_primitives",
+          "types",
+          "Hash"
+        ]
       }
     },
     {
@@ -1435,7 +1588,9 @@
             "type": 8
           }
         ],
-        "path": ["Result"]
+        "path": [
+          "Result"
+        ]
       }
     },
     {
@@ -1475,7 +1630,9 @@
             "type": 8
           }
         ],
-        "path": ["Result"]
+        "path": [
+          "Result"
+        ]
       }
     },
     {
@@ -1515,7 +1672,9 @@
             "type": 13
           }
         ],
-        "path": ["Result"]
+        "path": [
+          "Result"
+        ]
       }
     },
     {
@@ -1532,7 +1691,11 @@
         "def": {
           "variant": {}
         },
-        "path": ["ink_env", "types", "NoChainExtension"]
+        "path": [
+          "ink_env",
+          "types",
+          "NoChainExtension"
+        ]
       }
     }
   ],
