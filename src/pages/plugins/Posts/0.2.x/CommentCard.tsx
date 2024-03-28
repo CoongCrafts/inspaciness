@@ -9,7 +9,7 @@ import { useTx } from '@/hooks/useink/useTx';
 import { usePostsContext } from '@/pages/plugins/Posts/0.2.x/PostsProvider';
 import { useSpaceContext } from '@/pages/space/0.1.x/SpaceProvider';
 import { useWalletContext } from '@/providers/WalletProvider';
-import { MemberInfo, MemberStatus, Post, PostContent, Props } from '@/types';
+import { MemberInfo, MemberStatus, PostContent, PostRecord, Props } from '@/types';
 import { fromNow } from '@/utils/date';
 import { renderMd } from '@/utils/mdrenderer';
 import { messages } from '@/utils/messages';
@@ -18,14 +18,13 @@ import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import { shouldDisableStrict } from 'useink/utils';
 
 interface CommentCardProps extends Props {
-  commentId: number;
+  commentRecord: PostRecord;
 }
 
-export default function CommentCard({ commentId }: CommentCardProps) {
+export default function CommentCard({ commentRecord: { postId: commentId, post: comment } }: CommentCardProps) {
   const { contract: spaceContract } = useSpaceContext();
   const { isOwner, memberStatus } = useSpaceContext();
   const { contract } = usePostsContext();
-  const { state: comment } = useContractState<Post>(contract, 'commentById', [commentId]);
   const { state: authorInfo } = useContractState<MemberInfo>(spaceContract, 'memberInfo', [comment?.author]);
   const { selectedAccount } = useWalletContext();
   const [onEdit, setOnEdit] = useState<boolean>(false);

@@ -1,6 +1,6 @@
 {
   "source": {
-    "hash": "0x09ac632a50d61ac2f1edc9699f227b58105346afbd7de609567bd675497aa1ed",
+    "hash": "0x9f561ef37eb223fa7e6e66edd46f55dbe92cdbf39e93f5a743bbc582e334b201",
     "language": "ink! 4.3.0",
     "compiler": "rustc 1.76.0-nightly",
     "build_info": {
@@ -69,7 +69,7 @@
         "displayName": [
           "Balance"
         ],
-        "type": 51
+        "type": 50
       },
       "blockNumber": {
         "displayName": [
@@ -81,13 +81,13 @@
         "displayName": [
           "ChainExtension"
         ],
-        "type": 52
+        "type": 51
       },
       "hash": {
         "displayName": [
           "Hash"
         ],
-        "type": 47
+        "type": 46
       },
       "maxEventTopics": 4,
       "timestamp": {
@@ -534,7 +534,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 39
+          "type": 26
         },
         "selector": "0x8acc9e2c"
       },
@@ -599,7 +599,7 @@
               "displayName": [
                 "Ordering"
               ],
-              "type": 40
+              "type": 39
             }
           }
         ],
@@ -665,7 +665,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 41
+          "type": 40
         },
         "selector": "0xfdc92818"
       },
@@ -681,7 +681,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 44
+          "type": 43
         },
         "selector": "0xb0e11074"
       },
@@ -693,7 +693,7 @@
               "displayName": [
                 "PostPerm"
               ],
-              "type": 45
+              "type": 44
             }
           }
         ],
@@ -739,7 +739,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 46
+          "type": 45
         },
         "selector": "0x71bb126a"
       },
@@ -755,36 +755,9 @@
             "ink",
             "MessageResult"
           ],
-          "type": 48
+          "type": 47
         },
         "selector": "0xd8b69738"
-      },
-      {
-        "args": [
-          {
-            "label": "new_code_hash",
-            "type": {
-              "displayName": [
-                "pluginbase_external",
-                "SetCodeHashInput1"
-              ],
-              "type": 47
-            }
-          }
-        ],
-        "default": false,
-        "docs": [],
-        "label": "PluginBase::set_code_hash",
-        "mutates": true,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 49
-        },
-        "selector": "0xc19cec53"
       },
       {
         "args": [],
@@ -798,9 +771,36 @@
             "ink",
             "MessageResult"
           ],
-          "type": 48
+          "type": 47
         },
         "selector": "0x6f18cd4c"
+      },
+      {
+        "args": [
+          {
+            "label": "new_code_hash",
+            "type": {
+              "displayName": [
+                "pluginbase_external",
+                "SetCodeHashInput1"
+              ],
+              "type": 46
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "PluginBase::set_code_hash",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 48
+        },
+        "selector": "0xc19cec53"
       }
     ]
   },
@@ -2494,48 +2494,6 @@
           "variant": {
             "variants": [
               {
-                "fields": [
-                  {
-                    "type": 6
-                  }
-                ],
-                "index": 0,
-                "name": "Ok"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 9
-                  }
-                ],
-                "index": 1,
-                "name": "Err"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 6
-          },
-          {
-            "name": "E",
-            "type": 9
-          }
-        ],
-        "path": [
-          "Result"
-        ]
-      }
-    },
-    {
-      "id": 40,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
                 "index": 0,
                 "name": "Descending"
               },
@@ -2554,7 +2512,7 @@
       }
     },
     {
-      "id": 41,
+      "id": 40,
       "type": {
         "def": {
           "variant": {
@@ -2562,7 +2520,7 @@
               {
                 "fields": [
                   {
-                    "type": 42
+                    "type": 41
                   }
                 ],
                 "index": 0,
@@ -2583,7 +2541,7 @@
         "params": [
           {
             "name": "T",
-            "type": 42
+            "type": 41
           },
           {
             "name": "E",
@@ -2596,17 +2554,17 @@
       }
     },
     {
-      "id": 42,
+      "id": 41,
       "type": {
         "def": {
           "sequence": {
-            "type": 43
+            "type": 42
           }
         }
       }
     },
     {
-      "id": 43,
+      "id": 42,
       "type": {
         "def": {
           "tuple": [
@@ -2617,7 +2575,7 @@
       }
     },
     {
-      "id": 44,
+      "id": 43,
       "type": {
         "def": {
           "variant": {
@@ -2625,7 +2583,7 @@
               {
                 "fields": [
                   {
-                    "type": 45
+                    "type": 44
                   }
                 ],
                 "index": 0,
@@ -2646,7 +2604,7 @@
         "params": [
           {
             "name": "T",
-            "type": 45
+            "type": 44
           },
           {
             "name": "E",
@@ -2659,7 +2617,7 @@
       }
     },
     {
-      "id": 45,
+      "id": 44,
       "type": {
         "def": {
           "variant": {
@@ -2687,7 +2645,7 @@
       }
     },
     {
-      "id": 46,
+      "id": 45,
       "type": {
         "def": {
           "variant": {
@@ -2695,7 +2653,7 @@
               {
                 "fields": [
                   {
-                    "type": 47
+                    "type": 46
                   }
                 ],
                 "index": 0,
@@ -2716,7 +2674,7 @@
         "params": [
           {
             "name": "T",
-            "type": 47
+            "type": 46
           },
           {
             "name": "E",
@@ -2729,7 +2687,7 @@
       }
     },
     {
-      "id": 47,
+      "id": 46,
       "type": {
         "def": {
           "composite": {
@@ -2749,7 +2707,7 @@
       }
     },
     {
-      "id": 48,
+      "id": 47,
       "type": {
         "def": {
           "variant": {
@@ -2791,7 +2749,7 @@
       }
     },
     {
-      "id": 49,
+      "id": 48,
       "type": {
         "def": {
           "variant": {
@@ -2799,7 +2757,7 @@
               {
                 "fields": [
                   {
-                    "type": 50
+                    "type": 49
                   }
                 ],
                 "index": 0,
@@ -2820,7 +2778,7 @@
         "params": [
           {
             "name": "T",
-            "type": 50
+            "type": 49
           },
           {
             "name": "E",
@@ -2833,7 +2791,7 @@
       }
     },
     {
-      "id": 50,
+      "id": 49,
       "type": {
         "def": {
           "variant": {
@@ -2875,7 +2833,7 @@
       }
     },
     {
-      "id": 51,
+      "id": 50,
       "type": {
         "def": {
           "primitive": "u128"
@@ -2883,7 +2841,7 @@
       }
     },
     {
-      "id": 52,
+      "id": 51,
       "type": {
         "def": {
           "variant": {}
