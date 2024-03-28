@@ -6,14 +6,14 @@ import { useTx } from '@/hooks/useink/useTx';
 import CommentCard from '@/pages/plugins/Posts/0.2.x/CommentCard';
 import { usePostsContext } from '@/pages/plugins/Posts/0.2.x/PostsProvider';
 import { useSpaceContext } from '@/pages/space/0.1.x/SpaceProvider';
-import { MemberStatus, Props } from '@/types';
+import { MemberStatus, PostRecord, Props } from '@/types';
 import { messages } from '@/utils/messages';
 import { notifyTxStatus } from '@/utils/notifications';
 import pluralize from 'pluralize';
 import { shouldDisableStrict } from 'useink/utils';
 
 interface CommentsViewProps extends Props {
-  comments: number[];
+  comments: PostRecord[];
   postId: number;
 }
 
@@ -27,7 +27,7 @@ export default function CommentsView({ comments, postId }: CommentsViewProps) {
   const [viewingComments, setViewingComments] = useState<number[]>([]);
 
   useEffect(() => {
-    setViewingComments((prevState) => [...new Set([...comments.slice(0, 5), ...prevState])]);
+    setViewingComments((prevState) => [...new Set([...comments.slice(0, 5).map((one) => one.postId), ...prevState])]);
   }, [comments]);
 
   const numberOfComments = comments.length;
@@ -68,7 +68,10 @@ export default function CommentsView({ comments, postId }: CommentsViewProps) {
 
   const loadMore = () => {
     setViewingComments((prevState) => [
-      ...new Set([...prevState, ...comments.slice(viewingCommentsCount, viewingCommentsCount + 5)]),
+      ...new Set([
+        ...prevState,
+        ...comments.slice(viewingCommentsCount, viewingCommentsCount + 5).map((one) => one.postId),
+      ]),
     ]);
   };
 
@@ -106,9 +109,12 @@ export default function CommentsView({ comments, postId }: CommentsViewProps) {
             </Flex>
           )}
           <Flex flexDir='column' gap={8} mt={4}>
-            {viewingComments.map((commentId) => (
-              <CommentCard key={commentId} commentId={commentId} />
-            ))}
+            {viewingComments.map((commentId) => {
+              const commentRecord = comments.find((one) => one.postId === commentId);
+
+              if (!commentRecord) return;
+              return <CommentCard commentRecord={commentRecord} key={commentId} />;
+            })}
           </Flex>
           {viewingCommentsCount < numberOfComments && (
             <Button onClick={loadMore} mt={4} variant='outline' size='sm' width='full'>

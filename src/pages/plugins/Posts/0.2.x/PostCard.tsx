@@ -25,7 +25,7 @@ export default function PostCard({ postRecord: { post, postId }, onPostUpdated, 
   const { contract, memberStatus, isOwner } = useSpaceContext();
   const { state: authorInfo } = useContractState<MemberInfo>(contract, 'memberInfo', [post.author]);
   const { selectedAccount } = useWalletContext();
-  const { state: comments } = useContractState<number[]>(postContract, 'commentsByPost', [postId]);
+  const { state: comments } = useContractState<PostRecord[]>(postContract, 'commentsByPost', [postId]);
 
   // We have not supported PostContent.IpfsCid yet
   if (!authorInfo || !(PostContent.Raw in post.content)) {
