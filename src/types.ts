@@ -197,6 +197,7 @@ export interface ContractMetadata {
   version: string;
   hash: string;
   metadata: Record<string, unknown>;
+  changelog?: string;
 }
 
 export type PendingPostApproval = [number, boolean];

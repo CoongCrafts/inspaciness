@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   ButtonProps,
   Modal,
@@ -20,7 +21,7 @@ import { useTx } from '@/hooks/useink/useTx';
 import { PluginInfo, Props } from '@/types';
 import { messages } from '@/utils/messages';
 import { notifyTxStatus } from '@/utils/notifications';
-import { findPluginVersion } from '@/utils/plugins';
+import { findPluginMetadata, findPluginVersion } from '@/utils/plugins';
 import { shortenAddress } from '@/utils/string';
 import { shouldDisableStrict } from 'useink/utils';
 
@@ -75,6 +76,7 @@ export default function UpgradePluginButton({
 
   const currentVersion = findPluginVersion({ ...pluginInfo, codeHash: currentCodeHash });
   const latestVersion = findPluginVersion({ ...pluginInfo, codeHash: latestCodeHash });
+  const latestChangelog = findPluginMetadata({ ...pluginInfo, codeHash: latestCodeHash })?.changelog;
 
   return (
     <>
@@ -97,11 +99,17 @@ export default function UpgradePluginButton({
               </Tag>
             </Text>
             <Text>
-              Latest Version:{' '}
+              New Version:{' '}
               <Tag variant='solid' colorScheme='green'>
                 v{latestVersion} - {shortenAddress(latestCodeHash)}
               </Tag>
             </Text>
+            {latestChangelog && (
+              <Box>
+                <Text mt={2}>Changes in the new version:</Text>
+                <Box dangerouslySetInnerHTML={{ __html: latestChangelog }}></Box>
+              </Box>
+            )}
           </ModalBody>
           <ModalFooter gap={2}>
             <Button variant='outline' onClick={onClose}>
