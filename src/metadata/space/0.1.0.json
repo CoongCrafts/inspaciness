@@ -1,11 +1,11 @@
 {
   "source": {
-    "hash": "0xc5db91de3768f6c5eeb61c022d9d1b36fc94d5857a702bf78d25e66aed1f4b16",
+    "hash": "0x122dcfaa6dc7e6da32aa928596a90be548c13dd69368219860cb76ca790e9686",
     "language": "ink! 4.3.0",
-    "compiler": "rustc 1.78.0-nightly",
+    "compiler": "rustc 1.76.0-nightly",
     "build_info": {
       "build_mode": "Debug",
-      "cargo_contract_version": "4.0.0-alpha",
+      "cargo_contract_version": "3.2.0",
       "rust_toolchain": "nightly-aarch64-apple-darwin",
       "wasm_opt_settings": {
         "keep_debug_symbols": false,
@@ -16,11 +16,8 @@
   "contract": {
     "name": "space",
     "version": "0.1.0",
-    "authors": [
-      "Thang X. Vu <thang@coongcrafts.io>"
-    ]
+    "authors": ["Thang X. Vu <thang@coongcrafts.io>"]
   },
-  "image": null,
   "spec": {
     "constructors": [
       {
@@ -28,36 +25,28 @@
           {
             "label": "motherspace_id",
             "type": {
-              "displayName": [
-                "AccountId"
-              ],
+              "displayName": ["AccountId"],
               "type": 4
             }
           },
           {
             "label": "owner_id",
             "type": {
-              "displayName": [
-                "AccountId"
-              ],
+              "displayName": ["AccountId"],
               "type": 4
             }
           },
           {
             "label": "space_info",
             "type": {
-              "displayName": [
-                "SpaceInfo"
-              ],
+              "displayName": ["SpaceInfo"],
               "type": 11
             }
           },
           {
             "label": "config",
             "type": {
-              "displayName": [
-                "Option"
-              ],
+              "displayName": ["Option"],
               "type": 15
             }
           }
@@ -67,10 +56,7 @@
         "label": "new",
         "payable": false,
         "returnType": {
-          "displayName": [
-            "ink_primitives",
-            "ConstructorResult"
-          ],
+          "displayName": ["ink_primitives", "ConstructorResult"],
           "type": 19
         },
         "selector": "0x9bae9d5e"
@@ -79,49 +65,34 @@
     "docs": [],
     "environment": {
       "accountId": {
-        "displayName": [
-          "AccountId"
-        ],
+        "displayName": ["AccountId"],
         "type": 4
       },
       "balance": {
-        "displayName": [
-          "Balance"
-        ],
+        "displayName": ["Balance"],
         "type": 1
       },
       "blockNumber": {
-        "displayName": [
-          "BlockNumber"
-        ],
+        "displayName": ["BlockNumber"],
         "type": 2
       },
       "chainExtension": {
-        "displayName": [
-          "ChainExtension"
-        ],
+        "displayName": ["ChainExtension"],
         "type": 70
       },
       "hash": {
-        "displayName": [
-          "Hash"
-        ],
+        "displayName": ["Hash"],
         "type": 30
       },
       "maxEventTopics": 4,
       "timestamp": {
-        "displayName": [
-          "Timestamp"
-        ],
+        "displayName": ["Timestamp"],
         "type": 3
       }
     },
     "events": [],
     "lang_error": {
-      "displayName": [
-        "ink",
-        "LangError"
-      ],
+      "displayName": ["ink", "LangError"],
       "type": 24
     },
     "messages": [
@@ -130,25 +101,18 @@
           {
             "label": "plugins",
             "type": {
-              "displayName": [
-                "Vec"
-              ],
+              "displayName": ["Vec"],
               "type": 25
             }
           }
         ],
         "default": false,
-        "docs": [
-          " Attach plugins to space, motherspace call this when install plugins for spaces"
-        ],
+        "docs": [" Attach plugins to space, motherspace call this when install plugins for spaces"],
         "label": "attach_plugins",
         "mutates": true,
         "payable": false,
         "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
+          "displayName": ["ink", "MessageResult"],
           "type": 19
         },
         "selector": "0xc0f37bda"
@@ -161,10 +125,7 @@
         "mutates": false,
         "payable": false,
         "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
+          "displayName": ["ink", "MessageResult"],
           "type": 27
         },
         "selector": "0x38b688ca"
@@ -174,9 +135,7 @@
           {
             "label": "plugin_id",
             "type": {
-              "displayName": [
-                "PluginId"
-              ],
+              "displayName": ["PluginId"],
               "type": 10
             }
           }
@@ -187,10 +146,7 @@
         "mutates": true,
         "payable": false,
         "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
+          "displayName": ["ink", "MessageResult"],
           "type": 19
         },
         "selector": "0xddc67708"
@@ -200,9 +156,7 @@
           {
             "label": "plugin_id",
             "type": {
-              "displayName": [
-                "PluginId"
-              ],
+              "displayName": ["PluginId"],
               "type": 10
             }
           }
@@ -213,10 +167,7 @@
         "mutates": true,
         "payable": false,
         "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
+          "displayName": ["ink", "MessageResult"],
           "type": 19
         },
         "selector": "0x41809267"
@@ -226,9 +177,7 @@
           {
             "label": "plugin_id",
             "type": {
-              "displayName": [
-                "PluginId"
-              ],
+              "displayName": ["PluginId"],
               "type": 10
             }
           }
@@ -239,10 +188,7 @@
         "mutates": false,
         "payable": false,
         "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
+          "displayName": ["ink", "MessageResult"],
           "type": 31
         },
         "selector": "0xae36b284"
@@ -250,17 +196,12 @@
       {
         "args": [],
         "default": false,
-        "docs": [
-          " Membership methods"
-        ],
+        "docs": [" Membership methods"],
         "label": "members_count",
         "mutates": false,
         "payable": false,
         "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
+          "displayName": ["ink", "MessageResult"],
           "type": 33
         },
         "selector": "0x1c1881d6"
@@ -270,18 +211,14 @@
           {
             "label": "from",
             "type": {
-              "displayName": [
-                "u32"
-              ],
+              "displayName": ["u32"],
               "type": 2
             }
           },
           {
             "label": "per_page",
             "type": {
-              "displayName": [
-                "u32"
-              ],
+              "displayName": ["u32"],
               "type": 2
             }
           }
@@ -292,10 +229,7 @@
         "mutates": false,
         "payable": false,
         "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
+          "displayName": ["ink", "MessageResult"],
           "type": 34
         },
         "selector": "0xe9208009"
@@ -305,18 +239,14 @@
           {
             "label": "who",
             "type": {
-              "displayName": [
-                "AccountId"
-              ],
+              "displayName": ["AccountId"],
               "type": 4
             }
           },
           {
             "label": "ttl",
             "type": {
-              "displayName": [
-                "Option"
-              ],
+              "displayName": ["Option"],
               "type": 38
             }
           }
@@ -327,10 +257,7 @@
         "mutates": true,
         "payable": false,
         "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
+          "displayName": ["ink", "MessageResult"],
           "type": 19
         },
         "selector": "0xb5cc7561"
@@ -340,25 +267,18 @@
           {
             "label": "who",
             "type": {
-              "displayName": [
-                "Option"
-              ],
+              "displayName": ["Option"],
               "type": 40
             }
           }
         ],
         "default": false,
-        "docs": [
-          " pay to join"
-        ],
+        "docs": [" pay to join"],
         "label": "pay_to_join",
         "mutates": true,
         "payable": true,
         "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
+          "displayName": ["ink", "MessageResult"],
           "type": 19
         },
         "selector": "0x707de504"
@@ -368,25 +288,18 @@
           {
             "label": "who",
             "type": {
-              "displayName": [
-                "Option"
-              ],
+              "displayName": ["Option"],
               "type": 40
             }
           }
         ],
         "default": false,
-        "docs": [
-          " Register for membership"
-        ],
+        "docs": [" Register for membership"],
         "label": "register_membership",
         "mutates": true,
         "payable": true,
         "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
+          "displayName": ["ink", "MessageResult"],
           "type": 19
         },
         "selector": "0x5546feaf"
@@ -394,17 +307,12 @@
       {
         "args": [],
         "default": false,
-        "docs": [
-          " get number of pending requests"
-        ],
+        "docs": [" get number of pending requests"],
         "label": "pending_requests_count",
         "mutates": false,
         "payable": false,
         "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
+          "displayName": ["ink", "MessageResult"],
           "type": 41
         },
         "selector": "0xccbb806f"
@@ -414,26 +322,18 @@
           {
             "label": "who",
             "type": {
-              "displayName": [
-                "Option"
-              ],
+              "displayName": ["Option"],
               "type": 40
             }
           }
         ],
         "default": false,
-        "docs": [
-          " TODO available to request membership",
-          " Get pending request for an account id if has any"
-        ],
+        "docs": [" TODO available to request membership", " Get pending request for an account id if has any"],
         "label": "pending_request_for",
         "mutates": false,
         "payable": false,
         "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
+          "displayName": ["ink", "MessageResult"],
           "type": 42
         },
         "selector": "0xbeabaa89"
@@ -446,10 +346,7 @@
         "mutates": true,
         "payable": false,
         "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
+          "displayName": ["ink", "MessageResult"],
           "type": 19
         },
         "selector": "0xdab6d4bd"
@@ -459,34 +356,25 @@
           {
             "label": "from",
             "type": {
-              "displayName": [
-                "u32"
-              ],
+              "displayName": ["u32"],
               "type": 2
             }
           },
           {
             "label": "per_page",
             "type": {
-              "displayName": [
-                "u32"
-              ],
+              "displayName": ["u32"],
               "type": 2
             }
           }
         ],
         "default": false,
-        "docs": [
-          " Get list of pending membership"
-        ],
+        "docs": [" Get list of pending membership"],
         "label": "pending_requests",
         "mutates": false,
         "payable": false,
         "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
+          "displayName": ["ink", "MessageResult"],
           "type": 46
         },
         "selector": "0xb2704be2"
@@ -496,25 +384,18 @@
           {
             "label": "approvals",
             "type": {
-              "displayName": [
-                "Vec"
-              ],
+              "displayName": ["Vec"],
               "type": 49
             }
           }
         ],
         "default": false,
-        "docs": [
-          " Submit request approvals"
-        ],
+        "docs": [" Submit request approvals"],
         "label": "submit_request_approvals",
         "mutates": true,
         "payable": false,
         "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
+          "displayName": ["ink", "MessageResult"],
           "type": 51
         },
         "selector": "0x85908b70"
@@ -524,9 +405,7 @@
           {
             "label": "who",
             "type": {
-              "displayName": [
-                "AccountId"
-              ],
+              "displayName": ["AccountId"],
               "type": 4
             }
           }
@@ -537,10 +416,7 @@
         "mutates": false,
         "payable": false,
         "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
+          "displayName": ["ink", "MessageResult"],
           "type": 54
         },
         "selector": "0x835051e0"
@@ -550,25 +426,18 @@
           {
             "label": "who",
             "type": {
-              "displayName": [
-                "AccountId"
-              ],
+              "displayName": ["AccountId"],
               "type": 4
             }
           }
         ],
         "default": false,
-        "docs": [
-          " Check member status"
-        ],
+        "docs": [" Check member status"],
         "label": "member_status",
         "mutates": false,
         "payable": false,
         "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
+          "displayName": ["ink", "MessageResult"],
           "type": 55
         },
         "selector": "0x2f8bd8ef"
@@ -586,10 +455,7 @@
         "mutates": true,
         "payable": false,
         "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
+          "displayName": ["ink", "MessageResult"],
           "type": 19
         },
         "selector": "0x7f24c8bb"
@@ -597,17 +463,12 @@
       {
         "args": [],
         "default": false,
-        "docs": [
-          " Get motherspace id"
-        ],
+        "docs": [" Get motherspace id"],
         "label": "motherspace_id",
         "mutates": false,
         "payable": false,
         "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
+          "displayName": ["ink", "MessageResult"],
           "type": 57
         },
         "selector": "0x0e200f7d"
@@ -617,25 +478,18 @@
           {
             "label": "who",
             "type": {
-              "displayName": [
-                "AccountId"
-              ],
+              "displayName": ["AccountId"],
               "type": 4
             }
           }
         ],
         "default": false,
-        "docs": [
-          " Member info"
-        ],
+        "docs": [" Member info"],
         "label": "member_info",
         "mutates": false,
         "payable": false,
         "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
+          "displayName": ["ink", "MessageResult"],
           "type": 58
         },
         "selector": "0x1ce61fac"
@@ -645,9 +499,7 @@
           {
             "label": "name",
             "type": {
-              "displayName": [
-                "Option"
-              ],
+              "displayName": ["Option"],
               "type": 12
             }
           }
@@ -658,10 +510,7 @@
         "mutates": true,
         "payable": false,
         "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
+          "displayName": ["ink", "MessageResult"],
           "type": 19
         },
         "selector": "0xf6d99973"
@@ -674,10 +523,7 @@
         "mutates": false,
         "payable": false,
         "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
+          "displayName": ["ink", "MessageResult"],
           "type": 60
         },
         "selector": "0x71bb126a"
@@ -685,55 +531,9 @@
       {
         "args": [
           {
-            "label": "config",
-            "type": {
-              "displayName": [
-                "spaceprofile_external",
-                "UpdateConfigInput1"
-              ],
-              "type": 16
-            }
-          }
-        ],
-        "default": false,
-        "docs": [],
-        "label": "SpaceProfile::update_config",
-        "mutates": true,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 19
-        },
-        "selector": "0xe0045839"
-      },
-      {
-        "args": [],
-        "default": false,
-        "docs": [],
-        "label": "SpaceProfile::config",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 61
-        },
-        "selector": "0x55f65bf4"
-      },
-      {
-        "args": [
-          {
             "label": "info",
             "type": {
-              "displayName": [
-                "spaceprofile_external",
-                "UpdateInfoInput1"
-              ],
+              "displayName": ["spaceprofile_external", "UpdateInfoInput1"],
               "type": 11
             }
           }
@@ -744,10 +544,7 @@
         "mutates": true,
         "payable": false,
         "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
+          "displayName": ["ink", "MessageResult"],
           "type": 19
         },
         "selector": "0x39c4f165"
@@ -755,20 +552,49 @@
       {
         "args": [],
         "default": false,
-        "docs": [
-          " Get space info"
-        ],
+        "docs": [" Get space info"],
         "label": "SpaceProfile::info",
         "mutates": false,
         "payable": false,
         "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 62
+          "displayName": ["ink", "MessageResult"],
+          "type": 61
         },
         "selector": "0xa08406ef"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "SpaceProfile::config",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": ["ink", "MessageResult"],
+          "type": 62
+        },
+        "selector": "0x55f65bf4"
+      },
+      {
+        "args": [
+          {
+            "label": "config",
+            "type": {
+              "displayName": ["spaceprofile_external", "UpdateConfigInput1"],
+              "type": 16
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "SpaceProfile::update_config",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": ["ink", "MessageResult"],
+          "type": 19
+        },
+        "selector": "0xe0045839"
       },
       {
         "args": [],
@@ -778,10 +604,7 @@
         "mutates": false,
         "payable": false,
         "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
+          "displayName": ["ink", "MessageResult"],
           "type": 63
         },
         "selector": "0x4fa43c8c"
@@ -794,10 +617,7 @@
         "mutates": true,
         "payable": false,
         "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
+          "displayName": ["ink", "MessageResult"],
           "type": 64
         },
         "selector": "0x5e228753"
@@ -807,10 +627,7 @@
           {
             "label": "new_owner",
             "type": {
-              "displayName": [
-                "ownable_external",
-                "TransferOwnershipInput1"
-              ],
+              "displayName": ["ownable_external", "TransferOwnershipInput1"],
               "type": 40
             }
           }
@@ -821,10 +638,7 @@
         "mutates": true,
         "payable": false,
         "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
+          "displayName": ["ink", "MessageResult"],
           "type": 64
         },
         "selector": "0x11f43efd"
@@ -834,10 +648,7 @@
           {
             "label": "new_code_hash",
             "type": {
-              "displayName": [
-                "upgradeable_external",
-                "SetCodeHashInput1"
-              ],
+              "displayName": ["upgradeable_external", "SetCodeHashInput1"],
               "type": 30
             }
           }
@@ -848,10 +659,7 @@
         "mutates": true,
         "payable": false,
         "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
+          "displayName": ["ink", "MessageResult"],
           "type": 66
         },
         "selector": "0x1700ae80"
@@ -1451,11 +1259,7 @@
             ]
           }
         },
-        "path": [
-          "ink_primitives",
-          "types",
-          "AccountId"
-        ]
+        "path": ["ink_primitives", "types", "AccountId"]
       }
     },
     {
@@ -1540,12 +1344,7 @@
             ]
           }
         },
-        "path": [
-          "shared",
-          "traits",
-          "space_profile",
-          "SpaceInfo"
-        ]
+        "path": ["shared", "traits", "space_profile", "SpaceInfo"]
       }
     },
     {
@@ -1576,9 +1375,7 @@
             "type": 0
           }
         ],
-        "path": [
-          "Option"
-        ]
+        "path": ["Option"]
       }
     },
     {
@@ -1609,9 +1406,7 @@
             "type": 14
           }
         ],
-        "path": [
-          "Option"
-        ]
+        "path": ["Option"]
       }
     },
     {
@@ -1643,12 +1438,7 @@
             ]
           }
         },
-        "path": [
-          "shared",
-          "traits",
-          "space_profile",
-          "ImageSource"
-        ]
+        "path": ["shared", "traits", "space_profile", "ImageSource"]
       }
     },
     {
@@ -1679,9 +1469,7 @@
             "type": 16
           }
         ],
-        "path": [
-          "Option"
-        ]
+        "path": ["Option"]
       }
     },
     {
@@ -1703,12 +1491,7 @@
             ]
           }
         },
-        "path": [
-          "shared",
-          "traits",
-          "space_profile",
-          "SpaceConfig"
-        ]
+        "path": ["shared", "traits", "space_profile", "SpaceConfig"]
       }
     },
     {
@@ -1732,12 +1515,7 @@
             ]
           }
         },
-        "path": [
-          "shared",
-          "traits",
-          "space_profile",
-          "RegistrationType"
-        ]
+        "path": ["shared", "traits", "space_profile", "RegistrationType"]
       }
     },
     {
@@ -1780,12 +1558,7 @@
             ]
           }
         },
-        "path": [
-          "shared",
-          "traits",
-          "space_profile",
-          "Pricing"
-        ]
+        "path": ["shared", "traits", "space_profile", "Pricing"]
       }
     },
     {
@@ -1825,9 +1598,7 @@
             "type": 24
           }
         ],
-        "path": [
-          "Result"
-        ]
+        "path": ["Result"]
       }
     },
     {
@@ -1867,9 +1638,7 @@
             "type": 22
           }
         ],
-        "path": [
-          "Result"
-        ]
+        "path": ["Result"]
       }
     },
     {
@@ -1953,12 +1722,7 @@
             ]
           }
         },
-        "path": [
-          "shared",
-          "traits",
-          "space_profile",
-          "SpaceError"
-        ]
+        "path": ["shared", "traits", "space_profile", "SpaceError"]
       }
     },
     {
@@ -1978,13 +1742,7 @@
             ]
           }
         },
-        "path": [
-          "openbrush_contracts",
-          "traits",
-          "errors",
-          "ownable",
-          "OwnableError"
-        ]
+        "path": ["openbrush_contracts", "traits", "errors", "ownable", "OwnableError"]
       }
     },
     {
@@ -2000,10 +1758,7 @@
             ]
           }
         },
-        "path": [
-          "ink_primitives",
-          "LangError"
-        ]
+        "path": ["ink_primitives", "LangError"]
       }
     },
     {
@@ -2020,10 +1775,7 @@
       "id": 26,
       "type": {
         "def": {
-          "tuple": [
-            10,
-            4
-          ]
+          "tuple": [10, 4]
         }
       }
     },
@@ -2064,9 +1816,7 @@
             "type": 24
           }
         ],
-        "path": [
-          "Result"
-        ]
+        "path": ["Result"]
       }
     },
     {
@@ -2108,11 +1858,7 @@
             ]
           }
         },
-        "path": [
-          "space",
-          "space",
-          "PluginInfo"
-        ]
+        "path": ["space", "space", "PluginInfo"]
       }
     },
     {
@@ -2128,11 +1874,7 @@
             ]
           }
         },
-        "path": [
-          "ink_primitives",
-          "types",
-          "Hash"
-        ]
+        "path": ["ink_primitives", "types", "Hash"]
       }
     },
     {
@@ -2172,9 +1914,7 @@
             "type": 24
           }
         ],
-        "path": [
-          "Result"
-        ]
+        "path": ["Result"]
       }
     },
     {
@@ -2214,9 +1954,7 @@
             "type": 22
           }
         ],
-        "path": [
-          "Result"
-        ]
+        "path": ["Result"]
       }
     },
     {
@@ -2256,9 +1994,7 @@
             "type": 24
           }
         ],
-        "path": [
-          "Result"
-        ]
+        "path": ["Result"]
       }
     },
     {
@@ -2298,9 +2034,7 @@
             "type": 24
           }
         ],
-        "path": [
-          "Result"
-        ]
+        "path": ["Result"]
       }
     },
     {
@@ -2343,11 +2077,7 @@
             "type": 36
           }
         ],
-        "path": [
-          "space",
-          "space",
-          "Pagination"
-        ]
+        "path": ["space", "space", "Pagination"]
       }
     },
     {
@@ -2374,11 +2104,7 @@
             ]
           }
         },
-        "path": [
-          "space",
-          "space",
-          "MemberRecord"
-        ]
+        "path": ["space", "space", "MemberRecord"]
       }
     },
     {
@@ -2405,11 +2131,7 @@
             ]
           }
         },
-        "path": [
-          "space",
-          "space",
-          "MemberInfo"
-        ]
+        "path": ["space", "space", "MemberInfo"]
       }
     },
     {
@@ -2440,9 +2162,7 @@
             "type": 3
           }
         ],
-        "path": [
-          "Option"
-        ]
+        "path": ["Option"]
       }
     },
     {
@@ -2483,9 +2203,7 @@
             "type": 4
           }
         ],
-        "path": [
-          "Option"
-        ]
+        "path": ["Option"]
       }
     },
     {
@@ -2525,9 +2243,7 @@
             "type": 24
           }
         ],
-        "path": [
-          "Result"
-        ]
+        "path": ["Result"]
       }
     },
     {
@@ -2567,9 +2283,7 @@
             "type": 24
           }
         ],
-        "path": [
-          "Result"
-        ]
+        "path": ["Result"]
       }
     },
     {
@@ -2600,9 +2314,7 @@
             "type": 44
           }
         ],
-        "path": [
-          "Option"
-        ]
+        "path": ["Option"]
       }
     },
     {
@@ -2634,11 +2346,7 @@
             ]
           }
         },
-        "path": [
-          "space",
-          "space",
-          "MembershipRequest"
-        ]
+        "path": ["space", "space", "MembershipRequest"]
       }
     },
     {
@@ -2669,9 +2377,7 @@
             "type": 7
           }
         ],
-        "path": [
-          "Option"
-        ]
+        "path": ["Option"]
       }
     },
     {
@@ -2711,9 +2417,7 @@
             "type": 24
           }
         ],
-        "path": [
-          "Result"
-        ]
+        "path": ["Result"]
       }
     },
     {
@@ -2756,11 +2460,7 @@
             "type": 44
           }
         ],
-        "path": [
-          "space",
-          "space",
-          "Pagination"
-        ]
+        "path": ["space", "space", "Pagination"]
       }
     },
     {
@@ -2787,10 +2487,7 @@
       "id": 50,
       "type": {
         "def": {
-          "tuple": [
-            4,
-            7
-          ]
+          "tuple": [4, 7]
         }
       }
     },
@@ -2831,9 +2528,7 @@
             "type": 24
           }
         ],
-        "path": [
-          "Result"
-        ]
+        "path": ["Result"]
       }
     },
     {
@@ -2873,9 +2568,7 @@
             "type": 22
           }
         ],
-        "path": [
-          "Result"
-        ]
+        "path": ["Result"]
       }
     },
     {
@@ -2902,11 +2595,7 @@
             ]
           }
         },
-        "path": [
-          "space",
-          "space",
-          "ApprovalSubmissionResult"
-        ]
+        "path": ["space", "space", "ApprovalSubmissionResult"]
       }
     },
     {
@@ -2946,9 +2635,7 @@
             "type": 24
           }
         ],
-        "path": [
-          "Result"
-        ]
+        "path": ["Result"]
       }
     },
     {
@@ -2988,9 +2675,7 @@
             "type": 24
           }
         ],
-        "path": [
-          "Result"
-        ]
+        "path": ["Result"]
       }
     },
     {
@@ -3018,11 +2703,7 @@
             ]
           }
         },
-        "path": [
-          "space",
-          "space",
-          "MemberStatus"
-        ]
+        "path": ["space", "space", "MemberStatus"]
       }
     },
     {
@@ -3062,9 +2743,7 @@
             "type": 24
           }
         ],
-        "path": [
-          "Result"
-        ]
+        "path": ["Result"]
       }
     },
     {
@@ -3104,9 +2783,7 @@
             "type": 24
           }
         ],
-        "path": [
-          "Result"
-        ]
+        "path": ["Result"]
       }
     },
     {
@@ -3137,9 +2814,7 @@
             "type": 37
           }
         ],
-        "path": [
-          "Option"
-        ]
+        "path": ["Option"]
       }
     },
     {
@@ -3179,55 +2854,11 @@
             "type": 24
           }
         ],
-        "path": [
-          "Result"
-        ]
+        "path": ["Result"]
       }
     },
     {
       "id": 61,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "fields": [
-                  {
-                    "type": 16
-                  }
-                ],
-                "index": 0,
-                "name": "Ok"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 24
-                  }
-                ],
-                "index": 1,
-                "name": "Err"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 16
-          },
-          {
-            "name": "E",
-            "type": 24
-          }
-        ],
-        "path": [
-          "Result"
-        ]
-      }
-    },
-    {
-      "id": 62,
       "type": {
         "def": {
           "variant": {
@@ -3263,9 +2894,47 @@
             "type": 24
           }
         ],
-        "path": [
-          "Result"
-        ]
+        "path": ["Result"]
+      }
+    },
+    {
+      "id": 62,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 16
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 24
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 16
+          },
+          {
+            "name": "E",
+            "type": 24
+          }
+        ],
+        "path": ["Result"]
       }
     },
     {
@@ -3305,9 +2974,7 @@
             "type": 24
           }
         ],
-        "path": [
-          "Result"
-        ]
+        "path": ["Result"]
       }
     },
     {
@@ -3347,9 +3014,7 @@
             "type": 24
           }
         ],
-        "path": [
-          "Result"
-        ]
+        "path": ["Result"]
       }
     },
     {
@@ -3389,9 +3054,7 @@
             "type": 23
           }
         ],
-        "path": [
-          "Result"
-        ]
+        "path": ["Result"]
       }
     },
     {
@@ -3431,9 +3094,7 @@
             "type": 24
           }
         ],
-        "path": [
-          "Result"
-        ]
+        "path": ["Result"]
       }
     },
     {
@@ -3473,9 +3134,7 @@
             "type": 68
           }
         ],
-        "path": [
-          "Result"
-        ]
+        "path": ["Result"]
       }
     },
     {
@@ -3521,13 +3180,7 @@
             ]
           }
         },
-        "path": [
-          "openbrush_contracts",
-          "traits",
-          "errors",
-          "upgradeable",
-          "UpgradeableError"
-        ]
+        "path": ["openbrush_contracts", "traits", "errors", "upgradeable", "UpgradeableError"]
       }
     },
     {
@@ -3551,13 +3204,7 @@
             ]
           }
         },
-        "path": [
-          "openbrush_contracts",
-          "traits",
-          "errors",
-          "access_control",
-          "AccessControlError"
-        ]
+        "path": ["openbrush_contracts", "traits", "errors", "access_control", "AccessControlError"]
       }
     },
     {
@@ -3566,11 +3213,7 @@
         "def": {
           "variant": {}
         },
-        "path": [
-          "ink_env",
-          "types",
-          "NoChainExtension"
-        ]
+        "path": ["ink_env", "types", "NoChainExtension"]
       }
     }
   ],

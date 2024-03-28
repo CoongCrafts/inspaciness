@@ -1,11 +1,11 @@
 {
   "source": {
-    "hash": "0xeb649db6f32dc05a5923c6a9d23995fc1a0dcd08e8a42e00542a8e6dceb24976",
+    "hash": "0x7db4593ccdd11f6adffa5a8ad9b203d90820f0d49b19f5185ef64861bef1c66f",
     "language": "ink! 4.3.0",
-    "compiler": "rustc 1.78.0-nightly",
+    "compiler": "rustc 1.76.0-nightly",
     "build_info": {
       "build_mode": "Debug",
-      "cargo_contract_version": "4.0.0-alpha",
+      "cargo_contract_version": "3.2.0",
       "rust_toolchain": "nightly-aarch64-apple-darwin",
       "wasm_opt_settings": {
         "keep_debug_symbols": false,
@@ -16,11 +16,8 @@
   "contract": {
     "name": "flipper_launcher",
     "version": "0.1.0",
-    "authors": [
-      "Thang X. Vu <thang@coongcrafts.io>"
-    ]
+    "authors": ["Thang X. Vu <thang@coongcrafts.io>"]
   },
-  "image": null,
   "spec": {
     "constructors": [
       {
@@ -28,27 +25,21 @@
           {
             "label": "motherspace_id",
             "type": {
-              "displayName": [
-                "AccountId"
-              ],
+              "displayName": ["AccountId"],
               "type": 0
             }
           },
           {
             "label": "owner_id",
             "type": {
-              "displayName": [
-                "AccountId"
-              ],
+              "displayName": ["AccountId"],
               "type": 0
             }
           },
           {
             "label": "plugin_code",
             "type": {
-              "displayName": [
-                "Hash"
-              ],
+              "displayName": ["Hash"],
               "type": 4
             }
           }
@@ -58,10 +49,7 @@
         "label": "new",
         "payable": false,
         "returnType": {
-          "displayName": [
-            "ink_primitives",
-            "ConstructorResult"
-          ],
+          "displayName": ["ink_primitives", "ConstructorResult"],
           "type": 5
         },
         "selector": "0x9bae9d5e"
@@ -70,49 +58,34 @@
     "docs": [],
     "environment": {
       "accountId": {
-        "displayName": [
-          "AccountId"
-        ],
+        "displayName": ["AccountId"],
         "type": 0
       },
       "balance": {
-        "displayName": [
-          "Balance"
-        ],
+        "displayName": ["Balance"],
         "type": 26
       },
       "blockNumber": {
-        "displayName": [
-          "BlockNumber"
-        ],
+        "displayName": ["BlockNumber"],
         "type": 3
       },
       "chainExtension": {
-        "displayName": [
-          "ChainExtension"
-        ],
+        "displayName": ["ChainExtension"],
         "type": 28
       },
       "hash": {
-        "displayName": [
-          "Hash"
-        ],
+        "displayName": ["Hash"],
         "type": 4
       },
       "maxEventTopics": 4,
       "timestamp": {
-        "displayName": [
-          "Timestamp"
-        ],
+        "displayName": ["Timestamp"],
         "type": 27
       }
     },
     "events": [],
     "lang_error": {
-      "displayName": [
-        "ink",
-        "LangError"
-      ],
+      "displayName": ["ink", "LangError"],
       "type": 7
     },
     "messages": [
@@ -124,29 +97,10 @@
         "mutates": false,
         "payable": false,
         "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
+          "displayName": ["ink", "MessageResult"],
           "type": 8
         },
         "selector": "0x71bb126a"
-      },
-      {
-        "args": [],
-        "default": false,
-        "docs": [],
-        "label": "PluginLauncher::launches_count",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 9
-        },
-        "selector": "0x4d07b7d2"
       },
       {
         "args": [],
@@ -156,66 +110,17 @@
         "mutates": false,
         "payable": false,
         "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 10
+          "displayName": ["ink", "MessageResult"],
+          "type": 9
         },
         "selector": "0xb32e0529"
-      },
-      {
-        "args": [],
-        "default": false,
-        "docs": [],
-        "label": "PluginLauncher::latest_plugin_code",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 8
-        },
-        "selector": "0xb3b8b2b3"
-      },
-      {
-        "args": [
-          {
-            "label": "new_code_hash",
-            "type": {
-              "displayName": [
-                "pluginlauncher_external",
-                "UpgradePluginCodeInput1"
-              ],
-              "type": 4
-            }
-          }
-        ],
-        "default": false,
-        "docs": [],
-        "label": "PluginLauncher::upgrade_plugin_code",
-        "mutates": true,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 11
-        },
-        "selector": "0xec905589"
       },
       {
         "args": [
           {
             "label": "space_id",
             "type": {
-              "displayName": [
-                "pluginlauncher_external",
-                "LaunchInput1"
-              ],
+              "displayName": ["pluginlauncher_external", "LaunchInput1"],
               "type": 0
             }
           }
@@ -226,13 +131,78 @@
         "mutates": true,
         "payable": false,
         "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 16
+          "displayName": ["ink", "MessageResult"],
+          "type": 10
         },
         "selector": "0xdc09637d"
+      },
+      {
+        "args": [
+          {
+            "label": "new_code_hash",
+            "type": {
+              "displayName": ["pluginlauncher_external", "UpgradePluginCodeInput1"],
+              "type": 4
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "PluginLauncher::upgrade_plugin_code",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": ["ink", "MessageResult"],
+          "type": 15
+        },
+        "selector": "0xec905589"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "PluginLauncher::launches_count",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": ["ink", "MessageResult"],
+          "type": 17
+        },
+        "selector": "0x4d07b7d2"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "PluginLauncher::latest_plugin_code",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": ["ink", "MessageResult"],
+          "type": 8
+        },
+        "selector": "0xb3b8b2b3"
+      },
+      {
+        "args": [
+          {
+            "label": "new_owner",
+            "type": {
+              "displayName": ["ownable_external", "TransferOwnershipInput1"],
+              "type": 18
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "Ownable::transfer_ownership",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": ["ink", "MessageResult"],
+          "type": 19
+        },
+        "selector": "0x11f43efd"
       },
       {
         "args": [],
@@ -242,11 +212,8 @@
         "mutates": false,
         "payable": false,
         "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 18
+          "displayName": ["ink", "MessageResult"],
+          "type": 21
         },
         "selector": "0x4fa43c8c"
       },
@@ -258,50 +225,17 @@
         "mutates": true,
         "payable": false,
         "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 20
+          "displayName": ["ink", "MessageResult"],
+          "type": 19
         },
         "selector": "0x5e228753"
       },
       {
         "args": [
           {
-            "label": "new_owner",
-            "type": {
-              "displayName": [
-                "ownable_external",
-                "TransferOwnershipInput1"
-              ],
-              "type": 19
-            }
-          }
-        ],
-        "default": false,
-        "docs": [],
-        "label": "Ownable::transfer_ownership",
-        "mutates": true,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 20
-        },
-        "selector": "0x11f43efd"
-      },
-      {
-        "args": [
-          {
             "label": "new_code_hash",
             "type": {
-              "displayName": [
-                "upgradeable_external",
-                "SetCodeHashInput1"
-              ],
+              "displayName": ["upgradeable_external", "SetCodeHashInput1"],
               "type": 4
             }
           }
@@ -312,10 +246,7 @@
         "mutates": true,
         "payable": false,
         "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
+          "displayName": ["ink", "MessageResult"],
           "type": 22
         },
         "selector": "0x1700ae80"
@@ -458,11 +389,7 @@
             ]
           }
         },
-        "path": [
-          "ink_primitives",
-          "types",
-          "AccountId"
-        ]
+        "path": ["ink_primitives", "types", "AccountId"]
       }
     },
     {
@@ -505,11 +432,7 @@
             ]
           }
         },
-        "path": [
-          "ink_primitives",
-          "types",
-          "Hash"
-        ]
+        "path": ["ink_primitives", "types", "Hash"]
       }
     },
     {
@@ -549,9 +472,7 @@
             "type": 7
           }
         ],
-        "path": [
-          "Result"
-        ]
+        "path": ["Result"]
       }
     },
     {
@@ -575,10 +496,7 @@
             ]
           }
         },
-        "path": [
-          "ink_primitives",
-          "LangError"
-        ]
+        "path": ["ink_primitives", "LangError"]
       }
     },
     {
@@ -618,55 +536,11 @@
             "type": 7
           }
         ],
-        "path": [
-          "Result"
-        ]
+        "path": ["Result"]
       }
     },
     {
       "id": 9,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "fields": [
-                  {
-                    "type": 3
-                  }
-                ],
-                "index": 0,
-                "name": "Ok"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 7
-                  }
-                ],
-                "index": 1,
-                "name": "Err"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 3
-          },
-          {
-            "name": "E",
-            "type": 7
-          }
-        ],
-        "path": [
-          "Result"
-        ]
-      }
-    },
-    {
-      "id": 10,
       "type": {
         "def": {
           "variant": {
@@ -702,13 +576,11 @@
             "type": 7
           }
         ],
-        "path": [
-          "Result"
-        ]
+        "path": ["Result"]
       }
     },
     {
-      "id": 11,
+      "id": 10,
       "type": {
         "def": {
           "variant": {
@@ -716,7 +588,7 @@
               {
                 "fields": [
                   {
-                    "type": 12
+                    "type": 11
                   }
                 ],
                 "index": 0,
@@ -737,20 +609,18 @@
         "params": [
           {
             "name": "T",
-            "type": 12
+            "type": 11
           },
           {
             "name": "E",
             "type": 7
           }
         ],
-        "path": [
-          "Result"
-        ]
+        "path": ["Result"]
       }
     },
     {
-      "id": 12,
+      "id": 11,
       "type": {
         "def": {
           "variant": {
@@ -758,7 +628,7 @@
               {
                 "fields": [
                   {
-                    "type": 3
+                    "type": 0
                   }
                 ],
                 "index": 0,
@@ -767,7 +637,7 @@
               {
                 "fields": [
                   {
-                    "type": 13
+                    "type": 12
                   }
                 ],
                 "index": 1,
@@ -779,20 +649,18 @@
         "params": [
           {
             "name": "T",
-            "type": 3
+            "type": 0
           },
           {
             "name": "E",
-            "type": 13
+            "type": 12
           }
         ],
-        "path": [
-          "Result"
-        ]
+        "path": ["Result"]
       }
     },
     {
-      "id": 13,
+      "id": 12,
       "type": {
         "def": {
           "variant": {
@@ -800,7 +668,7 @@
               {
                 "fields": [
                   {
-                    "type": 14,
+                    "type": 13,
                     "typeName": "String"
                   }
                 ],
@@ -810,7 +678,7 @@
               {
                 "fields": [
                   {
-                    "type": 15,
+                    "type": 14,
                     "typeName": "OwnableError"
                   }
                 ],
@@ -824,16 +692,11 @@
             ]
           }
         },
-        "path": [
-          "shared",
-          "traits",
-          "plugin_launcher",
-          "LauncherError"
-        ]
+        "path": ["shared", "traits", "plugin_launcher", "LauncherError"]
       }
     },
     {
-      "id": 14,
+      "id": 13,
       "type": {
         "def": {
           "primitive": "str"
@@ -841,7 +704,7 @@
       }
     },
     {
-      "id": 15,
+      "id": 14,
       "type": {
         "def": {
           "variant": {
@@ -857,13 +720,47 @@
             ]
           }
         },
-        "path": [
-          "openbrush_contracts",
-          "traits",
-          "errors",
-          "ownable",
-          "OwnableError"
-        ]
+        "path": ["openbrush_contracts", "traits", "errors", "ownable", "OwnableError"]
+      }
+    },
+    {
+      "id": 15,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 16
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 7
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 16
+          },
+          {
+            "name": "E",
+            "type": 7
+          }
+        ],
+        "path": ["Result"]
       }
     },
     {
@@ -875,7 +772,7 @@
               {
                 "fields": [
                   {
-                    "type": 17
+                    "type": 3
                   }
                 ],
                 "index": 0,
@@ -884,7 +781,7 @@
               {
                 "fields": [
                   {
-                    "type": 7
+                    "type": 12
                   }
                 ],
                 "index": 1,
@@ -896,16 +793,14 @@
         "params": [
           {
             "name": "T",
-            "type": 17
+            "type": 3
           },
           {
             "name": "E",
-            "type": 7
+            "type": 12
           }
         ],
-        "path": [
-          "Result"
-        ]
+        "path": ["Result"]
       }
     },
     {
@@ -917,49 +812,7 @@
               {
                 "fields": [
                   {
-                    "type": 0
-                  }
-                ],
-                "index": 0,
-                "name": "Ok"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 13
-                  }
-                ],
-                "index": 1,
-                "name": "Err"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 0
-          },
-          {
-            "name": "E",
-            "type": 13
-          }
-        ],
-        "path": [
-          "Result"
-        ]
-      }
-    },
-    {
-      "id": 18,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "fields": [
-                  {
-                    "type": 19
+                    "type": 3
                   }
                 ],
                 "index": 0,
@@ -980,20 +833,18 @@
         "params": [
           {
             "name": "T",
-            "type": 19
+            "type": 3
           },
           {
             "name": "E",
             "type": 7
           }
         ],
-        "path": [
-          "Result"
-        ]
+        "path": ["Result"]
       }
     },
     {
-      "id": 19,
+      "id": 18,
       "type": {
         "def": {
           "variant": {
@@ -1020,13 +871,11 @@
             "type": 0
           }
         ],
-        "path": [
-          "Option"
-        ]
+        "path": ["Option"]
       }
     },
     {
-      "id": 20,
+      "id": 19,
       "type": {
         "def": {
           "variant": {
@@ -1034,7 +883,7 @@
               {
                 "fields": [
                   {
-                    "type": 21
+                    "type": 20
                   }
                 ],
                 "index": 0,
@@ -1055,20 +904,18 @@
         "params": [
           {
             "name": "T",
-            "type": 21
+            "type": 20
           },
           {
             "name": "E",
             "type": 7
           }
         ],
-        "path": [
-          "Result"
-        ]
+        "path": ["Result"]
       }
     },
     {
-      "id": 21,
+      "id": 20,
       "type": {
         "def": {
           "variant": {
@@ -1085,7 +932,7 @@
               {
                 "fields": [
                   {
-                    "type": 15
+                    "type": 14
                   }
                 ],
                 "index": 1,
@@ -1101,12 +948,50 @@
           },
           {
             "name": "E",
-            "type": 15
+            "type": 14
           }
         ],
-        "path": [
-          "Result"
-        ]
+        "path": ["Result"]
+      }
+    },
+    {
+      "id": 21,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 18
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 7
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 18
+          },
+          {
+            "name": "E",
+            "type": 7
+          }
+        ],
+        "path": ["Result"]
       }
     },
     {
@@ -1146,9 +1031,7 @@
             "type": 7
           }
         ],
-        "path": [
-          "Result"
-        ]
+        "path": ["Result"]
       }
     },
     {
@@ -1188,9 +1071,7 @@
             "type": 24
           }
         ],
-        "path": [
-          "Result"
-        ]
+        "path": ["Result"]
       }
     },
     {
@@ -1202,7 +1083,7 @@
               {
                 "fields": [
                   {
-                    "type": 14,
+                    "type": 13,
                     "typeName": "String"
                   }
                 ],
@@ -1216,7 +1097,7 @@
               {
                 "fields": [
                   {
-                    "type": 15,
+                    "type": 14,
                     "typeName": "OwnableError"
                   }
                 ],
@@ -1236,13 +1117,7 @@
             ]
           }
         },
-        "path": [
-          "openbrush_contracts",
-          "traits",
-          "errors",
-          "upgradeable",
-          "UpgradeableError"
-        ]
+        "path": ["openbrush_contracts", "traits", "errors", "upgradeable", "UpgradeableError"]
       }
     },
     {
@@ -1266,13 +1141,7 @@
             ]
           }
         },
-        "path": [
-          "openbrush_contracts",
-          "traits",
-          "errors",
-          "access_control",
-          "AccessControlError"
-        ]
+        "path": ["openbrush_contracts", "traits", "errors", "access_control", "AccessControlError"]
       }
     },
     {
@@ -1297,11 +1166,7 @@
         "def": {
           "variant": {}
         },
-        "path": [
-          "ink_env",
-          "types",
-          "NoChainExtension"
-        ]
+        "path": ["ink_env", "types", "NoChainExtension"]
       }
     }
   ],

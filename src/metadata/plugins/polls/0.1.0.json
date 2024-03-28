@@ -1,11 +1,11 @@
 {
   "source": {
-    "hash": "0x7c82431dc88260d2cdcbcbdcca15d5625a7d89f21ec80468c2f80b498c227973",
+    "hash": "0x872cb75ddae01e55aa4c934ea104c5c04d7ee8ae7ff0807a3f81ccdd722088ad",
     "language": "ink! 4.3.0",
-    "compiler": "rustc 1.78.0-nightly",
+    "compiler": "rustc 1.76.0-nightly",
     "build_info": {
       "build_mode": "Debug",
-      "cargo_contract_version": "4.0.0-alpha",
+      "cargo_contract_version": "3.2.0",
       "rust_toolchain": "nightly-aarch64-apple-darwin",
       "wasm_opt_settings": {
         "keep_debug_symbols": false,
@@ -16,11 +16,8 @@
   "contract": {
     "name": "polls",
     "version": "0.1.0",
-    "authors": [
-      "Thang X. Vu <thang@coongcrafts.io>"
-    ]
+    "authors": ["Thang X. Vu <thang@coongcrafts.io>"]
   },
-  "image": null,
   "spec": {
     "constructors": [
       {
@@ -28,18 +25,14 @@
           {
             "label": "space_id",
             "type": {
-              "displayName": [
-                "AccountId"
-              ],
+              "displayName": ["AccountId"],
               "type": 0
             }
           },
           {
             "label": "launcher_id",
             "type": {
-              "displayName": [
-                "AccountId"
-              ],
+              "displayName": ["AccountId"],
               "type": 0
             }
           }
@@ -49,10 +42,7 @@
         "label": "new",
         "payable": false,
         "returnType": {
-          "displayName": [
-            "ink_primitives",
-            "ConstructorResult"
-          ],
+          "displayName": ["ink_primitives", "ConstructorResult"],
           "type": 7
         },
         "selector": "0x9bae9d5e"
@@ -61,49 +51,34 @@
     "docs": [],
     "environment": {
       "accountId": {
-        "displayName": [
-          "AccountId"
-        ],
+        "displayName": ["AccountId"],
         "type": 0
       },
       "balance": {
-        "displayName": [
-          "Balance"
-        ],
+        "displayName": ["Balance"],
         "type": 37
       },
       "blockNumber": {
-        "displayName": [
-          "BlockNumber"
-        ],
+        "displayName": ["BlockNumber"],
         "type": 6
       },
       "chainExtension": {
-        "displayName": [
-          "ChainExtension"
-        ],
+        "displayName": ["ChainExtension"],
         "type": 38
       },
       "hash": {
-        "displayName": [
-          "Hash"
-        ],
+        "displayName": ["Hash"],
         "type": 33
       },
       "maxEventTopics": 4,
       "timestamp": {
-        "displayName": [
-          "Timestamp"
-        ],
+        "displayName": ["Timestamp"],
         "type": 5
       }
     },
     "events": [],
     "lang_error": {
-      "displayName": [
-        "ink",
-        "LangError"
-      ],
+      "displayName": ["ink", "LangError"],
       "type": 9
     },
     "messages": [
@@ -112,52 +87,39 @@
           {
             "label": "title",
             "type": {
-              "displayName": [
-                "String"
-              ],
+              "displayName": ["String"],
               "type": 3
             }
           },
           {
             "label": "desc",
             "type": {
-              "displayName": [
-                "Option"
-              ],
+              "displayName": ["Option"],
               "type": 10
             }
           },
           {
             "label": "options",
             "type": {
-              "displayName": [
-                "Vec"
-              ],
+              "displayName": ["Vec"],
               "type": 4
             }
           },
           {
             "label": "expired_at",
             "type": {
-              "displayName": [
-                "Option"
-              ],
+              "displayName": ["Option"],
               "type": 11
             }
           }
         ],
         "default": false,
-        "docs": [
-          " New poll"
-        ],
+        "docs": [" New poll"],
         "label": "new_poll",
         "mutates": true,
         "payable": false,
         "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
+          "displayName": ["ink", "MessageResult"],
           "type": 12
         },
         "selector": "0xdf7cdcc2"
@@ -167,61 +129,46 @@
           {
             "label": "poll_id",
             "type": {
-              "displayName": [
-                "PollId"
-              ],
+              "displayName": ["PollId"],
               "type": 6
             }
           },
           {
             "label": "title",
             "type": {
-              "displayName": [
-                "Option"
-              ],
+              "displayName": ["Option"],
               "type": 10
             }
           },
           {
             "label": "desc",
             "type": {
-              "displayName": [
-                "Option"
-              ],
+              "displayName": ["Option"],
               "type": 10
             }
           },
           {
             "label": "options",
             "type": {
-              "displayName": [
-                "Option"
-              ],
+              "displayName": ["Option"],
               "type": 16
             }
           },
           {
             "label": "expired_at",
             "type": {
-              "displayName": [
-                "Option"
-              ],
+              "displayName": ["Option"],
               "type": 11
             }
           }
         ],
         "default": false,
-        "docs": [
-          " Update poll"
-        ],
+        "docs": [" Update poll"],
         "label": "update_poll",
         "mutates": true,
         "payable": false,
         "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
+          "displayName": ["ink", "MessageResult"],
           "type": 17
         },
         "selector": "0x8d4868aa"
@@ -231,25 +178,18 @@
           {
             "label": "ids",
             "type": {
-              "displayName": [
-                "Vec"
-              ],
+              "displayName": ["Vec"],
               "type": 19
             }
           }
         ],
         "default": false,
-        "docs": [
-          " Get polls by ids"
-        ],
+        "docs": [" Get polls by ids"],
         "label": "polls_by_ids",
         "mutates": false,
         "payable": false,
         "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
+          "displayName": ["ink", "MessageResult"],
           "type": 20
         },
         "selector": "0x1786f50d"
@@ -257,17 +197,12 @@
       {
         "args": [],
         "default": false,
-        "docs": [
-          " Polls count"
-        ],
+        "docs": [" Polls count"],
         "label": "polls_count",
         "mutates": false,
         "payable": false,
         "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
+          "displayName": ["ink", "MessageResult"],
           "type": 25
         },
         "selector": "0x5e62c5eb"
@@ -277,25 +212,18 @@
           {
             "label": "poll_id",
             "type": {
-              "displayName": [
-                "PollId"
-              ],
+              "displayName": ["PollId"],
               "type": 6
             }
           }
         ],
         "default": false,
-        "docs": [
-          " Get votes information of a poll"
-        ],
+        "docs": [" Get votes information of a poll"],
         "label": "poll_votes",
         "mutates": false,
         "payable": false,
         "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
+          "displayName": ["ink", "MessageResult"],
           "type": 26
         },
         "selector": "0x9e7253fb"
@@ -305,34 +233,25 @@
           {
             "label": "poll_id",
             "type": {
-              "displayName": [
-                "PollId"
-              ],
+              "displayName": ["PollId"],
               "type": 6
             }
           },
           {
             "label": "option_index",
             "type": {
-              "displayName": [
-                "OptionIndex"
-              ],
+              "displayName": ["OptionIndex"],
               "type": 6
             }
           }
         ],
         "default": false,
-        "docs": [
-          " Vote"
-        ],
+        "docs": [" Vote"],
         "label": "vote",
         "mutates": true,
         "payable": false,
         "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
+          "displayName": ["ink", "MessageResult"],
           "type": 17
         },
         "selector": "0x083be260"
@@ -342,25 +261,18 @@
           {
             "label": "poll_id",
             "type": {
-              "displayName": [
-                "PollId"
-              ],
+              "displayName": ["PollId"],
               "type": 6
             }
           }
         ],
         "default": false,
-        "docs": [
-          " UnVote"
-        ],
+        "docs": [" UnVote"],
         "label": "unvote",
         "mutates": true,
         "payable": false,
         "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
+          "displayName": ["ink", "MessageResult"],
           "type": 17
         },
         "selector": "0x9ec96ea2"
@@ -373,29 +285,10 @@
         "mutates": false,
         "payable": false,
         "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
+          "displayName": ["ink", "MessageResult"],
           "type": 32
         },
         "selector": "0x71bb126a"
-      },
-      {
-        "args": [],
-        "default": false,
-        "docs": [],
-        "label": "PluginBase::space_id",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 34
-        },
-        "selector": "0xd8b69738"
       },
       {
         "args": [],
@@ -405,10 +298,7 @@
         "mutates": false,
         "payable": false,
         "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
+          "displayName": ["ink", "MessageResult"],
           "type": 34
         },
         "selector": "0x6f18cd4c"
@@ -418,10 +308,7 @@
           {
             "label": "new_code_hash",
             "type": {
-              "displayName": [
-                "pluginbase_external",
-                "SetCodeHashInput1"
-              ],
+              "displayName": ["pluginbase_external", "SetCodeHashInput1"],
               "type": 33
             }
           }
@@ -432,13 +319,23 @@
         "mutates": true,
         "payable": false,
         "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
+          "displayName": ["ink", "MessageResult"],
           "type": 35
         },
         "selector": "0xc19cec53"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "PluginBase::space_id",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": ["ink", "MessageResult"],
+          "type": 34
+        },
+        "selector": "0xd8b69738"
       }
     ]
   },
@@ -686,11 +583,7 @@
             ]
           }
         },
-        "path": [
-          "ink_primitives",
-          "types",
-          "AccountId"
-        ]
+        "path": ["ink_primitives", "types", "AccountId"]
       }
     },
     {
@@ -783,9 +676,7 @@
             "type": 9
           }
         ],
-        "path": [
-          "Result"
-        ]
+        "path": ["Result"]
       }
     },
     {
@@ -809,10 +700,7 @@
             ]
           }
         },
-        "path": [
-          "ink_primitives",
-          "LangError"
-        ]
+        "path": ["ink_primitives", "LangError"]
       }
     },
     {
@@ -843,9 +731,7 @@
             "type": 3
           }
         ],
-        "path": [
-          "Option"
-        ]
+        "path": ["Option"]
       }
     },
     {
@@ -876,9 +762,7 @@
             "type": 5
           }
         ],
-        "path": [
-          "Option"
-        ]
+        "path": ["Option"]
       }
     },
     {
@@ -918,9 +802,7 @@
             "type": 9
           }
         ],
-        "path": [
-          "Result"
-        ]
+        "path": ["Result"]
       }
     },
     {
@@ -960,9 +842,7 @@
             "type": 14
           }
         ],
-        "path": [
-          "Result"
-        ]
+        "path": ["Result"]
       }
     },
     {
@@ -1010,11 +890,7 @@
             ]
           }
         },
-        "path": [
-          "polls",
-          "polls",
-          "PollError"
-        ]
+        "path": ["polls", "polls", "PollError"]
       }
     },
     {
@@ -1052,12 +928,7 @@
             ]
           }
         },
-        "path": [
-          "shared",
-          "traits",
-          "plugin_base",
-          "PluginError"
-        ]
+        "path": ["shared", "traits", "plugin_base", "PluginError"]
       }
     },
     {
@@ -1088,9 +959,7 @@
             "type": 4
           }
         ],
-        "path": [
-          "Option"
-        ]
+        "path": ["Option"]
       }
     },
     {
@@ -1130,9 +999,7 @@
             "type": 9
           }
         ],
-        "path": [
-          "Result"
-        ]
+        "path": ["Result"]
       }
     },
     {
@@ -1172,9 +1039,7 @@
             "type": 14
           }
         ],
-        "path": [
-          "Result"
-        ]
+        "path": ["Result"]
       }
     },
     {
@@ -1224,9 +1089,7 @@
             "type": 9
           }
         ],
-        "path": [
-          "Result"
-        ]
+        "path": ["Result"]
       }
     },
     {
@@ -1243,10 +1106,7 @@
       "id": 22,
       "type": {
         "def": {
-          "tuple": [
-            6,
-            23
-          ]
+          "tuple": [6, 23]
         }
       }
     },
@@ -1278,9 +1138,7 @@
             "type": 24
           }
         ],
-        "path": [
-          "Option"
-        ]
+        "path": ["Option"]
       }
     },
     {
@@ -1327,11 +1185,7 @@
             ]
           }
         },
-        "path": [
-          "polls",
-          "polls",
-          "Poll"
-        ]
+        "path": ["polls", "polls", "Poll"]
       }
     },
     {
@@ -1371,9 +1225,7 @@
             "type": 9
           }
         ],
-        "path": [
-          "Result"
-        ]
+        "path": ["Result"]
       }
     },
     {
@@ -1413,9 +1265,7 @@
             "type": 9
           }
         ],
-        "path": [
-          "Result"
-        ]
+        "path": ["Result"]
       }
     },
     {
@@ -1455,9 +1305,7 @@
             "type": 14
           }
         ],
-        "path": [
-          "Result"
-        ]
+        "path": ["Result"]
       }
     },
     {
@@ -1484,11 +1332,7 @@
             ]
           }
         },
-        "path": [
-          "polls",
-          "polls",
-          "PollVotes"
-        ]
+        "path": ["polls", "polls", "PollVotes"]
       }
     },
     {
@@ -1505,10 +1349,7 @@
       "id": 30,
       "type": {
         "def": {
-          "tuple": [
-            6,
-            6
-          ]
+          "tuple": [6, 6]
         }
       }
     },
@@ -1540,9 +1381,7 @@
             "type": 6
           }
         ],
-        "path": [
-          "Option"
-        ]
+        "path": ["Option"]
       }
     },
     {
@@ -1582,9 +1421,7 @@
             "type": 9
           }
         ],
-        "path": [
-          "Result"
-        ]
+        "path": ["Result"]
       }
     },
     {
@@ -1600,11 +1437,7 @@
             ]
           }
         },
-        "path": [
-          "ink_primitives",
-          "types",
-          "Hash"
-        ]
+        "path": ["ink_primitives", "types", "Hash"]
       }
     },
     {
@@ -1644,9 +1477,7 @@
             "type": 9
           }
         ],
-        "path": [
-          "Result"
-        ]
+        "path": ["Result"]
       }
     },
     {
@@ -1686,9 +1517,7 @@
             "type": 9
           }
         ],
-        "path": [
-          "Result"
-        ]
+        "path": ["Result"]
       }
     },
     {
@@ -1728,9 +1557,7 @@
             "type": 15
           }
         ],
-        "path": [
-          "Result"
-        ]
+        "path": ["Result"]
       }
     },
     {
@@ -1747,11 +1574,7 @@
         "def": {
           "variant": {}
         },
-        "path": [
-          "ink_env",
-          "types",
-          "NoChainExtension"
-        ]
+        "path": ["ink_env", "types", "NoChainExtension"]
       }
     }
   ],
