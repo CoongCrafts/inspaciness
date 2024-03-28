@@ -1,6 +1,6 @@
 {
   "source": {
-    "hash": "0xb5b141d6c7fb3f567a8a40a2961329ebecadf362a7d776f5339f8f66c8861fd3",
+    "hash": "0x2c97f3acad856a362f920a38b4aa1d9c99cd4b4e0dbef58cfa517907967c2fa8",
     "language": "ink! 4.3.0",
     "compiler": "rustc 1.76.0-nightly",
     "build_info": {
@@ -744,38 +744,6 @@
         "selector": "0x71bb126a"
       },
       {
-        "args": [],
-        "default": false,
-        "docs": [],
-        "label": "PluginBase::space_id",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 47
-        },
-        "selector": "0xd8b69738"
-      },
-      {
-        "args": [],
-        "default": false,
-        "docs": [],
-        "label": "PluginBase::launcher_id",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 47
-        },
-        "selector": "0x6f18cd4c"
-      },
-      {
         "args": [
           {
             "label": "new_code_hash",
@@ -798,9 +766,41 @@
             "ink",
             "MessageResult"
           ],
-          "type": 48
+          "type": 47
         },
         "selector": "0xc19cec53"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "PluginBase::space_id",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 49
+        },
+        "selector": "0xd8b69738"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "PluginBase::launcher_id",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 49
+        },
+        "selector": "0x6f18cd4c"
       }
     ]
   },
@@ -2715,7 +2715,7 @@
               {
                 "fields": [
                   {
-                    "type": 0
+                    "type": 48
                   }
                 ],
                 "index": 0,
@@ -2736,7 +2736,7 @@
         "params": [
           {
             "name": "T",
-            "type": 0
+            "type": 48
           },
           {
             "name": "E",
@@ -2750,48 +2750,6 @@
     },
     {
       "id": 48,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "fields": [
-                  {
-                    "type": 49
-                  }
-                ],
-                "index": 0,
-                "name": "Ok"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 9
-                  }
-                ],
-                "index": 1,
-                "name": "Err"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 49
-          },
-          {
-            "name": "E",
-            "type": 9
-          }
-        ],
-        "path": [
-          "Result"
-        ]
-      }
-    },
-    {
-      "id": 49,
       "type": {
         "def": {
           "variant": {
@@ -2825,6 +2783,48 @@
           {
             "name": "E",
             "type": 16
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 49,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 0
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 9
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 0
+          },
+          {
+            "name": "E",
+            "type": 9
           }
         ],
         "path": [

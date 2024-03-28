@@ -1,6 +1,6 @@
 {
   "source": {
-    "hash": "0x0e622f0b134a24f1484067de8216ceff9e06b3888ca9e6c39d431b457b566023",
+    "hash": "0x2c8a08e6c5891c6ecd8afe6028c7f8c51cff014ffff53c0f11191b6bada264fe",
     "language": "ink! 4.3.0",
     "compiler": "rustc 1.76.0-nightly",
     "build_info": {
@@ -159,33 +159,6 @@
         "selector": "0xec905589"
       },
       {
-        "args": [
-          {
-            "label": "space_id",
-            "type": {
-              "displayName": [
-                "pluginlauncher_external",
-                "LaunchInput1"
-              ],
-              "type": 0
-            }
-          }
-        ],
-        "default": false,
-        "docs": [],
-        "label": "PluginLauncher::launch",
-        "mutates": true,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 14
-        },
-        "selector": "0xdc09637d"
-      },
-      {
         "args": [],
         "default": false,
         "docs": [],
@@ -197,7 +170,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 16
+          "type": 14
         },
         "selector": "0xb32e0529"
       },
@@ -229,9 +202,36 @@
             "ink",
             "MessageResult"
           ],
-          "type": 17
+          "type": 15
         },
         "selector": "0x4d07b7d2"
+      },
+      {
+        "args": [
+          {
+            "label": "space_id",
+            "type": {
+              "displayName": [
+                "pluginlauncher_external",
+                "LaunchInput1"
+              ],
+              "type": 0
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "PluginLauncher::launch",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 16
+        },
+        "selector": "0xdc09637d"
       },
       {
         "args": [],
@@ -790,7 +790,7 @@
               {
                 "fields": [
                   {
-                    "type": 15
+                    "type": 0
                   }
                 ],
                 "index": 0,
@@ -811,7 +811,7 @@
         "params": [
           {
             "name": "T",
-            "type": 15
+            "type": 0
           },
           {
             "name": "E",
@@ -825,90 +825,6 @@
     },
     {
       "id": 15,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "fields": [
-                  {
-                    "type": 0
-                  }
-                ],
-                "index": 0,
-                "name": "Ok"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 11
-                  }
-                ],
-                "index": 1,
-                "name": "Err"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 0
-          },
-          {
-            "name": "E",
-            "type": 11
-          }
-        ],
-        "path": [
-          "Result"
-        ]
-      }
-    },
-    {
-      "id": 16,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "fields": [
-                  {
-                    "type": 0
-                  }
-                ],
-                "index": 0,
-                "name": "Ok"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 7
-                  }
-                ],
-                "index": 1,
-                "name": "Err"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 0
-          },
-          {
-            "name": "E",
-            "type": 7
-          }
-        ],
-        "path": [
-          "Result"
-        ]
-      }
-    },
-    {
-      "id": 17,
       "type": {
         "def": {
           "variant": {
@@ -942,6 +858,90 @@
           {
             "name": "E",
             "type": 7
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 16,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 17
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 7
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 17
+          },
+          {
+            "name": "E",
+            "type": 7
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 17,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 0
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 11
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 0
+          },
+          {
+            "name": "E",
+            "type": 11
           }
         ],
         "path": [
