@@ -120,9 +120,11 @@ export default function PostCard({ postRecord: { post, postId }, onPostUpdated, 
             <Box
               className='post-content'
               mt={2}
-              dangerouslySetInnerHTML={{ __html: showMore ? renderMd(`${content.slice(0, 500)}...`) : content }}></Box>
+              dangerouslySetInnerHTML={{
+                __html: showMore ? renderMd(`${content.slice(0, 500)}...`) : renderMd(content),
+              }}></Box>
             {showMore && (
-              <Link fontSize='small' color='gray.500' onClick={() => setShowMore(false)}>
+              <Link fontSize='small' color='primary.500' onClick={() => setShowMore(false)}>
                 Show more
               </Link>
             )}

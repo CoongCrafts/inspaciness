@@ -249,10 +249,10 @@ export default function CommentCard({ commentRecord: { postId: commentId, post: 
                 className='post-content'
                 mt={2}
                 dangerouslySetInnerHTML={{
-                  __html: showMore ? renderMd(`${commentContent.slice(0, 500)}...`) : commentContent,
+                  __html: showMore ? renderMd(`${commentContent.slice(0, 500)}...`) : renderMd(commentContent),
                 }}></Box>
               {showMore && (
-                <Link fontSize='small' color='gray.500' onClick={() => setShowMore(false)}>
+                <Link fontSize='small' color='primary.500' onClick={() => setShowMore(false)}>
                   Show more
                 </Link>
               )}
