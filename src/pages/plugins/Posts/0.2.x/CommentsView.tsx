@@ -10,6 +10,7 @@ import { usePostsContext } from '@/pages/plugins/Posts/0.2.x/PostsProvider';
 import { useSpaceContext } from '@/pages/space/0.1.x/SpaceProvider';
 import { useWalletContext } from '@/providers/WalletProvider';
 import { MemberStatus, PostRecord, Props } from '@/types';
+import { pinData, unpinData } from '@/utils/ipfs';
 import { messages } from '@/utils/messages';
 import { notifyTxStatus } from '@/utils/notifications';
 import { shortenAddress } from '@/utils/string';
@@ -30,6 +31,7 @@ export default function CommentsView({ comments, postId }: CommentsViewProps) {
   const [comment, setComment] = useState<string>('');
   const [isOpenComment, setIsOpenComment] = useState<boolean>(false);
   const [viewingComments, setViewingComments] = useState<number[]>([]);
+  const [onSubmitting, setOnSubmitting] = useState<boolean>(false);
 
   useEffect(() => {
     setViewingComments((prevState) => [...new Set([...comments.slice(0, 5).map((one) => one.postId), ...prevState])]);
@@ -38,7 +40,7 @@ export default function CommentsView({ comments, postId }: CommentsViewProps) {
   const numberOfComments = comments.length;
   const isActiveMember = memberStatus === MemberStatus.Active;
 
-  const doComment = () => {
+  const doComment = async () => {
     if (!comment) return;
 
     if (freeBalance === 0) {
@@ -46,11 +48,21 @@ export default function CommentsView({ comments, postId }: CommentsViewProps) {
       return;
     }
 
-    const commentContentRaw = { Raw: comment };
+    setOnSubmitting(true);
+    const cid = await pinData(comment);
 
-    newCommentTx.signAndSend([postId, commentContentRaw], {}, (result) => {
+    if (!cid) {
+      toast.error(messages.cannotPinData);
+      return;
+    }
+
+    const commentContent = { IpfsCid: cid };
+
+    newCommentTx.signAndSend([postId, commentContent], {}, async (result) => {
       if (!result) {
         newCommentTx.resetState();
+        await unpinData(cid);
+
         return;
       }
 
@@ -59,16 +71,18 @@ export default function CommentsView({ comments, postId }: CommentsViewProps) {
       if (result?.isInBlock) {
         if (result.dispatchError) {
           toast.error(messages.txError);
+          await unpinData(cid);
         } else {
           toast.success('Commented');
           setComment('');
           newCommentTx.resetState();
         }
       }
+      setOnSubmitting(false);
     });
   };
 
-  const processing = shouldDisableStrict(newCommentTx);
+  const processing = shouldDisableStrict(newCommentTx) || onSubmitting;
   const viewingCommentsCount = viewingComments.length;
 
   const loadMore = () => {

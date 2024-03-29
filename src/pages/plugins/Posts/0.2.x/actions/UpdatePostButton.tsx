@@ -25,7 +25,8 @@ import {
 import { FormEvent, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { useTx } from '@/hooks/useink/useTx';
-import { Props } from '@/types';
+import { PostContent, PostRecord, Props } from '@/types';
+import { pinData, unpinData } from '@/utils/ipfs';
 import { renderMd } from '@/utils/mdrenderer';
 import { messages } from '@/utils/messages';
 import { notifyTxStatus } from '@/utils/notifications';
@@ -36,14 +37,14 @@ import { usePostsContext } from '../PostsProvider';
 import { postValidationScheme } from './NewPostButton';
 
 interface UpdatePostButtonProps extends Props {
-  postId: number;
+  postRecord: PostRecord;
   defaultValue: string;
   onPostUpdated: (content: any, postId: number) => void;
   disabled?: boolean;
 }
 
 export default function UpdatePostButton({
-  postId,
+  postRecord: { post, postId },
   defaultValue,
   onPostUpdated,
   disabled = false,
@@ -51,18 +52,41 @@ export default function UpdatePostButton({
   const { contract } = usePostsContext();
   const updatePostTx = useTx<number>(contract, 'updatePost');
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const postContentType = PostContent.IpfsCid in post.content ? PostContent.IpfsCid : PostContent.Raw;
 
   const formik = useFormik({
     initialValues: {
       content: defaultValue,
     },
     validationSchema: postValidationScheme,
-    onSubmit: (values, formikHelpers) => {
-      const { content } = values;
-      const postContent = { Raw: content };
+    onSubmit: async (values, formikHelpers) => {
+      const oldPostContent = post.content;
+
+      let postContent: any;
+      switch (postContentType) {
+        case 'IpfsCid':
+          const cid = await pinData(values.content);
+
+          if (!cid) {
+            toast.error('Error happen when pushing data to Ipfs');
+          }
+
+          postContent = { IpfsCid: cid };
+          break;
+        case 'Raw':
+          const { content } = values;
+
+          postContent = { Raw: content };
+          break;
+      }
+
       updatePostTx.signAndSend([postId, postContent], {}, (result) => {
         if (!result) {
           updatePostTx.resetState(formikHelpers);
+          if (postContentType === PostContent.IpfsCid) {
+            unpinData(postContent.IpfsCid);
+          }
+
           return;
         }
 
@@ -71,8 +95,15 @@ export default function UpdatePostButton({
         if (result.isInBlock) {
           if (result.dispatchError) {
             toast.error(messages.txError);
+            if (postContentType === PostContent.IpfsCid) {
+              unpinData(postContent.IpfsCid);
+            }
           } else {
             toast.success('Post updated');
+
+            if (postContentType === PostContent.IpfsCid) {
+              unpinData((oldPostContent as { [PostContent.IpfsCid]: string }).IpfsCid);
+            }
 
             // Set current content by updated content
             onPostUpdated(postContent, postId);
@@ -90,7 +121,7 @@ export default function UpdatePostButton({
     formik.resetForm();
   }, [isOpen]);
 
-  const processing = shouldDisableStrict(updatePostTx);
+  const processing = shouldDisableStrict(updatePostTx) || formik.isSubmitting;
 
   return (
     <>

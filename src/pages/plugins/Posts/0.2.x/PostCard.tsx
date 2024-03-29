@@ -1,6 +1,9 @@
-import { Box, Flex, IconButton, Menu, MenuButton, MenuList, Text } from '@chakra-ui/react';
+import { Box, Flex, IconButton, Menu, MenuButton, MenuList, SkeletonText, Text } from '@chakra-ui/react';
 import { Identicon } from '@polkadot/react-identicon';
+import { useState } from 'react';
 import { RiMore2Fill } from 'react-icons/ri';
+import { toast } from 'react-toastify';
+import { useAsync } from 'react-use';
 import useContractState from '@/hooks/useContractState';
 import CommentsView from '@/pages/plugins/Posts/0.2.x/CommentsView';
 import { usePostsContext } from '@/pages/plugins/Posts/0.2.x/PostsProvider';
@@ -8,6 +11,7 @@ import { useSpaceContext } from '@/pages/space/0.1.x/SpaceProvider';
 import { useWalletContext } from '@/providers/WalletProvider';
 import { MemberInfo, MemberStatus, PostContent, PostRecord, Props } from '@/types';
 import { fromNow } from '@/utils/date';
+import { getData } from '@/utils/ipfs';
 import { renderMd } from '@/utils/mdrenderer';
 import { shortenAddress } from '@/utils/string';
 import PinPostButton from './actions/PinPostButton';
@@ -24,11 +28,29 @@ export default function PostCard({ postRecord: { post, postId }, onPostUpdated, 
   const { contract: postContract } = usePostsContext();
   const { contract, memberStatus, isOwner } = useSpaceContext();
   const { state: authorInfo } = useContractState<MemberInfo>(contract, 'memberInfo', [post.author]);
+  const [content, setContent] = useState<string>('');
   const { selectedAccount } = useWalletContext();
   const { state: comments } = useContractState<PostRecord[]>(postContract, 'commentsByPost', [postId]);
+  const postContentType = PostContent.IpfsCid in post.content ? PostContent.IpfsCid : PostContent.Raw;
+
+  useAsync(async () => {
+    setContent('');
+
+    switch (postContentType) {
+      case 'IpfsCid':
+        const content = await getData((post.content as { [PostContent.IpfsCid]: string }).IpfsCid);
+        if (!content) {
+          return toast.error('Error happen when fetching data from Ipfs');
+        }
+
+        return setContent(content);
+      case 'Raw':
+        return setContent((post.content as { [PostContent.Raw]: string }).Raw);
+    }
+  }, [post.content]);
 
   // We have not supported PostContent.IpfsCid yet
-  if (!authorInfo || !(PostContent.Raw in post.content)) {
+  if (!authorInfo) {
     return null;
   }
 
@@ -75,9 +97,9 @@ export default function PostCard({ postRecord: { post, postId }, onPostUpdated, 
                 />
                 <MenuList py={0}>
                   <UpdatePostButton
-                    key={post.content.Raw}
-                    postId={postId}
-                    defaultValue={post.content.Raw}
+                    key={content}
+                    postRecord={{ post, postId }}
+                    defaultValue={content}
                     onPostUpdated={onPostUpdated}
                   />
                   {isOwner && (isPinned ? <UnpinPostButton postId={postId} /> : <PinPostButton postId={postId} />)}
@@ -86,10 +108,11 @@ export default function PostCard({ postRecord: { post, postId }, onPostUpdated, 
             )}
           </Box>
         </Flex>
-        <Box
-          className='post-content'
-          mt={2}
-          dangerouslySetInnerHTML={{ __html: renderMd(post.content.Raw || '') }}></Box>
+        {content ? (
+          <Box className='post-content' mt={2} dangerouslySetInnerHTML={{ __html: renderMd(content) }}></Box>
+        ) : (
+          <SkeletonText p={4} />
+        )}
         {comments && <CommentsView comments={comments.toReversed()} postId={postId} />}
       </Box>
     </>

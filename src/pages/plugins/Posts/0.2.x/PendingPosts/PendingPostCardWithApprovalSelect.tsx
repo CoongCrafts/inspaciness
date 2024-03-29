@@ -1,9 +1,13 @@
 import { Box, Flex, IconButton, Text, Tooltip } from '@chakra-ui/react';
 import { Identicon } from '@polkadot/react-identicon';
+import { useState } from 'react';
+import { toast } from 'react-toastify';
+import { useAsync } from 'react-use';
 import useContractState from '@/hooks/useContractState';
 import { useSpaceContext } from '@/pages/space/0.1.x/SpaceProvider';
 import { MemberInfo, PendingPostApproval, PostContent, PostRecord, Props } from '@/types';
 import { fromNow } from '@/utils/date';
+import { getData } from '@/utils/ipfs';
 import { renderMd } from '@/utils/mdrenderer';
 import { shortenAddress } from '@/utils/string';
 import { CheckIcon, CloseIcon } from '@chakra-ui/icons';
@@ -21,8 +25,26 @@ export default function PendingPostCardWithApprovalSelect({
 }: PendingPostCardProps) {
   const { contract } = useSpaceContext();
   const { state: authorInfo } = useContractState<MemberInfo>(contract, 'memberInfo', [post.author]);
+  const [content, setContent] = useState('');
+  const postContentType = PostContent.IpfsCid in post.content ? PostContent.IpfsCid : PostContent.Raw;
 
-  if (!authorInfo || !(PostContent.Raw in post.content)) {
+  useAsync(async () => {
+    setContent('');
+
+    switch (postContentType) {
+      case 'IpfsCid':
+        const content = await getData((post.content as { [PostContent.IpfsCid]: string }).IpfsCid);
+        if (!content) {
+          return toast.error('Error happen when fetching data from Ipfs');
+        }
+
+        return setContent(content);
+      case 'Raw':
+        return setContent((post.content as { [PostContent.Raw]: string }).Raw);
+    }
+  }, [post.content]);
+
+  if (!authorInfo) {
     return null;
   }
 
@@ -74,7 +96,7 @@ export default function PendingPostCardWithApprovalSelect({
           </Tooltip>
         </Flex>
       </Flex>
-      <Box className='post-content' mt={2} dangerouslySetInnerHTML={{ __html: renderMd(post.content.Raw || '') }}></Box>
+      <Box className='post-content' mt={2} dangerouslySetInnerHTML={{ __html: renderMd(content) }}></Box>
     </Box>
   );
 }

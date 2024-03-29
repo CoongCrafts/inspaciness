@@ -1,8 +1,21 @@
-import { Box, Button, Flex, IconButton, Menu, MenuButton, MenuItem, MenuList, Text, Textarea } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Flex,
+  IconButton,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  SkeletonText,
+  Text,
+  Textarea,
+} from '@chakra-ui/react';
 import { Identicon } from '@polkadot/react-identicon';
 import { useState } from 'react';
 import { RiMore2Fill } from 'react-icons/ri';
 import { toast } from 'react-toastify';
+import { useAsync } from 'react-use';
 import useCurrentFreeBalance from '@/hooks/space/useCurrentFreeBalance';
 import useContractState from '@/hooks/useContractState';
 import { useTx } from '@/hooks/useink/useTx';
@@ -11,6 +24,7 @@ import { useSpaceContext } from '@/pages/space/0.1.x/SpaceProvider';
 import { useWalletContext } from '@/providers/WalletProvider';
 import { MemberInfo, MemberStatus, PostContent, PostRecord, Props } from '@/types';
 import { fromNow } from '@/utils/date';
+import { getData, pinData, unpinData } from '@/utils/ipfs';
 import { renderMd } from '@/utils/mdrenderer';
 import { messages } from '@/utils/messages';
 import { shortenAddress } from '@/utils/string';
@@ -29,11 +43,30 @@ export default function CommentCard({ commentRecord: { postId: commentId, post: 
   const { selectedAccount } = useWalletContext();
   const [onEdit, setOnEdit] = useState<boolean>(false);
   const [commentContent, setCommentContent] = useState<string>('');
+  const [editCommentContent, setEditCommentContent] = useState<string>('');
   const updateCommentTx = useTx(contract, 'updateComment');
   const deleteCommentTx = useTx(contract, 'deleteComment');
   const freeBalance = useCurrentFreeBalance();
+  const commentContentType = PostContent.Raw in comment.content ? PostContent.Raw : PostContent.IpfsCid;
+  const [onSubmitting, setOnSubmitting] = useState<boolean>(false);
 
-  if (!authorInfo || !comment || !(PostContent.Raw in comment.content)) {
+  useAsync(async () => {
+    setCommentContent('');
+
+    switch (commentContentType) {
+      case 'IpfsCid':
+        const content = await getData((comment.content as { [PostContent.IpfsCid]: string }).IpfsCid);
+        if (!content) {
+          return toast.error('Error happen when fetching data from Ipfs');
+        }
+
+        return setCommentContent(content);
+      case 'Raw':
+        return setCommentContent((comment.content as { [PostContent.Raw]: string }).Raw);
+    }
+  }, [comment.content]);
+
+  if (!authorInfo) {
     return null;
   }
 
@@ -42,37 +75,68 @@ export default function CommentCard({ commentRecord: { postId: commentId, post: 
 
   const switchEdit = () => {
     setOnEdit((pre) => !pre);
-    setCommentContent((comment.content as { [PostContent.Raw]: string })[PostContent.Raw] || '');
+    setEditCommentContent(commentContent);
   };
 
-  const doChange = () => {
+  const doChange = async () => {
     if (freeBalance === 0) {
       toast.error(messages.insufficientBalance);
       return;
     }
 
-    if (commentContent === (comment.content as { [PostContent.Raw]: string })[PostContent.Raw]) {
+    if (editCommentContent === commentContent) {
       switchEdit();
       return;
     }
 
-    const commentContentRaw = { Raw: commentContent };
+    setOnSubmitting(true);
+    const oldCommentContent = comment.content;
 
-    updateCommentTx.signAndSend([commentId, commentContentRaw], {}, (result) => {
+    let content: any;
+    switch (commentContentType) {
+      case 'IpfsCid':
+        const cid = await pinData(editCommentContent);
+        if (!cid) {
+          toast.error(messages.cannotPinData);
+          return;
+        }
+
+        content = { IpfsCid: cid };
+        break;
+      case 'Raw':
+        content = { Raw: editCommentContent };
+        break;
+    }
+
+    updateCommentTx.signAndSend([commentId, content], {}, async (result) => {
       if (!result) {
         updateCommentTx.resetState();
+        if (commentContentType === PostContent.IpfsCid) {
+          await unpinData(content.IpfsCid);
+        }
+
         return;
       }
 
       if (result.isInBlock) {
         if (result.dispatchError) {
           toast.error(messages.txError);
+          updateCommentTx.resetState();
+          if (commentContentType === PostContent.IpfsCid) {
+            await unpinData(content.IpfsCid);
+          }
         } else {
+          updateCommentTx.resetState();
           toast.success('Comment updated');
           switchEdit();
+
+          if (commentContentType === PostContent.IpfsCid) {
+            await unpinData((oldCommentContent as { [PostContent.IpfsCid]: string }).IpfsCid);
+          }
         }
       }
     });
+    setOnSubmitting(false);
   };
 
   const doDelete = () => {
@@ -81,7 +145,7 @@ export default function CommentCard({ commentRecord: { postId: commentId, post: 
       return;
     }
 
-    deleteCommentTx.signAndSend([commentId], {}, (result) => {
+    deleteCommentTx.signAndSend([commentId], {}, async (result) => {
       if (!result) {
         deleteCommentTx.resetState();
         return;
@@ -92,13 +156,17 @@ export default function CommentCard({ commentRecord: { postId: commentId, post: 
           toast.error(messages.txError);
         } else {
           toast.success('Comment deleted');
+
+          if (commentContentType === PostContent.IpfsCid) {
+            await unpinData((comment.content as { [PostContent.IpfsCid]: string }).IpfsCid);
+          }
         }
       }
     });
   };
 
-  const updateProcessing = shouldDisableStrict(updateCommentTx);
-  const deleteProcessing = shouldDisableStrict(deleteCommentTx);
+  const updateProcessing = shouldDisableStrict(updateCommentTx) || onSubmitting;
+  const deleteProcessing = shouldDisableStrict(deleteCommentTx) || onSubmitting;
 
   return (
     <Flex flexDir='column' w='100%'>
@@ -150,7 +218,7 @@ export default function CommentCard({ commentRecord: { postId: commentId, post: 
       </Flex>
       {onEdit ? (
         <Flex flexDir='column' gap={2} mt={2}>
-          <Textarea value={commentContent} onChange={(e) => setCommentContent(e.target.value)} rows={1} />
+          <Textarea value={editCommentContent} onChange={(e) => setEditCommentContent(e.target.value)} rows={1} />
           <Flex alignSelf='end' gap={2}>
             <Button onClick={switchEdit} size='sm' variant='ghost'>
               Cancel
@@ -158,7 +226,7 @@ export default function CommentCard({ commentRecord: { postId: commentId, post: 
             <Button
               onClick={doChange}
               size='sm'
-              isDisabled={commentContent === comment?.content.Raw || updateProcessing}
+              isDisabled={editCommentContent === commentContent || updateProcessing}
               colorScheme='primary'
               isLoading={updateProcessing}>
               Update
@@ -166,11 +234,17 @@ export default function CommentCard({ commentRecord: { postId: commentId, post: 
           </Flex>
         </Flex>
       ) : (
-        <Box
-          className='post-content'
-          fontSize='sm'
-          mt={2}
-          dangerouslySetInnerHTML={{ __html: renderMd(comment?.content.Raw || '') }}></Box>
+        <>
+          {commentContent ? (
+            <Box
+              className='post-content'
+              fontSize='sm'
+              mt={2}
+              dangerouslySetInnerHTML={{ __html: renderMd(commentContent) }}></Box>
+          ) : (
+            <SkeletonText px={4} pr={8} py={2} />
+          )}
+        </>
       )}
     </Flex>
   );
