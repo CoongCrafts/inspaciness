@@ -1,6 +1,6 @@
-import { Box, Flex, IconButton, Menu, MenuButton, MenuList, SkeletonText, Text } from '@chakra-ui/react';
+import { Box, Flex, IconButton, Link, Menu, MenuButton, MenuList, SkeletonText, Text } from '@chakra-ui/react';
 import { Identicon } from '@polkadot/react-identicon';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { RiMore2Fill } from 'react-icons/ri';
 import { toast } from 'react-toastify';
 import { useAsync } from 'react-use';
@@ -31,7 +31,14 @@ export default function PostCard({ postRecord: { post, postId }, onPostUpdated, 
   const [content, setContent] = useState<string>('');
   const { selectedAccount } = useWalletContext();
   const { state: comments } = useContractState<PostRecord[]>(postContract, 'commentsByPost', [postId]);
+  const [showMore, setShowMore] = useState(false);
   const postContentType = PostContent.IpfsCid in post.content ? PostContent.IpfsCid : PostContent.Raw;
+
+  useEffect(() => {
+    if (content.length > 500) {
+      setShowMore(true);
+    }
+  }, [content]);
 
   useAsync(async () => {
     setContent('');
@@ -109,7 +116,17 @@ export default function PostCard({ postRecord: { post, postId }, onPostUpdated, 
           </Box>
         </Flex>
         {content ? (
-          <Box className='post-content' mt={2} dangerouslySetInnerHTML={{ __html: renderMd(content) }}></Box>
+          <>
+            <Box
+              className='post-content'
+              mt={2}
+              dangerouslySetInnerHTML={{ __html: showMore ? renderMd(`${content.slice(0, 500)}...`) : content }}></Box>
+            {showMore && (
+              <Link fontSize='small' color='gray.500' onClick={() => setShowMore(false)}>
+                Show more
+              </Link>
+            )}
+          </>
         ) : (
           <SkeletonText p={4} />
         )}

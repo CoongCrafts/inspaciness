@@ -3,6 +3,7 @@ import {
   Button,
   Flex,
   IconButton,
+  Link,
   Menu,
   MenuButton,
   MenuItem,
@@ -12,7 +13,7 @@ import {
   Textarea,
 } from '@chakra-ui/react';
 import { Identicon } from '@polkadot/react-identicon';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { RiMore2Fill } from 'react-icons/ri';
 import { toast } from 'react-toastify';
 import { useAsync } from 'react-use';
@@ -49,6 +50,13 @@ export default function CommentCard({ commentRecord: { postId: commentId, post: 
   const freeBalance = useCurrentFreeBalance();
   const commentContentType = PostContent.Raw in comment.content ? PostContent.Raw : PostContent.IpfsCid;
   const [onSubmitting, setOnSubmitting] = useState<boolean>(false);
+  const [showMore, setShowMore] = useState(false);
+
+  useEffect(() => {
+    if (commentContent.length > 500) {
+      setShowMore(true);
+    }
+  }, [commentContent]);
 
   useAsync(async () => {
     setCommentContent('');
@@ -236,11 +244,19 @@ export default function CommentCard({ commentRecord: { postId: commentId, post: 
       ) : (
         <>
           {commentContent ? (
-            <Box
-              className='post-content'
-              fontSize='sm'
-              mt={2}
-              dangerouslySetInnerHTML={{ __html: renderMd(commentContent) }}></Box>
+            <>
+              <Box
+                className='post-content'
+                mt={2}
+                dangerouslySetInnerHTML={{
+                  __html: showMore ? renderMd(`${commentContent.slice(0, 500)}...`) : commentContent,
+                }}></Box>
+              {showMore && (
+                <Link fontSize='small' color='gray.500' onClick={() => setShowMore(false)}>
+                  Show more
+                </Link>
+              )}
+            </>
           ) : (
             <SkeletonText px={4} pr={8} py={2} />
           )}

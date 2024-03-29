@@ -172,7 +172,7 @@ export default function UpdatePostButton({
               <Link href='https://www.markdownguide.org/cheat-sheet/' target='_blank' color='primary.500'>
                 Markdown supported
               </Link>
-              , maximum 500 characters.
+              , maximum 3000 characters.
             </Text>
           </ModalBody>
           <ModalFooter justifyContent='end' alignItems='center'>
