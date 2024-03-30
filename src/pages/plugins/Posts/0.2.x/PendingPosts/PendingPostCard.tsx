@@ -1,10 +1,14 @@
 import { Box, Flex, IconButton, Menu, MenuButton, MenuList, Text } from '@chakra-ui/react';
 import { Identicon } from '@polkadot/react-identicon';
+import { useState } from 'react';
 import { RiMore2Fill } from 'react-icons/ri';
+import { toast } from 'react-toastify';
+import { useAsync } from 'react-use';
 import useContractState from '@/hooks/useContractState';
 import { useSpaceContext } from '@/pages/space/0.1.x/SpaceProvider';
 import { MemberInfo, PostContent, PostRecord, Props } from '@/types';
 import { fromNow } from '@/utils/date';
+import { getData } from '@/utils/ipfs';
 import { renderMd } from '@/utils/mdrenderer';
 import { shortenAddress } from '@/utils/string';
 import CancelPendingPostButton from './CancelPendingPostButton';
@@ -17,8 +21,27 @@ interface PendingPostCardProps extends Props {
 export default function PendingPostCard({ postRecord: { post, postId } }: PendingPostCardProps) {
   const { contract } = useSpaceContext();
   const { state: authorInfo } = useContractState<MemberInfo>(contract, 'memberInfo', [post.author]);
+  const [content, setContent] = useState('');
+  const postContentType = PostContent.IpfsCid in post.content ? PostContent.IpfsCid : PostContent.Raw;
 
-  if (!authorInfo || !(PostContent.Raw in post.content)) {
+  useAsync(async () => {
+    setContent('');
+
+    switch (postContentType) {
+      case 'IpfsCid':
+        try {
+          const content = await getData((post.content as { [PostContent.IpfsCid]: string }).IpfsCid);
+
+          return setContent(content);
+        } catch (e) {
+          return toast.error((e as Error).message);
+        }
+      case 'Raw':
+        return setContent((post.content as { [PostContent.Raw]: string }).Raw);
+    }
+  }, [post.content]);
+
+  if (!authorInfo) {
     return null;
   }
 
@@ -59,13 +82,13 @@ export default function PendingPostCard({ postRecord: { post, postId } }: Pendin
               mr={-2}
             />
             <MenuList py={0}>
-              <UpdatePendingPostButton key={post.content.Raw} postId={postId} defaultValue={post.content.Raw} />
-              <CancelPendingPostButton postId={postId} />
+              <UpdatePendingPostButton key={content} postRecord={{ post, postId }} defaultValue={content} />
+              <CancelPendingPostButton postRecord={{ post, postId }} />
             </MenuList>
           </Menu>
         </Box>
       </Flex>
-      <Box className='post-content' mt={2} dangerouslySetInnerHTML={{ __html: renderMd(post.content.Raw || '') }}></Box>
+      <Box className='post-content' mt={2} dangerouslySetInnerHTML={{ __html: renderMd(content) }}></Box>
     </Box>
   );
 }

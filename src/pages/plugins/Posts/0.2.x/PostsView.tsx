@@ -11,7 +11,7 @@ import PostCard from './PostCard';
 import { usePostsContext } from './PostsProvider';
 import NewPostButton from './actions/NewPostButton';
 
-const RECORD_PER_PAGE = 4;
+const RECORD_PER_PAGE = 6;
 
 function PostsContent() {
   const { contract, postsCount, canCreatePost, nonce, setNonce } = usePostsContext();
@@ -67,7 +67,7 @@ function PostsContent() {
 
   const newPostsCount = postsCount! - nonce;
   const numberOfPinnedPosts = pinnedPosts?.length || 0;
-  const numberOfRecentPosts = recentPosts?.length || 0;
+  const numberOfRecentPosts = numOfPost - numberOfPinnedPosts;
 
   return (
     <>

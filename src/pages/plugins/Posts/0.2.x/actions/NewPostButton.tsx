@@ -28,6 +28,7 @@ import { useEffectOnce } from 'react-use';
 import { useTx } from '@/hooks/useink/useTx';
 import { Props } from '@/types';
 import { eventEmitter, EventName } from '@/utils/eventemitter';
+import { pinData, unpinData } from '@/utils/ipfs';
 import { renderMd } from '@/utils/mdrenderer';
 import { messages } from '@/utils/messages';
 import { notifyTxStatus } from '@/utils/notifications';
@@ -38,7 +39,7 @@ import * as yup from 'yup';
 import { usePostsContext } from '../PostsProvider';
 
 export const postValidationScheme = yup.object().shape({
-  content: yup.string().required().max(500, 'Content must be at most 500 characters'),
+  content: yup.string().required().max(3000, 'Content must be at most 3000 characters'),
 });
 
 interface NewPostButtonProps extends Props {
@@ -55,34 +56,41 @@ export default function NewPostButton({ onPostCreated }: NewPostButtonProps) {
       content: '',
     },
     validationSchema: postValidationScheme,
-    onSubmit: (values, formikHelpers) => {
-      const { content } = values;
-      const postContent = { Raw: content };
-      newPostTx.signAndSend([postContent], undefined, (result) => {
-        if (!result) {
-          newPostTx.resetState(formikHelpers);
-          return;
-        }
+    onSubmit: async (values, formikHelpers) => {
+      try {
+        const cid = await pinData(values.content);
+        const postContent = { IpfsCid: cid };
 
-        notifyTxStatus(result);
-
-        if (result.isInBlock) {
-          if (result.dispatchError) {
-            toast.error(messages.txError);
-          } else {
-            toast.success(
-              shouldCreatePendingPost
-                ? 'Your post will be show up after being reviewed by space owner'
-                : 'New post created',
-            );
-
-            onPostCreated();
+        newPostTx.signAndSend([postContent], undefined, async (result) => {
+          if (!result) {
+            newPostTx.resetState(formikHelpers);
+            await unpinData(cid);
+            return;
           }
 
-          newPostTx.resetState(formikHelpers);
-          onClose();
-        }
-      });
+          notifyTxStatus(result);
+
+          if (result.isInBlock) {
+            if (result.dispatchError) {
+              toast.error(messages.txError);
+              await unpinData(cid);
+            } else {
+              toast.success(
+                shouldCreatePendingPost
+                  ? 'Your post will be show up after being reviewed by space owner'
+                  : 'New post created',
+              );
+
+              onPostCreated();
+            }
+
+            newPostTx.resetState(formikHelpers);
+            onClose();
+          }
+        });
+      } catch (e) {
+        toast.error((e as Error).message);
+      }
     },
   });
 
@@ -100,7 +108,7 @@ export default function NewPostButton({ onPostCreated }: NewPostButtonProps) {
     };
   });
 
-  const processing = shouldDisableStrict(newPostTx);
+  const processing = shouldDisableStrict(newPostTx) || formik.isSubmitting;
 
   return (
     <>
@@ -165,7 +173,7 @@ export default function NewPostButton({ onPostCreated }: NewPostButtonProps) {
               <Link href='https://www.markdownguide.org/cheat-sheet/' target='_blank' color='primary.500'>
                 Markdown supported
               </Link>
-              , maximum 500 characters.
+              , maximum 3000 characters.
             </Text>
           </ModalBody>
           <ModalFooter justifyContent='end' alignItems='center'>

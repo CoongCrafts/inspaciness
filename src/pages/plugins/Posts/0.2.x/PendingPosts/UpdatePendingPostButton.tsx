@@ -25,7 +25,8 @@ import {
 import { FormEvent, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { useTx } from '@/hooks/useink/useTx';
-import { Props } from '@/types';
+import { PostContent, PostRecord, Props } from '@/types';
+import { pinData, unpinData } from '@/utils/ipfs';
 import { renderMd } from '@/utils/mdrenderer';
 import { messages } from '@/utils/messages';
 import { notifyTxStatus } from '@/utils/notifications';
@@ -36,52 +37,77 @@ import { usePostsContext } from '../PostsProvider';
 import { postValidationScheme } from '../actions/NewPostButton';
 
 interface UpdatePostButtonProps extends Props {
-  postId: number;
+  postRecord: PostRecord;
   defaultValue: string;
-  // onPostUpdated: (content: any, postId: number) => void;
   disabled?: boolean;
 }
 
 export default function UpdatePendingPostButton({
-  postId,
+  postRecord: { post, postId },
   defaultValue,
-  // onPostUpdated,
   disabled = false,
 }: UpdatePostButtonProps) {
   const { contract } = usePostsContext();
   const updatePostTx = useTx<number>(contract, 'updatePendingPost');
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const postContentType = PostContent.IpfsCid in post.content ? PostContent.IpfsCid : PostContent.Raw;
 
   const formik = useFormik({
     initialValues: {
       content: defaultValue,
     },
     validationSchema: postValidationScheme,
-    onSubmit: (values, formikHelpers) => {
-      const { content } = values;
-      const postContent = { Raw: content };
-      updatePostTx.signAndSend([postId, postContent], {}, (result) => {
-        if (!result) {
-          updatePostTx.resetState(formikHelpers);
-          return;
+    onSubmit: async (values, formikHelpers) => {
+      try {
+        const oldPostContent = post.content;
+
+        let postContent: any;
+        switch (postContentType) {
+          case 'IpfsCid':
+            const cid = await pinData(values.content);
+            postContent = { IpfsCid: cid };
+
+            break;
+          case 'Raw':
+            const { content } = values;
+            postContent = { Raw: content };
+
+            break;
         }
 
-        notifyTxStatus(result);
+        updatePostTx.signAndSend([postId, postContent], {}, async (result) => {
+          if (!result) {
+            updatePostTx.resetState(formikHelpers);
+            if (postContentType === PostContent.IpfsCid) {
+              await unpinData(postContent.IpfsCid);
+            }
 
-        if (result.isInBlock) {
-          if (result.dispatchError) {
-            toast.error(messages.txError);
-          } else {
-            toast.success('Post updated');
-
-            // Set current content by updated content
-            // onPostUpdated(postContent, postId);
+            return;
           }
 
-          updatePostTx.resetState(formikHelpers);
-          onClose();
-        }
-      });
+          notifyTxStatus(result);
+
+          if (result.isInBlock) {
+            if (result.dispatchError) {
+              toast.error(messages.txError);
+              if (postContentType === PostContent.IpfsCid) {
+                await unpinData(postContent.IpfsCid);
+              }
+            } else {
+              toast.success('Post updated');
+
+              if (postContentType === PostContent.IpfsCid) {
+                await unpinData((oldPostContent as { [PostContent.IpfsCid]: string }).IpfsCid);
+              }
+            }
+
+            updatePostTx.resetState(formikHelpers);
+            onClose();
+          }
+        });
+      } catch (e) {
+        toast.error((e as Error).message);
+      }
     },
   });
 
@@ -90,7 +116,7 @@ export default function UpdatePendingPostButton({
     formik.resetForm();
   }, [isOpen]);
 
-  const processing = shouldDisableStrict(updatePostTx);
+  const processing = shouldDisableStrict(updatePostTx) || formik.isSubmitting;
 
   return (
     <>
@@ -141,7 +167,7 @@ export default function UpdatePendingPostButton({
               <Link href='https://www.markdownguide.org/cheat-sheet/' target='_blank' color='primary.500'>
                 Markdown supported
               </Link>
-              , maximum 500 characters.
+              , maximum 3000 characters.
             </Text>
           </ModalBody>
           <ModalFooter justifyContent='end' alignItems='center'>
