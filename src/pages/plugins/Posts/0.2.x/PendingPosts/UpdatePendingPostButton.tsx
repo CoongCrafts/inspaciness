@@ -58,56 +58,56 @@ export default function UpdatePendingPostButton({
     },
     validationSchema: postValidationScheme,
     onSubmit: async (values, formikHelpers) => {
-      const oldPostContent = post.content;
+      try {
+        const oldPostContent = post.content;
 
-      let postContent: any;
-      switch (postContentType) {
-        case 'IpfsCid':
-          const cid = await pinData(values.content);
+        let postContent: any;
+        switch (postContentType) {
+          case 'IpfsCid':
+            const cid = await pinData(values.content);
+            postContent = { IpfsCid: cid };
 
-          if (!cid) {
-            toast.error('Error happen when pushing data to Ipfs');
+            break;
+          case 'Raw':
+            const { content } = values;
+            postContent = { Raw: content };
+
+            break;
+        }
+
+        updatePostTx.signAndSend([postId, postContent], {}, async (result) => {
+          if (!result) {
+            updatePostTx.resetState(formikHelpers);
+            if (postContentType === PostContent.IpfsCid) {
+              await unpinData(postContent.IpfsCid);
+            }
+
+            return;
           }
 
-          postContent = { IpfsCid: cid };
-          break;
-        case 'Raw':
-          const { content } = values;
+          notifyTxStatus(result);
 
-          postContent = { Raw: content };
-          break;
+          if (result.isInBlock) {
+            if (result.dispatchError) {
+              toast.error(messages.txError);
+              if (postContentType === PostContent.IpfsCid) {
+                await unpinData(postContent.IpfsCid);
+              }
+            } else {
+              toast.success('Post updated');
+
+              if (postContentType === PostContent.IpfsCid) {
+                await unpinData((oldPostContent as { [PostContent.IpfsCid]: string }).IpfsCid);
+              }
+            }
+
+            updatePostTx.resetState(formikHelpers);
+            onClose();
+          }
+        });
+      } catch (e) {
+        toast.error((e as Error).message);
       }
-
-      updatePostTx.signAndSend([postId, postContent], {}, (result) => {
-        if (!result) {
-          updatePostTx.resetState(formikHelpers);
-          if (postContentType === PostContent.IpfsCid) {
-            unpinData(postContent.IpfsCid);
-          }
-
-          return;
-        }
-
-        notifyTxStatus(result);
-
-        if (result.isInBlock) {
-          if (result.dispatchError) {
-            toast.error(messages.txError);
-            if (postContentType === PostContent.IpfsCid) {
-              unpinData(postContent.IpfsCid);
-            }
-          } else {
-            toast.success('Post updated');
-
-            if (postContentType === PostContent.IpfsCid) {
-              unpinData((oldPostContent as { [PostContent.IpfsCid]: string }).IpfsCid);
-            }
-          }
-
-          updatePostTx.resetState(formikHelpers);
-          onClose();
-        }
-      });
     },
   });
 
@@ -116,7 +116,7 @@ export default function UpdatePendingPostButton({
     formik.resetForm();
   }, [isOpen]);
 
-  const processing = shouldDisableStrict(updatePostTx);
+  const processing = shouldDisableStrict(updatePostTx) || formik.isSubmitting;
 
   return (
     <>

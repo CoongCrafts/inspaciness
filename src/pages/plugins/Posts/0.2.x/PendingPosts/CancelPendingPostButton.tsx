@@ -40,8 +40,12 @@ export default function CancelPendingPostButton({ postRecord: { postId, post } }
         } else {
           toast.success('Pending request canceled');
 
-          if (postContentType === PostContent.IpfsCid) {
-            await unpinData((post.content as { [PostContent.IpfsCid]: string }).IpfsCid);
+          try {
+            if (postContentType === PostContent.IpfsCid) {
+              await unpinData((post.content as { [PostContent.IpfsCid]: string }).IpfsCid);
+            }
+          } catch (e) {
+            toast.error((e as Error).message);
           }
         }
       }

@@ -63,12 +63,12 @@ export default function CommentCard({ commentRecord: { postId: commentId, post: 
 
     switch (commentContentType) {
       case 'IpfsCid':
-        const content = await getData((comment.content as { [PostContent.IpfsCid]: string }).IpfsCid);
-        if (!content) {
-          return toast.error('Error happen when fetching data from Ipfs');
+        try {
+          const content = await getData((comment.content as { [PostContent.IpfsCid]: string }).IpfsCid);
+          return setCommentContent(content);
+        } catch (e) {
+          return toast.error((e as Error).message);
         }
-
-        return setCommentContent(content);
       case 'Raw':
         return setCommentContent((comment.content as { [PostContent.Raw]: string }).Raw);
     }
@@ -98,52 +98,52 @@ export default function CommentCard({ commentRecord: { postId: commentId, post: 
     }
 
     setOnSubmitting(true);
-    const oldCommentContent = comment.content;
 
-    let content: any;
-    switch (commentContentType) {
-      case 'IpfsCid':
-        const cid = await pinData(editCommentContent);
-        if (!cid) {
-          toast.error(messages.cannotPinData);
-          return;
-        }
+    try {
+      const oldCommentContent = comment.content;
 
-        content = { IpfsCid: cid };
-        break;
-      case 'Raw':
-        content = { Raw: editCommentContent };
-        break;
-    }
-
-    updateCommentTx.signAndSend([commentId, content], {}, async (result) => {
-      if (!result) {
-        updateCommentTx.resetState();
-        if (commentContentType === PostContent.IpfsCid) {
-          await unpinData(content.IpfsCid);
-        }
-
-        return;
+      let content: any;
+      switch (commentContentType) {
+        case 'IpfsCid':
+          const cid = await pinData(editCommentContent);
+          content = { IpfsCid: cid };
+          break;
+        case 'Raw':
+          content = { Raw: editCommentContent };
+          break;
       }
 
-      if (result.isInBlock) {
-        if (result.dispatchError) {
-          toast.error(messages.txError);
+      updateCommentTx.signAndSend([commentId, content], {}, async (result) => {
+        if (!result) {
           updateCommentTx.resetState();
           if (commentContentType === PostContent.IpfsCid) {
             await unpinData(content.IpfsCid);
           }
-        } else {
-          updateCommentTx.resetState();
-          toast.success('Comment updated');
-          switchEdit();
+          return;
+        }
 
-          if (commentContentType === PostContent.IpfsCid) {
-            await unpinData((oldCommentContent as { [PostContent.IpfsCid]: string }).IpfsCid);
+        if (result.isInBlock) {
+          if (result.dispatchError) {
+            toast.error(messages.txError);
+            updateCommentTx.resetState();
+            if (commentContentType === PostContent.IpfsCid) {
+              await unpinData(content.IpfsCid);
+            }
+          } else {
+            updateCommentTx.resetState();
+            toast.success('Comment updated');
+            switchEdit();
+
+            if (commentContentType === PostContent.IpfsCid) {
+              await unpinData((oldCommentContent as { [PostContent.IpfsCid]: string }).IpfsCid);
+            }
           }
         }
-      }
-    });
+      });
+    } catch (e) {
+      toast.error((e as Error).message);
+    }
+
     setOnSubmitting(false);
   };
 
@@ -165,8 +165,12 @@ export default function CommentCard({ commentRecord: { postId: commentId, post: 
         } else {
           toast.success('Comment deleted');
 
-          if (commentContentType === PostContent.IpfsCid) {
-            await unpinData((comment.content as { [PostContent.IpfsCid]: string }).IpfsCid);
+          try {
+            if (commentContentType === PostContent.IpfsCid) {
+              await unpinData((comment.content as { [PostContent.IpfsCid]: string }).IpfsCid);
+            }
+          } catch (e) {
+            toast.error((e as Error).message);
           }
         }
       }

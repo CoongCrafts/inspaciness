@@ -49,37 +49,36 @@ export default function CommentsView({ comments, postId }: CommentsViewProps) {
     }
 
     setOnSubmitting(true);
-    const cid = await pinData(comment);
 
-    if (!cid) {
-      toast.error(messages.cannotPinData);
-      return;
+    try {
+      const cid = await pinData(comment);
+      const commentContent = { IpfsCid: cid };
+
+      newCommentTx.signAndSend([postId, commentContent], {}, async (result) => {
+        if (!result) {
+          newCommentTx.resetState();
+          await unpinData(cid);
+          return;
+        }
+
+        notifyTxStatus(result);
+
+        if (result?.isInBlock) {
+          if (result.dispatchError) {
+            toast.error(messages.txError);
+            await unpinData(cid);
+          } else {
+            toast.success('Commented');
+            setComment('');
+            newCommentTx.resetState();
+          }
+        }
+      });
+    } catch (e) {
+      toast.error((e as Error).message);
     }
 
-    const commentContent = { IpfsCid: cid };
-
-    newCommentTx.signAndSend([postId, commentContent], {}, async (result) => {
-      if (!result) {
-        newCommentTx.resetState();
-        await unpinData(cid);
-
-        return;
-      }
-
-      notifyTxStatus(result);
-
-      if (result?.isInBlock) {
-        if (result.dispatchError) {
-          toast.error(messages.txError);
-          await unpinData(cid);
-        } else {
-          toast.success('Commented');
-          setComment('');
-          newCommentTx.resetState();
-        }
-      }
-      setOnSubmitting(false);
-    });
+    setOnSubmitting(false);
   };
 
   const processing = shouldDisableStrict(newCommentTx) || onSubmitting;

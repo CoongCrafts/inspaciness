@@ -57,42 +57,40 @@ export default function NewPostButton({ onPostCreated }: NewPostButtonProps) {
     },
     validationSchema: postValidationScheme,
     onSubmit: async (values, formikHelpers) => {
-      const cid = await pinData(values.content);
+      try {
+        const cid = await pinData(values.content);
+        const postContent = { IpfsCid: cid };
 
-      if (!cid) {
-        toast.error(messages.cannotPinData);
-        return;
-      }
-
-      const postContent = { IpfsCid: cid };
-
-      newPostTx.signAndSend([postContent], undefined, async (result) => {
-        if (!result) {
-          newPostTx.resetState(formikHelpers);
-          await unpinData(cid);
-          return;
-        }
-
-        notifyTxStatus(result);
-
-        if (result.isInBlock) {
-          if (result.dispatchError) {
-            toast.error(messages.txError);
+        newPostTx.signAndSend([postContent], undefined, async (result) => {
+          if (!result) {
+            newPostTx.resetState(formikHelpers);
             await unpinData(cid);
-          } else {
-            toast.success(
-              shouldCreatePendingPost
-                ? 'Your post will be show up after being reviewed by space owner'
-                : 'New post created',
-            );
-
-            onPostCreated();
+            return;
           }
 
-          newPostTx.resetState(formikHelpers);
-          onClose();
-        }
-      });
+          notifyTxStatus(result);
+
+          if (result.isInBlock) {
+            if (result.dispatchError) {
+              toast.error(messages.txError);
+              await unpinData(cid);
+            } else {
+              toast.success(
+                shouldCreatePendingPost
+                  ? 'Your post will be show up after being reviewed by space owner'
+                  : 'New post created',
+              );
+
+              onPostCreated();
+            }
+
+            newPostTx.resetState(formikHelpers);
+            onClose();
+          }
+        });
+      } catch (e) {
+        toast.error((e as Error).message);
+      }
     },
   });
 

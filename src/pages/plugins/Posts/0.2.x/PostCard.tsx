@@ -45,12 +45,12 @@ export default function PostCard({ postRecord: { post, postId }, onPostUpdated, 
 
     switch (postContentType) {
       case 'IpfsCid':
-        const content = await getData((post.content as { [PostContent.IpfsCid]: string }).IpfsCid);
-        if (!content) {
-          return toast.error('Error happen when fetching data from Ipfs');
+        try {
+          const content = await getData((post.content as { [PostContent.IpfsCid]: string }).IpfsCid);
+          return setContent(content);
+        } catch (e) {
+          return toast.error((e as Error).message);
         }
-
-        return setContent(content);
       case 'Raw':
         return setContent((post.content as { [PostContent.Raw]: string }).Raw);
     }
