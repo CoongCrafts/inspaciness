@@ -7,42 +7,42 @@ import { AlephTestnet } from 'useink/chains';
 const FEATURED_SPACES: OnChainSpace[] = [
   {
     chainId: AlephTestnet.id,
-    address: '5HmQUVoD4WfWMoRifYaTGeQaBdKJznvoNLUsRLzQLU6Voijb',
+    address: '5CYT5njZArukbqKE8mPobNKa5FSzHEZpMrQz7QHiegJqtVTJ',
     version: '0.1.0',
   },
   {
     chainId: AlephTestnet.id,
-    address: '5HkJzUvS85WpxJZtbj2rmTFcJfosHgrHsyHLb4YquP2xiDPM',
+    address: '5E9AEeVxGQn5VMeDpdyhAp9zfsx6Ca5s3jUTK7kQfDJjgaJY',
     version: '0.1.0',
   },
   {
     chainId: AlephTestnet.id,
-    address: '5CGMt8gYoTU23wsWS9aUvKRUZNjysh6Zr6LW39bu1bDYgLwD',
+    address: '5CiCctc9eXwyj18FgMEoTG342PgkEevF3e7MxFaeRc8CWQwc',
     version: '0.1.0',
   },
   {
     chainId: AlephTestnet.id,
-    address: '5FysFYUP1j11FmfviBpj6CwvpwN5XW1k9u5wA9cyoXSyFuW4',
+    address: '5Fj8KzRVjU6LxLcR2aayxPERrptN3Eu4i41881xW22f2NdYj',
     version: '0.1.0',
   },
   {
     chainId: AlephTestnet.id,
-    address: '5HrBR1UY579LZHTNdk3m667qVSxmkTMpiDQ6Sp4QrbPaUFEu',
+    address: '5HmJqRqsJJphTC67V63GU8UgMBjTJACvqJ1BDeW7664rFhrZ',
     version: '0.1.0',
   },
   {
     chainId: AlephTestnet.id,
-    address: '5C9XMtrkEfYSmBJJvKMacuCkcJdLAUeAuS4pyLzdke3bEYic',
+    address: '5FMt4cmLxYncMVkz8oWADnbtAxhSbRLNv5sZ9RtQ38CUAqVq',
     version: '0.1.0',
   },
   {
     chainId: AlephTestnet.id,
-    address: '5Ek9RhiUMi3SsKBgR4Mipb19yRsz1P9upNufcep2TYAaSsng',
+    address: '5Getkjs6x5WkckguyTyvuhPE1EBBszh1z9L8JoYrk8vx64Te',
     version: '0.1.0',
   },
   {
     chainId: AlephTestnet.id,
-    address: '5DPMZj3uu5yxHJYG8CrB4osGWS5rDWko8Wt4Rvf3EX5NU6bt',
+    address: '5GGHCgFmXWWgvzn7YTNuFVLjZ8roWK7NwxTZtZzJA9W6zaxR',
     version: '0.1.0',
   },
 ];
