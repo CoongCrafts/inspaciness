@@ -39,7 +39,7 @@ import * as yup from 'yup';
 import { usePostsContext } from '../PostsProvider';
 
 export const postValidationScheme = yup.object().shape({
-  content: yup.string().required().max(3000, 'Content must be at most 3000 characters'),
+  content: yup.string().required().max(10000, 'Content must be at most 10000 characters'),
 });
 
 interface NewPostButtonProps extends Props {
@@ -173,7 +173,7 @@ export default function NewPostButton({ onPostCreated }: NewPostButtonProps) {
               <Link href='https://www.markdownguide.org/cheat-sheet/' target='_blank' color='primary.500'>
                 Markdown supported
               </Link>
-              , maximum 3000 characters.
+              , maximum 10000 characters.
             </Text>
           </ModalBody>
           <ModalFooter justifyContent='end' alignItems='center'>
